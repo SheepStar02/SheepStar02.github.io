@@ -11,7 +11,7 @@ for (let i = 0; i < 24; i++){
 }
 
 let frameCount = 0;
-let id = setInterval(frame, 200);
+//let id = setInterval(frame, 200);
 let interval = screen.width/100;
 
 function frame(){
