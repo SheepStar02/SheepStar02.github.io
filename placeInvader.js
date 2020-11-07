@@ -46,7 +46,6 @@ function updateInvaders(){
 
         frameCount = 0;
     }
- 
 }
 
 function frame(){
