@@ -2,33 +2,35 @@ let background = document.getElementById("background");
 
 let potatoes = [];
 
-console.log(screen.width);
-
-for (let i = 0; i < 24; i++){
-    let invader = document.createElement("img");
-    invader.src = "invader.png";
-    invader.style = "visibility:visible;width:40;height:40;position:absolute;left:" + (screen.width/4+(i%8)*45) + "px;top:" + (50+parseInt((i/8))*45) + "px";
-    potatoes.push(invader);
-    background.appendChild(invader);
-} 
-
-let player = document.createElement("img");
-player.src = "potato.png";
-player.style = "width:70;height:50;position:absolute;left:" + (screen.width/2) + "px;top:" + (screen.height/2) + "px";
-background.appendChild(player);
-
-let bullet = document.createElement("img");
-bullet.src = "bullet.png";
-bullet.style = "visibility:hidden;width:10;height:15;position:absolute;left:" + (screen.width/2) + "px;top:" + (screen.height/2) + "px";
-background.appendChild(bullet);
-console.log(bullet);    
-
 let frameCount = 0;
 let id = setInterval(frame, 10);
 let interval = screen.width/100;
 let moveleft = false;
 let moveright = false;
 let shooting = false;
+let player = document.createElement("img");
+let bullet = document.createElement("img");
+pageSetup();
+
+function pageSetup(){
+
+    for (let i = 0; i < 24; i++){
+        let invader = document.createElement("img");
+        invader.src = "invader.png";
+        invader.style = "visibility:visible;width:40;height:40;position:absolute;left:" + (screen.width/4+(i%8)*45) + "px;top:" + (50+parseInt((i/8))*45) + "px";
+        potatoes.push(invader);
+        background.appendChild(invader);
+    } 
+      
+    player.src = "potato.png";
+    player.style = "width:70;height:50;position:absolute;left:" + (screen.width/2) + "px;top:" + (screen.height*2/3) + "px";
+    background.appendChild(player);
+    
+    bullet.src = "bullet.png";
+    bullet.style = "visibility:hidden;width:10;height:15;position:absolute;left:" + (screen.width/2) + "px;top:" + (screen.height*2/3) + "px";
+    background.appendChild(bullet);
+    console.log(bullet);    
+}
 
 function updateInvaders(){
 
@@ -48,7 +50,6 @@ function updateInvaders(){
         else{
             invader.src = "invader.png";
         }
-
         frameCount = 0;
     }
 }
@@ -57,15 +58,13 @@ function frame(){
 
     frameCount ++;
 
-    if (frameCount % 20 == 0){
+    if (frameCount % 20 === 0){
         updateInvaders();
     }
 
-    if (window.onkeypress){
-        console.log(event.keyCode + " hello");
+    if (frameCount%2 === 0){
+        movePlayer();
     }
-
-    movePlayer();
 
     if (shooting){
         checkCollision();
@@ -73,7 +72,6 @@ function frame(){
     }
     
 }
-console.log(potatoes[4].style["visibility"]);
 
 function checkCollision(){
 
@@ -87,21 +85,48 @@ function checkCollision(){
                 invader.style["visibility"] = "hidden";
                 shooting = false;
                 bullet.style["visibility"] = "hidden";
+                checkWin();
             }
         }
+    }
+}
 
+function checkWin(){
+
+    let win = true;
+
+    for (invader of potatoes){
+        if (invader.style["visibility"] === "visible"){
+            win = false;
+        }
+    }
+
+    if (win){
+        clearInterval(id);
+        document.removeEventListener('keydown', keydown);
+        document.removeEventListener('keyup', keyup);   
+        bullet.style["visibility"] = "hidden";
+        returnPotato = document.createElement("button");
+        returnPotato.style = "border:none;background-color:transparent;left:" + (screen.width/2) + "px;top:" + (screen.height/2) + "px;" + "position:absolute;";
+        page1Link = document.createElement("a");
+        page1Link.href = "page1";
+        background.removeChild(player);
+        player.style = "width:70;height:50;";
+        background.appendChild(returnPotato);
+        returnPotato.appendChild(page1Link);
+        page1Link.appendChild(player);
+        console.log("gg"); 
     }
 }
 
 function moveBullet() {
 
-    bullet.style["top"] = parseInt(bullet.style["top"]) - 5;
+    bullet.style["top"] = parseInt(bullet.style["top"]) - 3;
 
     if (parseInt(bullet.style["top"]) <= 0){
         bullet.style["visibility"] = "hidden";
         shooting = false;
     }
-    
 }
 
 function movePlayer(){
@@ -124,24 +149,10 @@ function shoot() {
     shooting = true;
 }
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', keydown);
+document.addEventListener('keyup', keyup);
 
-    if (event.keyCode == 68){
-
-        moveleft = true;
-    }
-
-    else if (event.keyCode == 65){
-
-        moveright = true;
-    }
-
-    else if (event.keyCode == 32 && !shooting){
-        shoot();
-    }
-});
-
-document.addEventListener('keyup', function(event) {
+function keyup(event) {
 
     if (event.keyCode == 68){
         moveleft = false;
@@ -150,4 +161,19 @@ document.addEventListener('keyup', function(event) {
     else if (event.keyCode == 65){
         moveright = false;
     }
-});
+}
+
+function keydown(event) {
+
+    if (event.keyCode == 68){
+        moveleft = true;
+    }
+
+    else if (event.keyCode == 65){
+        moveright = true;
+    }
+
+    else if (event.keyCode == 32 && !shooting){
+        shoot();
+    }
+}
