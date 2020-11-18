@@ -22,7 +22,7 @@ function pageSetup(){
         background.appendChild(invader);
     } 
       
-    player.src = "potato.png";
+    player.src = "Shooter.png";
     player.style = "width:70;height:50;position:absolute;left:" + (screen.width/2) + "px;top:" + (screen.height*2/3) + "px";
     background.appendChild(player);
     

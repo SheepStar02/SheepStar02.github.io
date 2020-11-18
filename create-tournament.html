@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <body style = "background-color:black;">
+    <div id = wrapper class = "wrapper" style = "height:95vh">
+    <div id = "twitch-login" class = "twitch-login">
+        <label class = "username-input-label">Twitch Username</label>
+        <input id = "username-input" class = "username-input" type = "text" spellcheck = "false" maxlength= 25></input>
+        <button id = "username-confirm" class = "username-confirm" onclick = "confirmTwitchUsername();">confirm</button>
+        <label id = "username-input-instructions" class = "username-input-instructions">
+            Click the "confirm" button after entering your Twitch username
+        </label>
+        <a id = "your-chatbox" class = "your-channel" target = "_blank">your chatbox</a>
+        <a id = "wetbot-twitchlink" class = "wetbot-twitchlink" href = "https://twitch.tv/wetbotesl" target = "_blank">twitch.tv/wetbotesl</a>
+    </div>
+    <div class = "create-tournament">
+        <button class = "create-tournament-button" type = "submit" onclick = "createTournament();">
+            Create Tournament
+        </button>
+    </div>
+    <div id = "tournament-type" class = "tournament-type">
+        <label class = "tournament-type-label">Tournament Chooser</label>    
+        <label id = "teamvteam-label" class = "teamvteam-label">
+            <input id = "tournament-type-teamvteam" class = "tournament-type-teamvteam" type = "radio" checked>  Team VS Team</input>
+        </label>
+        <p id = "tournament-type-info" class = "tournament-type-info">
+            Bracket mode coming soon. There are no other option right now :P
+        </p>
+    </div>
+    <div id = tournament-players class = tournament-players>
+        <label class = "tournament-players-label">Max Players</label>
+        <input id = "tournament-players-input" class = "tournament-players-input" type = "text" maxlength = 2></input>
+        <p class = "tournament-players-info">Enter the max number of players (2-50)</p>
+        </label>
+    </div>
+    <div id = "twitch-announce" class = "twitch-announce">
+        <label class = "twitch-announce-label">Announce On Twitch</label>    
+        <label id = "announce-label" class = "announce-label">
+            <input id = "announce-radio" class = "announce-radio" type = "checkbox">  Announce</input>
+        </label>
+        <p id = "twitch-announce-info" class = "twitch-announce-info">
+            When selected, Wetbot will post the tournament details in your connected twitch channel.
+        </p>
+    </div>
+    </div>
+    </body>
+    <script src = tmi.min.js></script>
+    <script type = "text/javascript" src = create-tournament.js></script>
+    <style>
+        div.twitch-login{
+            margin-left:auto;
+            margin-right:auto;
+            width:320px;
+            height:100px;
+            top:50px;
+            font-family:verdana;
+            position:relative;}
+        label.username-input-label{
+            position:relative;
+            display:block;
+            font-size:20px;
+            font-weight:bold;
+            font-family:inherit;
+            color:yellowgreen;
+            cursor:auto;}
+        input.username-input{
+            position:relative;
+            top:10px;
+            display:block;
+            font-size:20px;
+            font-weight:bold;
+            font-family:inherit;
+            text-transform:lowercase;
+            border-radius:5px;
+            cursor:auto;
+            border:none;
+            outline:none;}
+        input.username-input:disabled{
+            background-color:lightgray;}
+        button.username-confirm{
+            position:absolute;
+            width:100px;
+            top:35px;
+            left:310px;
+            font-size:20px;
+            font-weight:bold;
+            border-radius:5px;
+            background-color:blueviolet;
+            cursor:pointer;
+            border:none;
+            outline:none;}
+        button.username-confirm:hover{background-color:#720680}
+        label.username-input-instructions{
+            position:relative;
+            top:10px;
+            font-size:11px;
+            font-family:inherit;
+            color:white;
+            cursor:auto;
+            user-select: none;}
+        a.your-channel{
+            display:none;
+            color:blue;}
+        a.wetbot-twitchlink{
+            display:none;
+            color:blue;}
+        div.create-tournament{
+            position:relative;
+            margin-left:45%;
+            margin-right:auto;
+            width:320px;
+            height:40px;
+            top:500px;}
+        button.create-tournament-button{
+            background-color:yellowgreen;
+            height:40px;
+            font-family:Verdana;
+            font-size:20px;
+            font-weight:bold;
+            border-radius:12px;
+            cursor:pointer;
+            border:none;
+            outline:none;
+            position:relative;  
+            display:block;}
+        button.create-tournament-button:hover{background-color: rgb(89, 125, 17);}
+        div.tournament-type{
+            margin-left:auto;
+            margin-right:auto;
+            width:320px;
+            top:50px;
+            font-family:verdana;
+            position:relative;}
+        label.tournament-type-label{
+            position:relative;
+            font-size:20px;
+            font-weight:bold;
+            font-family:inherit;
+            color:yellowgreen;
+            cursor:auto;
+            display:block;}
+        label.teamvteam-label{
+            position:relative;
+            top:10px;
+            font-family:inherit;
+            color:red;
+            cursor:pointer;
+            user-select:none}
+        input.tournament-type-teamvteam{
+            position:relative;
+            cursor:pointer;}
+        p.tournament-type-info{
+            color:white;
+            font-family:inherit;
+            font-size:11px;}
+        div.tournament-players{
+            margin-left:auto;
+            margin-right:auto;
+            width:320px;
+            height:100px;
+            top:80px;
+            font-family:verdana;
+            position:relative;}
+        label.tournament-players-label{
+            position:relative;
+            font-size:20px;
+            font-weight:bold;
+            font-family:inherit;
+            color:yellowgreen;
+            cursor:auto;}
+        input.tournament-players-input{
+            position:relative;
+            top:10px;
+            width:30px;
+            display:block;
+            font-size:20px;
+            font-weight:bold;
+            font-family:inherit;
+            text-transform:lowercase;
+            border-radius:5px;
+            cursor:auto;
+            border:none;    
+            outline:none;}
+        p.tournament-players-info{
+            position:relative;
+            color:white;
+            font-family:inherit;
+            font-size:11px;}
+        div.twitch-announce{
+            margin-left:auto;
+            margin-right:auto;
+            width:320px;
+            top:100px;
+            font-family:verdana;
+            position:relative}
+        label.twitch-announce-label{
+            position:relative;
+            font-size:20px;
+            font-weight:bold;
+            font-family:inherit;
+            color:yellowgreen;
+            cursor:auto;
+            display:block;}
+        label.announce-label{
+            position:relative;
+            top:10px;
+            font-family:inherit;
+            color:red;
+            cursor:pointer;
+            user-select:none}
+        input.accounce-radio{
+            position:relative;
+            cursor:pointer;}
+        p.twitch-announce-info{
+            position:relative;
+            color:white;
+            font-family:inherit;
+            font-size:11px;}    
+    </style>
+</html>
