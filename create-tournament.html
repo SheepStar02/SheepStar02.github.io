@@ -4,7 +4,7 @@
     <div id = wrapper class = "wrapper" style = "height:95vh">
     <div id = "twitch-login" class = "twitch-login">
         <label class = "username-input-label">Twitch Username</label>
-        <input id = "username-input" class = "username-input" type = "text" spellcheck = "false" maxlength= 25></input>
+        <input id = "username-input" class = "username-input" type = "text" autocomplete="off" spellcheck = "false" maxlength= 25></input>
         <button id = "username-confirm" class = "username-confirm" onclick = "confirmTwitchUsername();">confirm</button>
         <label id = "username-input-instructions" class = "username-input-instructions">
             Click the "confirm" button after entering your Twitch username
@@ -14,7 +14,7 @@
     </div>
     <div class = "create-tournament">
         <button class = "create-tournament-button" type = "submit" onclick = "createTournament();">
-            Create Tournament
+            Create Tournamen
         </button>
     </div>
     <div id = "tournament-type" class = "tournament-type">

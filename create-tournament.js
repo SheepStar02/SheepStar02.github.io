@@ -18,12 +18,17 @@ let usernameInputInfo = document.getElementById("username-input-instructions");
 let yourChatbox = document.getElementById("your-chatbox");
 let wetbotTwitch = document.getElementById("wetbot-twitchlink");
 let wrapper = document.getElementById("wrapper");
-checkCookie();
+
+if (localStorage.getItem("username") !== null){
+	confirmLogin(localStorage.getItem("username"));
+}
 
 client.connect().catch(console.error);
 
 client.on('message', (channel, tags, message, self) => {
 	if(self) return;
+
+	console.log(tags.username);
 
 	if(confirmButton.textContent === "cancel" && message.toLowerCase() === "potatoes are the best" && tags.username === usernameInput.value) {
 		confirmLogin(usernameInput.value);
@@ -32,8 +37,10 @@ client.on('message', (channel, tags, message, self) => {
 });
 
 function confirmLogin(username) {
-	setCookie("username", username, 60);
+	localStorage.setItem("username", username);
 	confirmButton.textContent = "logout";
+	usernameInput.disabled = true;
+	usernameInput.value = username;
 	usernameInputInfo.textContent = "You are now successfully logged in as " + usernameInput.value + ". Press logout at anytime to change your login information."
 }
 
@@ -55,7 +62,7 @@ function confirmTwitchUsername(){
 		
 	} else {
 		if (confirmButton.textContent === "logout"){
-			clearCookie();
+			localStorage.removeItem("username");
 		}
 		client.part(usernameInput.value);
 		wrapper.appendChild(wetbotTwitch);
@@ -68,66 +75,40 @@ function confirmTwitchUsername(){
 	}
 }
 
-function setCookie(uname, uvalue, exdays){
-	let date = new Date();
-	date.setTime(date.getTime() + (exdays*24*60*60*1000));
-	let expires = "expires=" + date.toGMTString();
-	document.cookie = uname + "=" + uvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(uname) {
-	let name = uname + "=";
-	let decodedCookie = decodeURIComponent(document.cookie).split(";");
-	for (c in decodedCookie){
-		let char = decodedCookie[c];
-		while (char.charAt(0) == ' '){
-			char = c.substring(1);
-		}
-		if (char.indexOf(name) == 0){
-			return char.substring(name.length, char.length);
-		}
-	}
-	return "";
-}
-
-function checkCookie(){
-	let user = getCookie("username");
-	console.log(user);
-	if (user != "") {
-		confirmButton.textContent = "logout";
-		usernameInput.value = getCookie("username");
-		usernameInputInfo.textContent = "You are now successfully logged in as " + usernameInput.value + ". Press logout at anytime to change your login information."
-		usernameInput.disabled = true;
-	}
-}
-
-function clearCookie() { 
-	let allCookies = document.cookie.split(';'); 
-	
-	for (let i = 0; i < allCookies.length; i++) 
-		document.cookie = allCookies[i] + "=;expires=" 
-		+ new Date(0).toGMTString(); 
-} 
-
 function createTournament(){
 
 	let tournament = verifyCreate();
 	let maxPlayers = document.getElementById("tournament-players-input").value;
 	let announce = document.getElementById("announce-radio").checked;
+	let tournamentType = "teamvteam";
+	let code = "abcd";
 
 	if (tournament === ""){
 
-		if (announce){
-			alert("Creating a Team Vs Team Bracket with " + maxPlayers + " players and will be announcing on twitch.tv/" + usernameInput.value);
-		} else {
-			alert("Creating a Team Vs Team Bracket with " + maxPlayers + " players");
+//		if (announce){
+//			alert("Creating a Team Vs Team Bracket with " + maxPlayers + " players and will be announcing on twitch.tv/" + usernameInput.value);
+//		} else {
+//			alert("Creating a Team Vs Team Bracket with " + maxPlayers + " players");
+//		}
+
+		console.log("we got here");
+		let xhr = new XMLHttpRequest();
+		let url = "tournament.json";
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-Type", "application/json"); 
+		xhr.onreadystatechange = function () { 
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				console.log("Created");
+				createTournamentPage(usernameInput.value, maxPlayers, announce, tournamentType);
+			} 
 		}
+		console.log("passed that");
+		let data = JSON.stringify({"coded": code, "username": usernameInput.value, "players": maxPlayers, "announce": announce, "type": tournamentType});
+		xhr.send(data);
 
-		let htmlContent = '<html>whatever</html>';
-
-		fs.writeFile('tournaments/abcd.html');
 	}
 	else{
+		console.log("wtf");
 		alert(tournament);
 	}
 }
@@ -147,5 +128,4 @@ function verifyCreate(){
 		return "ERROR: Max player input MUST be a numeric value between 2-50"
 		}
 	return "";
-
 }
