@@ -91,23 +91,16 @@ function createTournament(){
 //			alert("Creating a Team Vs Team Bracket with " + maxPlayers + " players");
 //		}
 
-		let xhr2 = new XMLHttpRequest();
-		xhr2.open("POST", "tournament.json", true);
-		xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		let data = JSON.stringify({"code": code, "username": usernameInput.value, "players": maxPlayers, "announce": announce, "type": tournamentType});
-		xhr2.send(data);
+	//	document.open("testing.html", "add	");
+	//	document.write("<html><body><p>Hello World!</p></body></html>");
+	//		document.close();
 
-		console.log("we got here");
-		let xhr = new XMLHttpRequest();
-		let url = "tournament.json";
-		xhr.open("GET", url, true);
-		xhr.setRequestHeader("Content-Type", "application/json"); 
-		xhr.onreadystatechange = function () { 
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				console.log(xhr.responseText + "hello");
-			} 
-		}
-		console.log("passed that");
+		let xhr2 = new XMLHttpRequest();
+		let data = JSON.stringify({hello : 'bloop'});
+		console.log(data);
+		xhr2.open("POST", "/testinfile", data);
+		xhr2.setRequestHeader('Content-Type', 'appication/json');
+		xhr2.send(data);	
 
 	}
 	else{
