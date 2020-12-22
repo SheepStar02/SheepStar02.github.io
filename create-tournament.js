@@ -83,30 +83,28 @@ function createTournament(){
 	let tournamentType = "teamvteam";
 	let code = "abcd";
 
-	if (tournament === ""){
+//	if (tournament === ""){
 
-//		if (announce){
-//			alert("Creating a Team Vs Team Bracket with " + maxPlayers + " players and will be announcing on twitch.tv/" + usernameInput.value);
-//		} else {
-//			alert("Creating a Team Vs Team Bracket with " + maxPlayers + " players");
-//		}
+	console.log('dothing');
 
-	//	document.open("testing.html", "add	");
-	//	document.write("<html><body><p>Hello World!</p></body></html>");
-	//		document.close();
-
-		let xhr2 = new XMLHttpRequest();
-		let data = JSON.stringify({hello : 'bloop'});
-		console.log(data);
-		xhr2.open("POST", "/testinfile", data);
-		xhr2.setRequestHeader('Content-Type', 'appication/json');
-		xhr2.send(data);	
-
+	var http = new XMLHttpRequest();
+	
+	
+	//Send the proper header information along with the request
+   
+	
+	http.onload = function(){
+		console.log(this.responseText);
 	}
-	else{
-		console.log("wtf");
-		alert(tournament);
-	}
+	http.open('POST', "data.php");
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	http.send("name=hello&message=world");
+
+//	}
+//	else{
+	//	console.log("wtf");
+	//	alert(tournament);
+//	}
 }
 
 function verifyCreate(){
