@@ -82,26 +82,21 @@ function createTournament(){
 	let announce = document.getElementById("announce-radio").checked;
 	let tournamentType = "teamvteam";
 	let code = "abcd";
+	
+	
+	var xhr = new XMLHttpRequest();
+	var url = "data.json";
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			var json = JSON.parse(xhr.responseText);
+			console.log(json.email + ", " + json.password);
+		}
+	};
+	var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
+	xhr.send(data);
 
-//	if (tournament === ""){
-
-	console.log('dothing');
-
-	var http = new XMLHttpRequest();
-
-	http.onload = function(){
-		console.log(this.responseText);
-	}
-
-	http.open('POST', "data.json");
-	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	http.send("name=hello&message=world");
-
-//	}
-//	else{
-	//	console.log("wtf");
-	//	alert(tournament);
-//	}
 }
 
 function verifyCreate(){
