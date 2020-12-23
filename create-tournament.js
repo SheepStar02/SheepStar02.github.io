@@ -88,15 +88,12 @@ function createTournament(){
 	console.log('dothing');
 
 	var http = new XMLHttpRequest();
-	
-	
-	//Send the proper header information along with the request
-   
-	
+
 	http.onload = function(){
 		console.log(this.responseText);
 	}
-	http.open('POST', "data.php");
+
+	http.open('POST', "data.json");
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.send("name=hello&message=world");
 
