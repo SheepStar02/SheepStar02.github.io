@@ -6,7 +6,7 @@ const store = firebase.firestore();
 let reload = false;
 
 const client = new tmi.Client({
-	options: { debug: true, messagesLogLevel: "info" },
+	options: {debug: true, messagesLogLevel: "info" },
 	connection: {
 		reconnect: true,
 		secure: true
@@ -22,6 +22,8 @@ client.connect().catch(console.error);
 
 client.on('message', (channel, tags, message, self) => {
 
+	console.log("working");
+
 	if(self) return;
 
 	if(message.toLowerCase() === "!join" && channel.substring(1) === tournament.host) {
@@ -33,6 +35,7 @@ client.on('message', (channel, tags, message, self) => {
 		}
 		tournament.players.push({name : tags.username, team : "None"});
 		store.collection('codes').doc(tournament.code).update({players: tournament.players});
+		client.say(channel, tags.username + " successfully registered");
 		loadTourney();
 	}
 });
@@ -114,7 +117,18 @@ function loadTourney(){
 				}
 
 				if (!reload && tournament.host === localStorage.getItem("username")){
-					client.join(tournament.host);
+
+					if (client.readyState() === "OPEN"){
+						client.join(tournament.host);
+					} else {
+						let interval = setInterval(function () {
+							console.log("reconnect");
+							if (client.readyState() === "OPEN"){
+								client.join(tournament.host);
+								clearInterval(interval);
+							}
+						}, 2000);
+					}
 					createPlayerSettings();
 					createTeamSettings();
 					createAddPlayers();
@@ -241,8 +255,9 @@ function createPlayerSettings(){
 			if (player.name === name.innerHTML){
 				let index = tournament.players.indexOf(player);
 				tournament.players.splice(index, 1);
-				store.collection('codes').doc(tournament.code).update({players:tournament.players});
-				loadTourney();
+				store.collection('codes').doc(tournament.code).update({players:tournament.players}).then(function () {
+					loadTourney();
+				});
 			}
 		}
 		
@@ -337,7 +352,6 @@ function checkStart() {
 
 	if (tournament.players.length < 2){
 		document.getElementById("start-button").style["background-color"] = "grey";
-		console.log("this");
 		return;
 	}
 
