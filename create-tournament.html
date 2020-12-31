@@ -13,9 +13,10 @@
         <a id = "wetbot-twitchlink" class = "wetbot-twitchlink" href = "https://twitch.tv/wetbotesl" target = "_blank">twitch.tv/wetbotesl</a>
     </div>
     <div class = "create-tournament">
-        <button class = "create-tournament-button" type = "submit" onclick = "createTournament();">
-            Create Tournamen
+        <button class = "create-tournament-button" id = "create-tournament-button" type = "submit" onclick = "createTournament()">
+            Create Tournament
         </button>
+        
     </div>
     <div id = "tournament-type" class = "tournament-type">
         <label class = "tournament-type-label">Tournament Chooser</label>    
@@ -44,8 +45,27 @@
     </div>
     </body>
     <script src = tmi.min.js></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+
+    <script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+        apiKey: "AIzaSyCLbtbOGN_TB61LSII5CAKa5JsJwJxjQPI",
+        authDomain: "clashtourney-16965.firebaseapp.com",
+        projectId: "clashtourney-16965",
+        storageBucket: "clashtourney-16965.appspot.com",
+        messagingSenderId: "392397046883",
+        appId: "1:392397046883:web:65e5cce42a76c9455da456",
+        measurementId: "G-BQF7QSWWWQ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    </script>
     <script type = "text/javascript" src = "create-tournament.js"></script>
-    <script type = "text/javascript" src = "data.json"></script>
     <style>
         div.twitch-login{
             margin-left:auto;
@@ -163,7 +183,7 @@
             position:relative;}
         label.tournament-players-label{
             position:relative;
-            font-size:20px;
+            font-size:20px; 
             font-weight:bold;
             font-family:inherit;
             color:yellowgreen;

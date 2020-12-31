@@ -19,9 +19,12 @@ let yourChatbox = document.getElementById("your-chatbox");
 let wetbotTwitch = document.getElementById("wetbot-twitchlink");
 let wrapper = document.getElementById("wrapper");
 
+const store = firebase.firestore();
+
 if (localStorage.getItem("username") !== null){
 	confirmLogin(localStorage.getItem("username"));
 }
+
 
 client.connect().catch(console.error);
 
@@ -36,16 +39,40 @@ client.on('message', (channel, tags, message, self) => {
 
 });
 
+function changeCreateButton(hidden) {
+
+	let button = document.getElementById("create-tournament-button");
+
+	if (hidden){
+		button.textContent = "My Tournament";	
+		button.onclick = openTournament;
+	} else {
+		button.textContent = "Create Tournament";	
+		button.onclick = createTournament;
+	}
+}
+
+function openTournament() {
+	let url = "tournament-page?code=" + localStorage.getItem("code");
+	window.open(url, "_self");
+}
+
 function confirmLogin(username) {
 	localStorage.setItem("username", username);
 	confirmButton.textContent = "logout";
 	usernameInput.disabled = true;
 	usernameInput.value = username;
 	usernameInputInfo.textContent = "You are now successfully logged in as " + usernameInput.value + ". Press logout at anytime to change your login information."
+
+	data = store.collection('codes').doc('All_Codes');
+	data.get().then(function (doc){
+		if (doc.data().hosts.includes(username)){
+			changeCreateButton(true);
+		}
+	})
 }
 
 function confirmTwitchUsername(){
-
 	if  (confirmButton.textContent == "confirm"){
 		client.join(usernameInput.value);
 		confirmButton.textContent = "cancel";
@@ -63,6 +90,7 @@ function confirmTwitchUsername(){
 	} else {
 		if (confirmButton.textContent === "logout"){
 			localStorage.removeItem("username");
+			changeCreateButton(false);
 		}
 		client.part(usernameInput.value);
 		wrapper.appendChild(wetbotTwitch);
@@ -75,28 +103,66 @@ function confirmTwitchUsername(){
 	}
 }
 
+function generateCode(){
+
+	let tourneyCode = "";
+
+	for  (i = 0; i < 5; i++){
+		let a = String.fromCharCode(Math.floor((Math.random() * 25) + 97));
+		tourneyCode += a;
+	}
+
+	saveTournament(tourneyCode);
+}
+
 function createTournament(){
 
-	let tournament = verifyCreate();
-	let maxPlayers = document.getElementById("tournament-players-input").value;
-	let announce = document.getElementById("announce-radio").checked;
-	let tournamentType = "teamvteam";
-	let code = "abcd";
-	
-	
-	var xhr = new XMLHttpRequest();
-	var url = "data.json";
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-Type", "application/json");
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState === 4 && xhr.status === 200) {
-			var json = JSON.parse(xhr.responseText);
-			console.log(json.email + ", " + json.password);
-		}
-	};
-	var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
-	xhr.send(data);
+	let error = verifyCreate();
 
+	if (error.length !== 0){
+		alert(error);
+		return;
+	}
+
+	generateCode();
+
+}
+
+function saveTournament(tourneyCode){
+
+	let tourney = {code : tourneyCode,
+		playerNum : document.getElementById("tournament-players-input").value,
+		announce : document.getElementById("announce-radio").checked,
+		host : usernameInput.value,
+		players : [],
+		teams : [],
+		games : [],
+		began : false
+	}
+
+	data = store.collection('codes').doc(tourneyCode);
+
+	store.collection('codes').doc('All_Codes').get().then(function (doc){
+		if (doc.data().length === 0){
+			generateCode();
+		} else {
+			data.set(tourney);
+
+			let hosts = doc.data().hosts;
+			let tourneyCodes = doc.data().tourneyCodes;
+
+			tourneyCodes.push(tourneyCode);
+			hosts.push(usernameInput.value);
+
+			store.collection('codes').doc('All_Codes').set({hosts, tourneyCodes})
+				.then( function (){
+					window.open("tournament-page?code=" + tourneyCode, "_self");
+				});
+			localStorage.setItem("code", tourneyCode);
+			changeCreateButton(true);
+		}
+		return;
+	});	
 }
 
 function verifyCreate(){
@@ -115,3 +181,4 @@ function verifyCreate(){
 		}
 	return "";
 }
+

@@ -1,10 +1,322 @@
 <!DOCTYPE html>
 <html lang="en"> 
     <body style = "background-color: black;">
-    <div id = "wrapper" style = "display: none;">
-    <div id = "bracket" class = "bracket">
-
-    </div>
+    <div id = "wrapper" style = "height:95vh">
+        <div class = "title">
+            <label class = "title-label" id = "title-label">Tournaments On Stream</label>
+            <button class = "end-tournament" id = "end-tournament" onclick = "endTournament()">End Tournament</label>
+        </div>
+        <div id = "bracket" class = "bracket"></div>
+        <div id = "player" class = "player"></div>
+        <div id = "team-players" class = "team-players"></div>
+        <div id = "team-players" class = "team-players"></div>
+        <div id = "view-teams" class = "view-teams">
+            <label class = "view-teams-label">View Roster</label>
+            <button id = "view-team1-button" class = "view-team1-button" onclick = "viewRoster(1)">Team 1</button>
+            <button id = "view-team2-button" class = "view-team2-button" onclick = "viewRoster(2)">Team 2</button>
+        </div>
+        <div id = "score" class = "score">
+            <label class = "team1-label" id = "team1-label"></label>
+            <label class = "team2-label" id = "team2-label"></label>
+            <label class = "hyphen">-</label>
+            <label class = "team1-score" id = "team1-score">0</label>
+            <label class = "team2-score" id = "team2-score">0</label>
+        </div>
+        <div id = "send-players" class = "send-players">
+            <label class = "send-team1-label" id = "send-team1-label"></label>
+            <select id = "select-player1" class = "select-player1"></select>
+            <label class = "send-team2-label" id = "send-team2-label"></label>
+            <select id = "select-player2" class = "select-player2"></select>
+            <button id = "send-player-button" class = "send-player-button" onclick = "battle()">Battle</button>
+            <img class = "vs-img" src = "https://lh3.googleusercontent.com/proxy/j0hj_OaqSy_3bz37EU41ry4rs5kWVnsWDdwPyq3sH5_Qf9kBolHpFPTv7oUah4tjz7tnaffRElS2GHG8B7qUl-AvRN3gY69IBniMordLjyMSuXwQ0pLBaklLE94"></img>
+        </div>
     </div>
     </body>
+    <script src = tmi.min.js></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+
+    <script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+        apiKey: "AIzaSyCLbtbOGN_TB61LSII5CAKa5JsJwJxjQPI",
+        authDomain: "clashtourney-16965.firebaseapp.com",
+        projectId: "clashtourney-16965",
+        storageBucket: "clashtourney-16965.appspot.com",
+        messagingSenderId: "392397046883",
+        appId: "1:392397046883:web:65e5cce42a76c9455da456",
+        measurementId: "G-BQF7QSWWWQ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    </script>
+    <script type = "text/javascript" src = "tournament.js"></script>
+    <style>
+        div.title{
+            position: absolute;
+            left:470px;
+            width:600px;
+            top:20px;}
+        label.title-label{
+            position:relative;
+            text-align:center;
+            display:block;  
+            font-size:50px;
+            font-weight:bold;
+            font-family:inherit;
+            color:yellowgreen;
+            cursor:auto;}
+        button.end-tournament{
+            position:absolute;
+            left:170px;
+            width:250px;
+            top:75px;
+            text-align:center;
+            display:none;  
+            border:none;
+            font-size:30px;
+            font-weight:bold;
+            font-family:inherit;
+            border-radius:10px;
+            background-color:red;
+            cursor:pointer;}
+        button.end-tournament:hover{background-color:darkred;}
+        div.bracket{
+            position:absolute;
+            left:520px;
+            top:160px;
+            height:600px;
+            width:500px;
+            border-style:solid;
+            border-color:chartreuse;
+            border-width:1px;
+            overflow-y:scroll;
+            list-style: none;
+        }
+        div.player{
+            position:absolute;
+            width:300px;
+            left:50px;
+            top:300px;
+            height:150px;
+            border-style:solid;
+            border-width:1px;
+            border-color:chartreuse;
+            display:none;
+        }
+        div.team-players{
+            position:absolute;
+            width:350px;
+            left:70px;
+            top:465px;
+            height:295px;
+            overflow-y:scroll;
+            border-style:solid;
+            border-width:1px;
+            border-color:chartreuse;
+            display:none;
+        }
+        div.view-teams{
+            position:absolute;
+            width:350px;
+            left:70px;
+            top:415px;
+            height:50px;
+            display:none;
+        }
+        label.view-teams-label{
+            position:absolute;
+            display:block;  
+            font-size:30px;
+            font-weight:bold;
+            font-family:inherit;
+            color:yellowgreen;}
+        button.view-team1-button{
+            position:absolute;
+            display:block; 
+            left:170px; 
+            top:5px;
+            width:85px;
+            height:30px;
+            font-size:17px;
+            font-weight:700;
+            border-width:3px;
+            border-color:indigo;
+            font-family:Georgia;
+            background-color:blue;
+            border-style:solid;    
+            cursor:pointer;
+        }
+        button.view-team2-button{
+            position:absolute;
+            display:block; 
+            left:265px; 
+            top:5px;
+            width:85px;
+            height:30px;
+            font-size:17px;
+            font-weight:700;
+            border-width:3px;
+            font-family:Georgia;
+            border-style:none;
+            background-color:red;
+            cursor:pointer;
+        }
+        button.view-team2-button:hover {background-color: rgb(255, 100, 100);}
+        button.view-team1-button:hover {background-color: rgb(100, 100, 255);}
+        div.score{
+            position:absolute;
+            width:350px;
+            left:70px;
+            border-style:solid;
+            border-width:1px;
+            border-color:lime; 
+            top:50px;
+            height:150px;
+            display:none;
+        }
+        label.team1-label{
+            position:absolute;
+            display:block;  
+            top:5px; 
+            width:175px;
+            text-align:center;
+            font-size:24px;
+            font-weight:bold;
+            font-family:inherit;
+            color:blue;
+            overflow:hidden;
+        }
+        label.team2-label{
+            position:absolute;
+            display:block; 
+            top:5px;
+            left:175px; 
+            width:175px;
+            text-align:center;
+            font-size:24px;
+            font-weight:bold;
+            font-family:inherit;
+            color:red;
+            overflow:hidden;
+        }
+        label.team1-score{
+            position:absolute;
+            display:block; 
+            top:50px;
+            width:175px;
+            text-align:center;
+            font-size:50px;
+            font-weight:bold;
+            font-family:inherit;
+            color:blue;
+        }
+        label.team2-score{
+            position:absolute;
+            display:block; 
+            top:50px;
+            left:175px; 
+            width:175px;
+            text-align:center;
+            font-size:50px;
+            font-weight:bold;
+            font-family:inherit;
+            color:red;
+        }
+        label.hyphen{
+            position:absolute;
+            display:block; 
+            top:50px;
+            left:150px; 
+            width:50px;
+            text-align:center;
+            font-size:50px;
+            font-weight:bold;
+            font-family:inherit;
+            color:white;
+        }
+        div.send-players{
+            position:absolute;
+            width:350px;
+            left:70px;
+            border-style:solid;
+            border-width:1px;
+            border-color:lime; 
+            top:220px;
+            height:180px;
+            display:none;
+        }
+        button.send-player-button{
+            position:absolute;
+            left:125px; 
+            top:140px;
+            width:100px;
+            height:30px;
+            font-size:17px;
+            font-weight:700;
+            border-width:3px;
+            font-family:Georgia;
+            border:none;
+            border-radius:10px;
+            background-color:lime;
+            cursor:pointer;
+        }
+        button.send-player-button:hover {background-color:green}
+        select.select-player1{
+            position:absolute;
+            top:10px;
+            left:145px; 
+            height:20px;
+            width:200px;
+            text-align:center;
+            font-weight:bold;
+            font-family:inherit;
+            background-color:blue;
+        }
+        select.select-player2{
+            position:absolute;
+            top:100px;
+            left:145px; 
+            height:20px;
+            width:200px;
+            text-align:center;
+            font-weight:bold;
+            font-family:inherit;
+            background-color:red;
+        }
+        img.vs-img{
+            width:80px;
+            height:80px;
+            left:130px;
+            top:30px;
+            position: absolute;
+        }
+        label.send-team1-label{
+            position:absolute;
+            top:10px;
+            left:5px; 
+            width:130px;
+            text-align:right;
+            font-size:20px;
+            font-weight:bold;
+            font-family:inherit;
+            color:blue;
+            overflow:hidden;
+        }
+        label.send-team2-label{
+            position:absolute;
+            top:100px;
+            left:5px; 
+            width:130px;
+            text-align:right;
+            font-size:20px;
+            font-weight:bold;
+            font-family:inherit;
+            color:red;
+            overflow:hidden;
+        }
+    </style>
 </html>
