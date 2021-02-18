@@ -18,6 +18,8 @@ const client = new tmi.Client({
 	channels: []
 });
 
+
+
 client.connect().catch(console.error);
 
 client.on('message', (channel, tags, message, self) => {
