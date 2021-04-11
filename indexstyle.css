@@ -1,0 +1,105 @@
+body {
+    background-color:black;}
+#main-div {
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    height: 100%;
+    position: relative;}
+#shed-logo-div{
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 20%;
+    position: relative;}
+#main-shed-logo{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    top: 50px;
+    position: relative;
+    display: block;}
+#shed-image-div{
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    height: 80%;
+    position: absolute;}
+#main-enter-button{
+    background:transparent;
+    border: none;
+    cursor: pointer;
+    top: 340px;
+    left: 340px;
+    width: 120px;
+    height: 35px;
+    outline: none;
+    position: absolute;}
+#shed-image-div.hide{
+    animation: fadeOut 0.3s;
+    -webkit-animation: fadeOut 0.3s;
+    -moz-animation: fadeOut 0.3s;
+    -o-animation-: fadeOut 0.3s;
+    -ms-animation: fadeOut 0.3s;
+    animation-fill-mode: forwards;}
+#room-menu-div{
+    visibility: hidden;
+    opacity: 0;
+    left: 150px;
+    top: 200px;
+    width: 500px;
+    height: 400px;
+    z-index: -1;
+    position: absolute;}
+#room-menu-div.show{
+    animation: fadeIn 0.3s;
+    -webkit-animation: fadeIn 0.3s;
+    -moz-animation: fadeIn 0.3s;
+    -o-animation-: fadeIn 0.3s;
+    -ms-animation: fadeIn 0.3s;
+    animation-fill-mode: forwards;}
+#play-minesweeper-button{
+    cursor: pointer;
+    background-color: #9400bd;
+    border-color: darkblue;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 15px;
+    font-family: "Arial Black";
+    font-weight: bold;
+    font-size: 22px;
+    top: 10px;
+    left: 50px;
+    width: 400px;
+    height: 60px;
+    outline: none;
+    position: absolute;}
+#play-minesweeper-button:hover{
+    background-color:purple}
+/*Key frame functions */
+
+@keyframes fadeOut {
+    100%{opacity: 0;}}
+@-moz-keyframes fadeOut {
+    100%{opacity: 0;}}
+@-webkit-keyframes fadeOut {
+    100%{opacity: 0;}}
+@-o-keyframes fadeOut {
+    100%{opacity: 0;}}
+@-ms-keyframes fadeOut {
+    100%{opacity: 0;}}
+@keyframes fadeIn {
+    100%{opacity: 1;}}
+@-moz-keyframes fadeIn {
+    100%{opacity: 1;}}
+@-webkit-keyframes fadeIn {
+    100%{opacity: 1;}}
+@-o-keyframes fadeIn {
+    100%{opacity: 1;}}
+@-ms-keyframes fadeIn {
+    100%{opacity: 1;}}
+
+
