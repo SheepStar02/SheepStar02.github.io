@@ -33,7 +33,7 @@ function newTile (width, height) {
         col = Math.floor(Math.random()*4);
     }
 
-    let num = 512;
+    let num = 2;
 
     if (Math.floor(Math.random()*10) === 0)
         num = 4;
