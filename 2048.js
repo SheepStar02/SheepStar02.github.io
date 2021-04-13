@@ -58,6 +58,7 @@ document.addEventListener("keydown", function(event) {
     if (event.keyCode === 40){
 
         for (let row = 0; row < mainBoard.length; row++){
+            let prevMerge = false;
             for (let col = mainBoard[0].length-1; col >= 0; col--){
                 let dcol = col, merge = false;
 
@@ -65,9 +66,10 @@ document.addEventListener("keydown", function(event) {
                     continue;
                 }
 
-                while (dcol < mainBoard[0].length-1 && (mainBoard[row][dcol+1] === 0 || mainBoard[row][dcol+1] === mainBoard[row][col])){
-                    if (mainBoard[row][dcol+1] === mainBoard[row][col]){
+                while (dcol < mainBoard[0].length-1 && (mainBoard[row][dcol+1] === 0 || (mainBoard[row][dcol+1] === mainBoard[row][col] && !prevMerge))){
+                    if (mainBoard[row][dcol+1] === mainBoard[row][col] && !prevMerge){
                         merge = true;
+                        prevMerge = true;
                     }
                     dcol ++;
                 } 
@@ -76,6 +78,13 @@ document.addEventListener("keydown", function(event) {
                     continue;
                 }
 
+                if (merge){
+                    prevMerge = true;
+                } else {
+                    prevMerge = false;
+                }
+
+
                 addTransitionQueue(row, col, row, dcol, event.keyCode, merge);
             }
         }
@@ -83,6 +92,7 @@ document.addEventListener("keydown", function(event) {
     } else if (event.keyCode === 39){
 
         for (let col = 0; col < mainBoard[0].length; col++){
+            let prevMerge = false;
             for (let row = mainBoard.length-1; row >= 0; row--){
                 let drow = row, merge = false;
 
@@ -90,8 +100,8 @@ document.addEventListener("keydown", function(event) {
                     continue;
                 }
 
-                while (drow < mainBoard.length-1 && (mainBoard[drow+1][col] === 0 || mainBoard[drow+1][col] === mainBoard[row][col])){
-                    if (mainBoard[drow+1][col] === mainBoard[row][col]){
+                while (drow < mainBoard.length-1 && (mainBoard[drow+1][col] === 0 || (mainBoard[drow+1][col] === mainBoard[row][col] && !prevMerge))){
+                    if (mainBoard[drow+1][col] === mainBoard[row][col] && !prevMerge){
                         merge = true;
                     }
                     drow ++;
@@ -101,7 +111,12 @@ document.addEventListener("keydown", function(event) {
                     continue;
                 }
 
-                console.log("adding " + row + " " + col);
+                if (merge){
+                    prevMerge = true;
+                } else {
+                    prevMerge = false;
+                }
+
                 addTransitionQueue(row, col, drow, col, event.keyCode, merge);
             }
         }
@@ -109,6 +124,7 @@ document.addEventListener("keydown", function(event) {
     } else if (event.keyCode === 38){
 
         for (let row = 0; row < mainBoard.length; row++){
+            let prevMerge = false;
             for (let col = 0; col < mainBoard.length; col++){
                 let dcol = col, merge = false;
 
@@ -116,9 +132,9 @@ document.addEventListener("keydown", function(event) {
                     continue;
                 }
 
-                while (dcol > 0 && (mainBoard[row][dcol-1] === 0 || mainBoard[row][dcol-1] === mainBoard[row][col])){
+                while (dcol > 0 && (mainBoard[row][dcol-1] === 0 || (mainBoard[row][dcol-1] === mainBoard[row][col] && !prevMerge))){
 
-                    if (mainBoard[row][dcol-1] === mainBoard[row][col]){
+                    if (mainBoard[row][dcol-1] === mainBoard[row][col] && !prevMerge){
                         merge = true;
                     }
 
@@ -129,13 +145,19 @@ document.addEventListener("keydown", function(event) {
                     continue;
                 }
 
+                if (merge){
+                    prevMerge = true;
+                } else {
+                    prevMerge = false;
+                }
+
                 addTransitionQueue(row, col, row, dcol, event.keyCode, merge);
             }
         }
     
     } else if (event.keyCode === 37){
-
         for (let col = 0; col < mainBoard[0].length; col++){
+            let prevMerge = false;
             for (let row = 0; row < mainBoard.length; row++){
                 let drow = row, merge = false;
 
@@ -143,9 +165,9 @@ document.addEventListener("keydown", function(event) {
                     continue;
                 }
 
-                while (drow > 0 && (mainBoard[drow-1][col] === 0 || mainBoard[drow-1][col] === mainBoard[row][col])){
+                while (drow > 0 && (mainBoard[drow-1][col] === 0 || (mainBoard[drow-1][col] === mainBoard[row][col] && !prevMerge))){
 
-                    if (mainBoard[drow-1][col] === mainBoard[row][col]){
+                    if (mainBoard[drow-1][col] === mainBoard[row][col] && !prevMerge){
                         merge = true;
                     }
 
@@ -154,6 +176,12 @@ document.addEventListener("keydown", function(event) {
 
                 if (drow === row){
                     continue;
+                }
+
+                if (merge){
+                    prevMerge = true;
+                } else {
+                    prevMerge = false;
                 }
 
                 addTransitionQueue(row, col, drow, col, event.keyCode, merge);
@@ -191,15 +219,19 @@ setInterval(function () {
         
         if (transitionQueue[index].direction === 0 && parseInt(element.style.left.split("%")[0]) > transitionQueue[index].endRow+1){
             element.style.left = (parseInt(element.style.left.split("%")[0]) - 5) + "%";
+            if (parseInt(element.style.left.split("%")[0]) < transitionQueue[index].endRow+1){element.style.left = transitionQueue[index].endRow+1 + "%";}
             complete = false;
         } else if (transitionQueue[index].direction === 1 && parseInt(element.style.top.split("%")[0]) > transitionQueue[index].endCol+1){
             element.style.top = (parseInt(element.style.top.split("%")[0]) - 5) + "%";
+            if (parseInt(element.style.top.split("%")[0]) < transitionQueue[index].endCol+1){element.style.top = transitionQueue[index].endCol+1 + "%";}
             complete = false;
         } else if (transitionQueue[index].direction === 2 && parseInt(element.style.left.split("%")[0]) < transitionQueue[index].endRow){
             element.style.left = (parseInt(element.style.left.split("%")[0]) + 5) + "%";
+            if (parseInt(element.style.left.split("%")[0]) > transitionQueue[index].endRow+1){element.style.left = transitionQueue[index].endRow+1 + "%";}
             complete = false;
         } else if (transitionQueue[index].direction === 3 && parseInt(element.style.top.split("%")[0]) < transitionQueue[index].endCol){
             element.style.top = (parseInt(element.style.top.split("%")[0]) + 5) + "%";
+            if (parseInt(element.style.top.split("%")[0]) > transitionQueue[index].endCol+1){element.style.top = transitionQueue[index].endCol+1 + "%";}
             complete = false;
         }
 
