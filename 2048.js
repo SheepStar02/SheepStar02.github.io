@@ -33,7 +33,7 @@ function newTile (width, height) {
         col = Math.floor(Math.random()*4);
     }
 
-    let num = 2;
+    let num = 512;
 
     if (Math.floor(Math.random()*10) === 0)
         num = 4;
@@ -103,6 +103,7 @@ document.addEventListener("keydown", function(event) {
                 while (drow < mainBoard.length-1 && (mainBoard[drow+1][col] === 0 || (mainBoard[drow+1][col] === mainBoard[row][col] && !prevMerge))){
                     if (mainBoard[drow+1][col] === mainBoard[row][col] && !prevMerge){
                         merge = true;
+                        prevMerge = true;
                     }
                     drow ++;
                 } 
@@ -136,6 +137,7 @@ document.addEventListener("keydown", function(event) {
 
                     if (mainBoard[row][dcol-1] === mainBoard[row][col] && !prevMerge){
                         merge = true;
+                        prevMerge = true;
                     }
 
                     dcol --;
@@ -169,6 +171,7 @@ document.addEventListener("keydown", function(event) {
 
                     if (mainBoard[drow-1][col] === mainBoard[row][col] && !prevMerge){
                         merge = true;
+                        prevMerge = true;
                     }
 
                     drow --;
