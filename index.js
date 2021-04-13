@@ -20,5 +20,5 @@ function enterShed() {
 }
 
 function playMinesweeper() {
-    window.open("minesweeper", "_self");
+    window.open("2048", "_self");
 }

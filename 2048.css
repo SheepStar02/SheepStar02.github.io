@@ -1,0 +1,12 @@
+body{
+    background-color: black;}
+
+#main-board-div{
+    height: 500px;
+    width: 500px;
+    top: 100px;
+    z-index: -1;
+    margin: auto;
+    position: relative;
+    background-color: black;
+}
