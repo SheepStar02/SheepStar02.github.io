@@ -1,0 +1,23 @@
+body{
+    background-color: black;}
+
+#main-board-div{
+    top:150px;
+    margin: auto;
+    position: relative;
+    background-color: black;
+}
+
+#board-container{
+    top: 100px;
+    background-color: #2b052b;
+    border-color: darkmagenta;
+    border-style: dashed;
+    border-radius: 40px;
+    margin: auto;
+    position: relative;
+}
+
+#random:hover{
+    background-color: green;
+}

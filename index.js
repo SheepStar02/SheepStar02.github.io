@@ -15,10 +15,13 @@ function enterShed() {
         room.style.zIndex = "0";
         room.style.visibility = "visible";
         room.classList.add("show");
-        console.log("here");
     }, 200);
 }
 
-function playMinesweeper() {
+function play2048() {
     window.open("2048", "_self");
+}
+
+function playMinesweeper() {
+    window.open("minesweeper", "_self");
 }
