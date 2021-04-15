@@ -2,8 +2,14 @@
     <link rel="stylesheet" href="minesweeper.css">
     <body>  
     <div id = "board-container">
-    <div id = "main-board-div">
-    </div>
+        <div id = "options-container">
+        <button id = "easy-mode" value="easy" onclick = "loadGrid(8, 10, 10)">easy</button>
+        <button id = "medium-mode"value="medium" onclick = "loadGrid(16, 16, 40)">medium</button>
+        <button id = "hard-mode"value="hard" onclick = "loadGrid(16, 30, 100)">hard</button>
+        <button id = "extreme-mode" value="big massive hard" onclick = "loadGrid(16, 30, 5);">big massive hard</button>
+        <div id = "main-board-div">
+        </div>
+        </div>
     </div>
     </body>
     <script src = "minesweeper.js"></script>

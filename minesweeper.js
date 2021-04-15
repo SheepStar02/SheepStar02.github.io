@@ -4,6 +4,10 @@ let placed = 0;
 
 function loadGrid(height, width, bombs) {
 
+    mainGrid = [];
+    started = false;
+    placed = 0;
+
     let board = document.getElementById("main-board-div"), container = document.getElementById("board-container");
     board.innerHTML = "";
     board.style.width = width * 20 + "px";
@@ -23,17 +27,16 @@ function loadGrid(height, width, bombs) {
             element.addEventListener("click", click);
             element.onmousedown = function (element) {
                 if (element.button === 2){
-
-                    if (element.srcElement.style["background-color"] !== "red"){
-                        element.srcElement.style["background-color"] = "red";
-                    } else {
-                        console.log("here");
-                        element.srcElement.style["background-color"] = "grey";
-                    }
+                    if (mainGrid[parseInt(element.srcElement.id.split(" ")[0])][parseInt(element.srcElement.id.split(" ")[1])]){
+                        if (element.srcElement.style["background-color"] !== "red"){
+                            element.srcElement.style["background-color"] = "red";
+                        } else {
+                            element.srcElement.style["background-color"] = "grey";
+                        }   
+                    } 
                 }
                 else if (mainGrid[parseInt(element.srcElement.id.split(" ")[0])][parseInt(element.srcElement.id.split(" ")[1])])
                     element.srcElement.style["border-style"] = "inset";
-                    console.log(element);
                 };
             element.zIndex = "2";
             rowArray.push(element);
@@ -43,8 +46,6 @@ function loadGrid(height, width, bombs) {
 
         mainGrid.push(rowArray);
     }
-
-    console.log(mainGrid);
 
     while (placed < bombs) {
 
@@ -61,13 +62,6 @@ function loadGrid(height, width, bombs) {
         placeMines(row, col, bombs, 7);
 
     }
-
-    for(row of mainGrid){
-        let line = "";
-    for (col of row){
-        line+= col.adj + ' ';
-    } console.log(line);
-    }
 }
 
 function placeMines(row, col, bombs, max){
@@ -82,31 +76,14 @@ function placeMines(row, col, bombs, max){
 
     mainGrid[row][col].adj = 9;
 
-    let check = [[-1, 1], [-1, 0], [-1,-1], [0,-1], [1,-1], [1,0], [1,1], [0, 1]];
+    let check = [[-1, 1], [-1,-1], [1,-1], [1,1]];
 
-    if (row === 0){
-        if (col === 0){
-            check.splice(0, 5);
-        } else if (col === mainGrid[0].length - 1){
-            check.splice(6, 2), check.splice(0, 3);
-        } else {
-            check.splice(0, 3);
+    for (let item = check.length-1; item >= 0;item--){
+        if (row + check[item][0] < 0 || row + check[item][0] === mainGrid.length || col + check[item][1] < 0 || col + check[item][1] === mainGrid[0].length){
+            check.splice(item, 1);
         }
-    } else if (col === 0) {
-        if (row === mainGrid.length - 1){
-            check.splice(2, 5);
-        } else {
-            check.splice(2, 3);
-        }
-    } else if (row === mainGrid.length - 1) {
-        check.splice(4, 3);
-    } else if (col === mainGrid[0].length - 1){
-        check.splice(6, 2), check.splice(0, 1);
     }
-
     let surrounding = Math.floor(Math.random() * Math.min(check.length, max));
-
-    console.log(placed + " " + bombs + "dicks");
 
     if (placed >= bombs){
         return;
@@ -117,17 +94,8 @@ function placeMines(row, col, bombs, max){
         let place = Math.floor(Math.random() * (check.length));
 
         if (mainGrid[row + check[place][0]][col + check[place][1]].adj !== 9){
+            placeMines(row + check[place][0], col + check[place][1], bombs, Math.floor(surrounding/3));
 
-            if (placed >= bombs){
-                return;
-            }
-
-            placeMines(row + check[place][0], col + check[place][1], bombs, surrounding--);
-
-            if (placed >= bombs){
-                return;
-            }
-            
         }
 
         if (placed >= bombs){
@@ -174,6 +142,14 @@ function markGrid() {
 
         }
     }
+
+    for (row of mainGrid){
+        line = "";
+        for (item of row){
+            line+=item.adj + " ";
+        }
+        console.log(line);
+    }
 }
 
 function click (element){
@@ -194,7 +170,7 @@ function reveal(row, col){
 
         for (item of check){
 
-            if (row + item[0] < 0 || row + item[0] > mainGrid.length-1 || col + item[1] < 0 || col + item[1] > mainGrid[0].length-1){
+            if (row + item[0] < 0 || row + item[0] === mainGrid.length || col + item[1] < 0 || col + item[1] === mainGrid[0].length){
                 continue;
             }
 
@@ -208,23 +184,12 @@ function reveal(row, col){
         started = true;
         markGrid();
 
-        for(r of mainGrid){
-            let line = "";
-        for (c of r){
-            line+= c.adj + ' ';
-        } console.log(line);
-        }
-        
-        console.log(row + " " + col)
         reveal(row, col);
 
     } else {
-        console.log(row + " " + col)
+
         if (mainGrid[row][col].adj === 9){
-                mainGrid = [];
-            started = false;
-            placed = 0;
-            loadGrid(16, 30, 100);
+            loadGrid(mainGrid.length, mainGrid[0].length, placed);
         } else if (mainGrid[row][col].adj === 0){
             document.getElementById(row + " " + col).style["border-style"] = "none";
             document.getElementById(row + " " + col).style["border-colour"] = "none";
@@ -260,7 +225,7 @@ function replace(row, col){
     for (let nrow = 0; nrow < mainGrid.length; nrow++){
         for (let ncol = 0; ncol < mainGrid[0].length; ncol++){
             if (mainGrid[nrow][ncol].adj !== 9 && (nrow < row-1 || nrow > row+1 || ncol < col-1 || ncol > col+1)){
-                console.log("placed at " + nrow + " " + ncol)
+
                 mainGrid[nrow][ncol].adj = 9;
                 return;
             }
@@ -282,4 +247,4 @@ document.addEventListener("contextmenu", function(e){
 }, false);
 
 
-loadGrid(16, 30, 100);
+loadGrid(20, 29, 100);

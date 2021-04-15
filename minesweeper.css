@@ -2,22 +2,102 @@ body{
     background-color: black;}
 
 #main-board-div{
-    top:150px;
+    top:120px;
     margin: auto;
     position: relative;
     background-color: black;
 }
 
 #board-container{
-    top: 100px;
+    top:100px;
     background-color: #2b052b;
     border-color: darkmagenta;
     border-style: dashed;
     border-radius: 40px;
+    min-width: 700px;
     margin: auto;
     position: relative;
 }
 
 #random:hover{
     background-color: green;
+}
+
+#options-container{
+    width:700px;
+    margin:auto
+}
+
+#easy-mode{
+    position: relative;
+    background-color:lawngreen;
+    outline:none;
+    border-radius: 10px;
+    cursor:pointer;
+    border-color:white;
+    border-style: double;
+    height:40px;
+    width:150px;
+    left:7%;
+    top:50px;
+}
+
+#easy-mode:hover{
+    border-color: blue;
+}
+
+
+#medium-mode{
+    position: relative;
+    background-color:orange;
+    outline:none;
+    border-radius: 10px;
+    cursor:pointer;
+    border-color:white;
+    border-style: double;
+    height:40px;
+    width:150px;
+    left:7%;
+    top:50px;
+}
+
+#medium-mode:hover{
+    border-color: blue;
+}
+
+
+#hard-mode{
+    position: relative;
+    background-color:orangered;
+    cursor:pointer;
+    outline:none;
+    border-radius: 10px;
+    border-color:white;
+    border-style: double;
+    height:40px;
+    width:150px;
+    left:7%;
+    top:50px;
+}
+
+#hard-mode:hover{
+    border-color: blue;
+}
+
+#extreme-mode{
+    position: relative;
+    background-color:red;
+    outline:none;
+    cursor:pointer;
+    border-radius: 10px;
+    border-color:white;
+    border-style: double;
+    height:40px;
+    width:150px;
+    left:7%;
+    top:50px;
+}
+
+#extreme-mode:hover{
+    border-color: blue;
 }
