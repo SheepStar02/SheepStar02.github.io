@@ -23,7 +23,13 @@ function loadGrid(height, width, bombs) {
             element.addEventListener("click", click);
             element.onmousedown = function (element) {
                 if (element.button === 2){
-                    console.log("rightclick")
+
+                    if (element.srcElement.style["background-color"] !== "red"){
+                        element.srcElement.style["background-color"] = "red";
+                    } else {
+                        console.log("here");
+                        element.srcElement.style["background-color"] = "grey";
+                    }
                 }
                 else if (mainGrid[parseInt(element.srcElement.id.split(" ")[0])][parseInt(element.srcElement.id.split(" ")[1])])
                     element.srcElement.style["border-style"] = "inset";
