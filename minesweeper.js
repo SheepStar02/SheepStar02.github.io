@@ -1,12 +1,26 @@
 let mainGrid = [];
-let started = false;
-let placed = 0;
+
+let config = {
+    started : false,
+    placed : 0,
+    flags : 0,
+    time : 0,
+    ended : false,
+}
+
+let timer = setInterval(score, 10);
 
 function loadGrid(height, width, bombs) {
 
     mainGrid = [];
-    started = false;
-    placed = 0;
+
+    config = {
+        started : false,
+        placed : 0,
+        flags : 0,
+        time : 0,
+        ended : false,
+    }
 
     let board = document.getElementById("main-board-div"), container = document.getElementById("board-container");
     board.innerHTML = "";
@@ -38,7 +52,6 @@ function loadGrid(height, width, bombs) {
                 else if (mainGrid[parseInt(element.srcElement.id.split(" ")[0])][parseInt(element.srcElement.id.split(" ")[1])])
                     element.srcElement.style["border-style"] = "inset";
                 };
-            element.zIndex = "2";
             rowArray.push(element);
             document.getElementById("main-board-div").append(element);
             
@@ -47,15 +60,21 @@ function loadGrid(height, width, bombs) {
         mainGrid.push(rowArray);
     }
 
-    while (placed < bombs) {
+    console.log(mainGrid)
+
+    while (config.placed < bombs) {
+
+        console.log(config)
 
         let row = Math.floor(Math.random() * height), col = Math.floor(Math.random() * width); 
+
+        console.log(row + " " + col);
         
         while (mainGrid[row][col].adj === 9){
             row = Math.floor(Math.random() * height), col = Math.floor(Math.random() * width); 
         }
 
-        if (placed >= bombs){
+        if (config.placed >= bombs){
             break;
         }
 
@@ -66,12 +85,12 @@ function loadGrid(height, width, bombs) {
 
 function placeMines(row, col, bombs, max){
 
-    if (placed >= bombs){
+    if (config.placed >= bombs){
         return;
     }
 
     if (mainGrid[row][col] !== 9){
-        placed++;
+        config.placed++;
     }
 
     mainGrid[row][col].adj = 9;
@@ -85,7 +104,7 @@ function placeMines(row, col, bombs, max){
     }
     let surrounding = Math.floor(Math.random() * Math.min(check.length, max));
 
-    if (placed >= bombs){
+    if (config.placed >= bombs){
         return;
     }
 
@@ -98,7 +117,7 @@ function placeMines(row, col, bombs, max){
 
         }
 
-        if (placed >= bombs){
+        if (config.placed >= bombs){
             return;
         }
 
@@ -159,8 +178,14 @@ function click (element){
 
 function reveal(row, col){
 
-    if (!started){
+    if (config.ended){
 
+        config.ended = false;
+        loadGrid(mainGrid.length, mainGrid[0].length, config.placed);
+
+    } else if (!config.started){
+
+        document.getElementById("score").innerHTML = "0.00";
         let check = [[-1, 1], [-1, 0], [-1,-1], [0,-1], [1,-1], [1,0], [1,1], [0, 1]];
 
         if (mainGrid[row][col].adj === 9){
@@ -181,7 +206,7 @@ function reveal(row, col){
         }
 
 
-        started = true;
+        config.started = true;
         markGrid();
 
         reveal(row, col);
@@ -189,7 +214,7 @@ function reveal(row, col){
     } else {
 
         if (mainGrid[row][col].adj === 9){
-            loadGrid(mainGrid.length, mainGrid[0].length, placed);
+            loadGrid(mainGrid.length, mainGrid[0].length, config.placed);
         } else if (mainGrid[row][col].adj === 0){
             document.getElementById(row + " " + col).style["border-style"] = "none";
             document.getElementById(row + " " + col).style["border-colour"] = "none";
@@ -218,7 +243,33 @@ function reveal(row, col){
             document.getElementById("main-board-div").appendChild(tile);
             mainGrid[row][col] = false;
         }
+
+        checkWin();
+
+        if (config.ended){
+            for (row of mainGrid){
+                for (item of row){
+                    if (item && item.adj === 9){
+                        item.style["background-color"] = "yellow";
+                    }
+                }
+            }
+        }
     }
+}
+
+function checkWin() {
+
+    for (row of mainGrid){
+        for (item of row){
+            if (item && item.adj !== 9){
+                return;
+            }
+        }
+    }
+
+    config.started = false;
+    config.ended = true;
 }
 
 function replace(row, col){
@@ -246,5 +297,11 @@ document.addEventListener("contextmenu", function(e){
     e.preventDefault();
 }, false);
 
+function score(){
+    if (config.started){
+        config.time += 0.01;
+        document.getElementById("score").innerHTML = config.time.toFixed(2);
+    }
+}
 
 loadGrid(8, 10, 10);
