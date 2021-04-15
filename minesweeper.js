@@ -247,4 +247,4 @@ document.addEventListener("contextmenu", function(e){
 }, false);
 
 
-loadGrid(20, 29, 100);
+loadGrid(8, 10, 10);
