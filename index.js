@@ -22,6 +22,10 @@ function play2048() {
     window.open("2048", "_self");
 }
 
+function playClashQuest(){
+    window.open("clashquest", "_self");
+}
+
 function playMinesweeper() {
     window.open("minesweeper", "_self");
 }

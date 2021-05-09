@@ -1,0 +1,55 @@
+<html>
+    <link rel="stylesheet" href="clashquest.css">
+    <body>  
+    <div id = "main-menu-container">
+        <div id = "coin-count">
+            <div id = "coin-count-image-div">
+                <img id = "coin-count-image" src = "/images/clash-quest/coin.png">
+            </div>
+            <div id = "coin-count-bar">150</div>
+        </div>
+        <div id = "experience-count">
+            <div id = "experience-count-image-div">
+                <img id = "experience-count-image" src = "/images/clash-quest/experience.png">
+            </div>
+            <div id = "experience-count-bar">150</div>
+        </div>
+        <div id = "main-menu-div">
+            <div id = "card-upgrades">
+            </div>
+            <div id = "statistics">
+                <p id = "your-units">Your Units</p>
+                <p id = "stat-description">You are currently only allowed princes.
+                    More cards coming in future updates.
+                </p>
+            </div>
+            <div id = "card-statistics">
+                <p id = "card-name"></p>
+                <img id = "card-image" src = "/images/clash-quest/prince-card.png">
+                <p id = "card-health"></p>
+                <p id = "card-description"></p>
+                <p id = "card-level"></p>
+                <p id = "card-damage"></p>
+                <p id = "card-count"></p>
+                <p id = "next-level"></p>
+                <p id = "upgrade-cards"></p>
+                <p id = "upgrade-health"></p>
+                <p id = "upgrade-damage"></p>
+                <p id = "upgrade-count"></p>
+                <button id = "upgrade-button">/p>
+            </div>
+            <div id = "game-selection">
+                <button id = "play-games" onclick= "battle()">Battle</button>
+            </div>
+            <div id = "game"></div>
+        </div>
+    </div>
+    <div id = "select-game-container">
+        <button id = "select-game-back" onclick = "menuTransition('select-game-container', 'main-menu-container');">Back</button>
+    </div>
+    <div id = "main-game-container">
+        <div id = "game-tiles-container"></div>
+    </div>
+    </body>
+    <script src = "clashquest.js"></script>
+</html>
