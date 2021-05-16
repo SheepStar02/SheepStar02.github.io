@@ -2,10 +2,10 @@ let accountInfo = {
     saved : false,
     exp : 0,
     cards : {
-        prince : "1 0 4",
+        prince : "1 0 5",
     },
     coins : 0,
-    completedLevels : 0,
+    completedLevels : 1,
     wins : 0,
     currentGame : [],
     objectTranslations : [],
@@ -13,7 +13,7 @@ let accountInfo = {
 
 let gameInterval = "";
 
-const JSONLevelInformation = JSON.parse('[{"cannon":4,"null":12}]');
+const JSONLevelInformation = JSON.parse('[{"cannon":5,"null":10},{"cannon":12,"null":4}]');
 const JSONEnemyInformation = JSON.parse('{"cannon":{"health":30,"damage":50}}');
 const JSONCardInformation = JSON.parse('{"giant":{"health":200,"damage":20},"barbarian":{"health":50,"damage":15},"archer":{"health":25,"damage":25},"prince":{"health":20,"damage":30,"description":"Absolute abomination of a card. does not know how to turn his head. Only goes straigh unlike the creator of this website. He does get quite angry like a typical colombian."}}');
 
@@ -95,7 +95,7 @@ function battle(){
             levelPlay.onclick = function (event) {
                 menuTransition("select-game-container", "main-game-container");
 
-                gameInterval = setInterval(translateObjects, 10);
+                gameInterval = setInterval(translateObjects, 12);
 
                 let gameLevel = JSONLevelInformation[event.srcElement.id.split("levelPlayer")[1]], row = [], appended = 0;
                 for (defense of Object.keys(gameLevel)){
@@ -105,7 +105,7 @@ function battle(){
                             let cardDiv = document.createElement("div"), image = document.createElement("img"), healthOutline = document.createElement("div"), healthBar = document.createElement("div");
                             cardDiv.id = "enemyDivCount" + appended;
                             cardDiv.classList.add("enemy-object");
-                            cardDiv.style = "left:" + ((appended%4)*25) + "%;top:" + (Math.floor(appended/4)*12.5) + "%;";
+                            cardDiv.style = "left:" + ((appended%5)*20) + "%;top:" + (Math.floor(appended/5)*12.5) + "%;";
                             cardDiv.health = (level-1) * (JSONEnemyInformation[defense].health/10) + JSONEnemyInformation[defense].health;
                             cardDiv.damage = (level-1) * (JSONEnemyInformation[defense].damage/10) + JSONEnemyInformation[defense].damage;
                             image.src = "/images/clash-quest/" + defense + ".png";
@@ -119,7 +119,7 @@ function battle(){
 
                         appended++;
 
-                        if (appended %4 === 0){
+                        if (appended % 5 === 0){
                             accountInfo.currentGame.push(row), row = [];
                         }
                     }
@@ -132,7 +132,7 @@ function battle(){
                         let cardDiv = document.createElement("div"), image = document.createElement("img"), healthOutline = document.createElement("div"), healthBar = document.createElement("div");
                         cardDiv.classList.add("troop-object");
                         cardDiv.id = "troopDivCount" + cardNum;
-                        cardDiv.style = "left:" + ((cardNum%4)*25) + "%;top:" + (42.5+Math.floor(cardNum/4)*12.5) + "%;";
+                        cardDiv.style = "left:" + ((cardNum%5)*20) + "%;top:" + (57+Math.floor(cardNum/5)*12.5) + "%;";
                         cardDiv.health = (level-1) * (JSONCardInformation[card].health/10) + JSONCardInformation[card].health;
                         cardDiv.damage = (level-1) * (JSONCardInformation[card].damage/10) + JSONCardInformation[card].damage;
                         image.troopType = card;
@@ -146,14 +146,21 @@ function battle(){
                                 return;
                             }
 
+
                             let item = event.srcElement.id.split("troopImageCount")[1];
                             event.srcElement.classList.remove("troop-image-hoverable");
                             event.srcElement.src = "/images/clash-quest/" + event.srcElement.troopType + "-attack.png";
                             event.srcElement.attacking = true;
-                            for (let i = 3; 3 > 0; i--){
-                                if (accountInfo.currentGame[i][item%4] !== ""){
+                            for (let i = 2; i >= 0; i--){
+                                console.log(accountInfo.currentGame[i])
+                                console.log("ALKDJFAKLSDJAF   " + i)
+                                if (accountInfo.currentGame[i][item%5] !== ""){
                                     accountInfo.objectTranslations.push({id : "troopDivCount" + item, endRow : i});
+                                    console.log(item + " " + i)
                                     break;
+                                }
+                                if (i === 0){
+                                    accountInfo.objectTranslations.push({id : "troopDivCount" + item, endRow : -1});
                                 }
                             }
                         }
@@ -166,37 +173,51 @@ function battle(){
             }
             levelPlay.innerHTML = "Play";
             levelSelect.append(levelPlay);
+            console.log(accountInfo);
         }
         
     }
 }
 
+function returnHome(){
+    document.getElementById("end-screen-container").classList.add("hide");
+    document.getElementById("end-screen-container").classList.remove("show");
+    menuTransition("main-game-container", "main-menu-container");
+    accountInfo.currentGame = [];
+    console.log(document.getElementById("end-screen-container").classList + "slkjdfalks");
+}
+
 function translateObjects(){
-    console.log("not cleared");
     for (object of accountInfo.objectTranslations){
         document.getElementById(object.id).style.top = (parseInt(document.getElementById(object.id).style.top.split("%")[0]) - 1) + "%";
         if (document.getElementById(object.id).style.top.split("%")[0] <= object.endRow*25){
             document.getElementById(object.id).remove();
-            accountInfo.currentGame[object.endRow*4][parseInt(object.id.split("troopDivCount")[1])] = "";
-            document.getElementById("enemyDivCount" + (object.endRow*4 + parseInt(object.id.split("troopDivCount")[1]))).remove();
             accountInfo.objectTranslations.splice(accountInfo.objectTranslations.indexOf(object), 1);
+            
+            if (object.endRow !== -1){
+                accountInfo.currentGame[object.endRow][parseInt(object.id.split("troopDivCount")[1]%5)] = "";
+                document.getElementById("enemyDivCount" + (object.endRow*5 + parseInt(object.id.split("troopDivCount")[1]%5))).remove();
+            }
         }
     }
 
     let won = true;
-    for (let i = 0; i < 4; i++){
-        for (let a = 0; a < 4; a++){
+    for (let i = 0; i < 3; i++){
+        for (let a = 0; a < 5; a++){
             if (accountInfo.currentGame[i][a] !== "")
                 won = false;
         }
     }
-    if (won)
+    if (won) {
         winGame();
+    }
 }
 
 function winGame() {
     let audio = new Audio('/images/clash-quest/win-sound.mp3');
     audio.play();
+    document.getElementById("end-screen-container").classList.remove("hide");
+    document.getElementById("end-screen-container").classList.add("show");
     clearInterval(gameInterval);
 }
 
@@ -248,3 +269,4 @@ function loadData() {
 
 localStorage.clear();
 loadGame();
+    
