@@ -23,6 +23,28 @@ body{
     -o-animation-: fadeIn 1s;
     -ms-animation: fadeIn 1s;
     animation-fill-mode: forwards;}
+#reset-button{
+    font-family: chopstick;
+    border-radius:10px;
+    border-color:rgb(255, 26, 26);
+    border-style: outset;
+    border-width: 3px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: transparent;
+    color:tomato;
+    left:1%;
+    z-index:1;
+    height:5%;
+    width:10%;
+    top:1%;
+    outline: none;
+    position: absolute;
+}
+#reset-button:hover{
+    color:red;
+}
 #coin-count-image{
     width:20px;
     height:20px;
@@ -85,34 +107,64 @@ body{
     position:relative;}
 #statistics{
     width:35%;
-    height:60%;
-    left:60%;
+    height:45%;
+    left:62%;
     top:15%;
     position: absolute;}
 #game-selection{
     width:35%;
     height:35%;
-    left:60%;
+    left:62%;
     top:65%;
     position:absolute;}
 #play-games{
     font-family: chopstick;
     border-radius:30px;
-    border-color: blue;
-    border-style: solid;
+    border-color:orangered;
+    border-style: outset;
     border-width: 5px;
     font-size: 48px;
     font-weight: bold;
-    left:10%;
     cursor: pointer;
     background-color: greenyellow;
+    left:10%;
     height:40%;
     width:80%;
-    top:35%;
+    top:50%;
     outline: none;
-    position: relative;}
+    position: absolute;}
 #play-games:hover{
     background-color: chartreuse;}
+#open-chests-div{
+    cursor:pointer;
+    border-radius:30px;
+    border-color:mediumpurple;
+    border-style: outset;
+    border-width: 5px;
+    background-color: transparent;
+    height:40%;
+    width:77%;
+    left:10%;
+    outline:none;
+    position: absolute;
+}
+#open-chests-div:hover{
+    border-color: rebeccapurple;
+}
+#open-chest-img{
+    width:40%;
+    left:5%;
+    position: absolute;
+}
+#open-chest-text{
+    font-family: chopstick;
+    width:50%;
+    left:50%;
+    font-size: 18px;
+    font-weight: bold;
+    color:tomato;
+    position: absolute;
+}
 #your-units{
     margin:0;
     text-align: center;
@@ -281,7 +333,11 @@ body{
     position: absolute;}
 #upgrade-button:hover{
     background-color:rgb(214, 201, 14);}
-
+#select-level-container{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
 #select-game-container{
     width: 900px;
     height: 700px;
@@ -402,6 +458,11 @@ body{
     height:100%;
     left:20%;
     position: absolute;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
     cursor:pointer;}
 .enemy-object{
     width:20%;
@@ -416,10 +477,19 @@ body{
     width:80%;
     height:90%;
     left:20%;
-    top:10%;
+    top:10%; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
     position: absolute;}
-.troop-image-hoverable:hover{
-    content:url("/images/clash-quest/prince-attack.png")}
+.troop-prince-image-hoverable:hover{
+    content:url("/images/clash-quest/prince-select.png");
+}
+.troop-barbarian-image-hoverable:hover{
+    content:url("/images/clash-quest/barbarian-select.png");
+}
 #end-screen-container{
     position:absolute;
     width:80%;
@@ -479,28 +549,119 @@ body{
     font-family: chopstick;
     color:brown;
     position: absolute;}
-#level-gold-image{
+#level-reward-image{
     top:20%;
-    width:10%;
+    width:20%;
     position: absolute;}
-#level-gold-rewards{
-    top:20%;
-    left:15%;
+#level-reward-count{
+    top:25%;
+    left:25%;
     margin:0;
-    font-size: 25px;
+    font-size: 38px;
+    text-shadow: 0 0 3px blue, 0 0 5px red;
     font-family: chopstick;
     position: absolute;}
-#level-experience-image{
-    top: 40%;
-    width:10%;
-    position: absolute;}
-#level-experience-rewards{
-    top:40%;
-    left:15%;
+#chest-opening-container{
+    opacity: 0;
+    visibility: hidden;
+    width: 900px;
+    height: 700px;
+    left:20%;
+    border-style: solid;
+    border-radius: 20px;
+    border-color:rgb(253, 137, 27);
+    background-color:#1f1302;
+    position: absolute;
+}
+#chest-opening-container.show{
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation-: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+    animation-fill-mode: forwards;
+}
+#chest-opening-container.hide{
+    animation: fadeOut 1s;
+    -webkit-animation: fadeOut 1s;
+    -moz-animation: fadeOut 1s;
+    -o-animation-: fadeOut 1s;
+    -ms-animation: fadeOut 1s;
+    animation-fill-mode: forwards;
+}
+#chest-opening-button{
+    left:30%;
+    width:40%;
+    top: 15%;
+    padding-top:40%;
+    background-image: url("/images/clash-quest/woodchest.png");
+    background-size: cover;
+    cursor:pointer;
+    position:absolute;
+}
+#chest-opening-remaining{
     margin:0;
-    font-size: 25px;
     font-family: chopstick;
-    position: absolute;}
+    width:100%;
+    top:10%; 
+    text-shadow: 0 0 3px blue, 0 0 5px red;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color:rgb(43, 255, 89);
+    position: absolute;
+}
+#chest-opening-return{
+    width:15%;
+    height:5%;
+    top:5%;
+    left:80%;
+    position: absolute;
+    border-width: 3px;
+    border-style: outset;
+    border-color: rgb(255, 187, 62);
+    outline:none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: chopstick;
+    cursor:pointer;
+    color:aqua;
+    background-color: transparent;
+    position: absolute;
+}
+#chest-opening-return.final{
+    top:85%;
+    left:42.5%;
+}
+#chest-opening-rewards{
+    width:70%;
+    left:15%;
+    height:15%;
+    position:absolute;
+    top:65%;
+}
+.card-mystery{
+    background-image: url("/images/clash-quest/card-mystery.png");
+    background-size: cover;
+    position:absolute;
+    width:12%;
+    height:100%;
+    background-color: transparent;
+    border:none;
+    cursor:pointer;
+}
+.chest-opening-resource-count{
+    margin:0;
+    font-family: chopstick;
+    position: absolute;
+    font-size:18px;
+    font-weight: bold;
+    color:white;
+    text-shadow: 0 0 3px black, 0 0 5px blue;
+    width:90%;
+    text-align: center;
+    top:66%;
+}
 
 @font-face {
 font-family: chopstick;

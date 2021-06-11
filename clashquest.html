@@ -1,7 +1,8 @@
 <html>
-    <link rel="stylesheet" href="clashquest.css">
-    <body>  
+    <link rel="stylesheet" href="/scripts/clashquest/clashquest.css">
+    <body id = "body">  
     <div id = "main-menu-container">
+        <button id = "reset-button" onclick = "resetAccount();">Reset</button>
         <div id = "coin-count">
             <div id = "coin-count-image-div">
                 <img id = "coin-count-image" src = "/images/clash-quest/coin.png">
@@ -39,12 +40,18 @@
                 <button id = "upgrade-button">/p>
             </div>
             <div id = "game-selection">
+                <div id = "open-chests-div" onclick= "openChestsMenu()"> 
+                    <img id = "open-chest-img" src = "/images/clash-quest/woodchest.png"></img>
+                    <p id = "open-chest-text"></p>
+                </div>
                 <button id = "play-games" onclick= "battle()">Battle</button>
+                
             </div>
             <div id = "game"></div>
         </div>
     </div>
     <div id = "select-game-container">
+        <div id = "select-level-container"></div>
         <button id = "select-game-back" onclick = "menuTransition('select-game-container', 'main-menu-container');">Back</button>
     </div>
     <div id = "main-game-container">
@@ -54,14 +61,25 @@
             <p id = "level-completion">You won!</p>
             <div id = "end-screen-rewards">
                 <p id = "level-rewards">You Got:</p>
-                <p id = "level-gold-rewards">6969</p>
-                <img id = "level-gold-image" src = "/images/clash-quest/coin.png">
-                <p id = "level-experience-rewards">6969</p>
-                <img id = "level-experience-image" src = "/images/clash-quest/experience.png">
+                <p id = "level-reward-count">x1</p>
+                <img id = "level-reward-image" src = "/images/clash-quest/woodchest.png">
                 <button id = "end-screen-return" onclick = "returnHome();">Okay</button>  
             </div>
         </div>
     </div>
+    <div id = "chest-opening-container">
+        <p id = "chest-opening-remaining"></p>
+        <div id = "chest-opening-rewards">
+
+        </div>
+        <div id = "chest-opening-button" onclick= "openChests();">
+
+        </div>
+        <button id = "chest-opening-return" onclick="chestOpeningToHome();">Return</button>
+    </div>
+    <div id = "main-loot-opening-div">
+        
+    </div>
     </body>
-    <script src = "clashquest.js"></script>
+    <script src = "/scripts/clashquest/clashquest.js"></script>
 </html>
