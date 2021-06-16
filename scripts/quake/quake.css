@@ -1,3 +1,53 @@
 body{
     background-color: black;
 }
+#d1-board{
+    margin:auto;
+    position:relative;
+    overflow:hidden;
+    border-style:solid;
+    border-color: crimson;
+    background-color:transparent}
+
+#b1-play-button{
+    left:30%;
+    width:40%;
+    top:70%;
+    height:8%;
+    font-size:48px;
+    position: absolute;
+    cursor: pointer;
+    border:1px solid #FFFFFF;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:quake-font;
+    color:#978c8c;
+    background-color: transparent;
+    text-align:center;
+    z-index: 1;
+    transition: all 0.2s;
+}
+#b1-play-button:hover{
+    color:#000000;
+    background-color:#FFFFFF;
+}
+#b1-play-button.hide{
+    opacity: 0;
+    visibility: hidden;
+}
+#d2-board{
+    width:200%;
+    height:200%;
+    position: absolute;
+}
+.maptile{
+    width:5%;
+    height:5%;
+    position: absolute;
+    overflow: auto;
+    background-size: cover;
+}
+@font-face {
+    font-family: quake-font;
+    src: url(/assets/images/quake/quake-font.ttf);
+    font-weight: bold;}
