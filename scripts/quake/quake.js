@@ -63,10 +63,10 @@ function beginGame() {
             });
 
             if (quakeMap[row][col] === 0){
-                mapTile.style.backgroundImage = 'url("/assets/images/quake/grass-test-1.png")';
+                mapTile.style.backgroundImage = 'url("/assets/images/quake/empty-tile.png")';
 
             } else if (quakeMap[row][col] === 1){
-                mapTile.style.backgroundImage = 'url("/assets/images/quake/grass-test-2.png")';
+                mapTile.style.backgroundImage = 'url("/assets/images/quake/barrier-tile.png")';
             }
 
             document.getElementById("d2-board").append(mapTile);
@@ -84,6 +84,8 @@ document.addEventListener("keydown", function(event) {
         playDirection = 2;
     } else if (event.keyCode === 39 || event.keyCode === 68) {
         playDirection = 3;    
+    } else if (event.keyCode === 32){
+        playDirection = -1;
     }
 
 });
@@ -98,7 +100,7 @@ setInterval(function (){
     } else if (playDirection === 3 && parseInt(document.getElementById("d2-board").style.left.split("%")[0]) >= -99){
         document.getElementById("d2-board").style.left = parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) - 0.5 + "%";
     }
-},20);
+}, 20);
 
 console.log(firebase.database()); 
 loadMenu();
