@@ -45,11 +45,6 @@ function beginGame() {
 
     document.getElementById("b1-play-button").classList.add("hide");
 
-    Object.assign(document.getElementById("d2-board").style, {
-        left:'-50%',
-        top:'-50%'
-    });
-
     for (let row = 0; row < quakeMap.length; row++){
         for (col = 0; col < quakeMap.length; col++){
 
@@ -72,6 +67,32 @@ function beginGame() {
             document.getElementById("d2-board").append(mapTile);
         }
     }
+
+    let randLeft = Math.floor(Math.random() * 20), randTop = Math.floor(Math.random() * 20);
+
+    while (quakeMap[randTop][randLeft] !== 0){
+        randLeft = Math.floor(Math.random() * 20), randTop = Math.floor(Math.random() * 20);
+    }
+
+    let boardLeft = randLeft * -10 + 50, boardTop = randTop * -10 + 50, playerLeft = randLeft * 5, playerTop = randTop * 5;
+
+    boardLeft = Math.min(boardLeft, 0);
+    boardLeft = Math.max(boardLeft, -100);
+    boardTop = Math.min(boardTop, 0);
+    boardTop = Math.max(boardTop, -100);
+
+    Object.assign(document.getElementById("d2-board").style, {
+        left: boardLeft + "%",
+        top: boardTop + "%",
+    });
+
+    Object.assign(document.getElementById("p1-player").style, {
+        left: (randLeft * 5) + "%",
+        top: (randTop * 5) + "%",
+    });
+
+    console.log(parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + " " + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]))
+
 }
 
 document.addEventListener("keydown", function(event) {
@@ -91,15 +112,46 @@ document.addEventListener("keydown", function(event) {
 });
 
 setInterval(function (){
-    if (playDirection === 0 && parseInt(document.getElementById("d2-board").style.top.split("%")[0]) >= -99){
-        document.getElementById("d2-board").style.top = parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) - 0.5 + "%";
-    } else if (playDirection === 1 && parseInt(document.getElementById("d2-board").style.top.split("%")[0]) <= -1){
-        document.getElementById("d2-board").style.top = parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) + 0.5 + "%";
-    } else if (playDirection === 2 && parseInt(document.getElementById("d2-board").style.left.split("%")[0]) <= -1){
-        document.getElementById("d2-board").style.left = parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) + 0.5 + "%";
-    } else if (playDirection === 3 && parseInt(document.getElementById("d2-board").style.left.split("%")[0]) >= -99){
-        document.getElementById("d2-board").style.left = parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) - 0.5 + "%";
+
+    if (playDirection === 0){
+        if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) <= 67){
+            document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 0.25 + "%";
+        } else if (parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) >= -99.5){
+            document.getElementById("d2-board").style.top = parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) - 0.5 + "%";
+            document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 0.25 + "%";
+        } else if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) < 97){
+            document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 0.25 + "%";
+        }
+    } else if (playDirection === 1){
+        if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) >= 30){
+            document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) - 0.25 + "%";
+        } else if (parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) <= -0.5){
+            document.getElementById("d2-board").style.top = parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) + 0.5 + "%";
+            document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) - 0.25 + "%";
+        } else if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) > 0){
+            document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) - 0.25 + "%";
+        }
+    } else if (playDirection === 2){
+        if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) >= 30){
+            document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) - 0.25 + "%";
+        } else if (parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) <= -0.5){
+            document.getElementById("d2-board").style.left = parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) + 0.5 + "%";
+            document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) - 0.25 + "%";
+        } else if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) > 0){
+            document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) - 0.25 + "%";
+        }
+    } else if (playDirection === 3){
+        if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) <= 67){
+            document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 0.25 + "%";
+        } else if (parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) >= -99.5){
+            document.getElementById("d2-board").style.left = parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) - 0.5 + "%";
+            document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 0.25 + "%";
+        } else if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) < 97){
+            document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 0.25 + "%";
+        }
     }
+
+    console.log(document.getElementById("p1-player").style.left + " " + document.getElementById("d2-board").style.left);
 }, 20);
 
 console.log(firebase.database()); 
