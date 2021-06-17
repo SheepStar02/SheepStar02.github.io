@@ -51,6 +51,7 @@ body{
 #p1-player{
     width:3%;
     height:3%;
+    visibility: hidden;
     background-color: crimson;
     position: absolute;
 }

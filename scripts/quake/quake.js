@@ -7,7 +7,7 @@ firebase.database().ref("testing").set({
 
 let playDirection = -1;
 const quakeMap = [
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -44,6 +44,7 @@ function loadMenu() {
 function beginGame() {
 
     document.getElementById("b1-play-button").classList.add("hide");
+    document.getElementById("p1-player").style.visibility = "visible";
 
     for (let row = 0; row < quakeMap.length; row++){
         for (col = 0; col < quakeMap.length; col++){
@@ -113,7 +114,8 @@ document.addEventListener("keydown", function(event) {
 
 setInterval(function (){
 
-    if (playDirection === 0){
+    if (playDirection === 0 && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+2.99))/5)] === 0
+        && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor((parseFloat(document.getElementById("p1-player").style.left.split("%")[0]))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) <= 67){
             document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 0.25 + "%";
         } else if (parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) >= -99.5){
@@ -122,7 +124,8 @@ setInterval(function (){
         } else if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) < 97){
             document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 0.25 + "%";
         }
-    } else if (playDirection === 1){
+    } else if (playDirection === 1 && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])-0.01))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+2.99))/5)] === 0
+    && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])-0.01))/5)][Math.floor((parseFloat(document.getElementById("p1-player").style.left.split("%")[0]))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) >= 30){
             document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) - 0.25 + "%";
         } else if (parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) <= -0.5){
@@ -131,7 +134,8 @@ setInterval(function (){
         } else if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) > 0){
             document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) - 0.25 + "%";
         }
-    } else if (playDirection === 2){
+    } else if (playDirection === 2 && quakeMap[Math.floor((parseFloat(document.getElementById("p1-player").style.top.split("%")[0]))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])-0.01))/5)] === 0
+    && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+2.99))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])-0.01))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) >= 30){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) - 0.25 + "%";
         } else if (parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) <= -0.5){
@@ -140,7 +144,8 @@ setInterval(function (){
         } else if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) > 0){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) - 0.25 + "%";
         }
-    } else if (playDirection === 3){
+    } else if (playDirection === 3 && quakeMap[Math.floor((parseInt(document.getElementById("p1-player").style.top.split("%")[0]))/5)][Math.floor(((parseInt(document.getElementById("p1-player").style.left.split("%")[0])+3))/5)] === 0
+    && quakeMap[Math.floor(((parseInt(document.getElementById("p1-player").style.top.split("%")[0])+2.99))/5)][Math.floor(((parseInt(document.getElementById("p1-player").style.left.split("%")[0])+3))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) <= 67){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 0.25 + "%";
         } else if (parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) >= -99.5){
@@ -151,7 +156,6 @@ setInterval(function (){
         }
     }
 
-    console.log(document.getElementById("p1-player").style.left + " " + document.getElementById("d2-board").style.left);
 }, 20);
 
 console.log(firebase.database()); 
