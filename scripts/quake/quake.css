@@ -2,7 +2,6 @@ body{
     background-color: black;
 }
 #d1-board{
-    top:40px;
     margin:auto;
     position:relative;
     overflow:hidden;
