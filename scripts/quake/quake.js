@@ -5,28 +5,33 @@ firebase.database().ref("testing").set({
     tiddies:"tiddies"
 });
 
-let playDirection = -1;
+let gameConfig = {
+    started : false,
+    playDirection : -1,
+    bulletArray : [],
+}
+
 const quakeMap = [
-    [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
-    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
-    [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],
-    [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,1,1,1,1,0,1,0,0,0,0,0,1,1,1,1,1,0],
-    [0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0],
-    [0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
-    [0,0,1,1,0,1,0,0,0,1,1,0,0,0,0,0,0,1,0,0],
-    [0,0,1,0,0,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0],
-    [0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0],
-    [0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+    [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+    [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,1],
+    [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,1,1,1,1,0,1,0,0,0,0,0,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,1],
+    [1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,0,1],
+    [1,0,1,1,0,1,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
+    [1,0,1,0,0,1,1,1,0,0,1,1,1,1,1,1,0,0,0,1],
+    [1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1],
+    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1],
+    [1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
 
 function adjustWindow() {
     console.log("changing");
@@ -38,13 +43,15 @@ function adjustWindow() {
 function loadMenu() {
     window.addEventListener('resize', adjustWindow);
     adjustWindow();
-
 }
 
 function beginGame() {
 
     document.getElementById("b1-play-button").classList.add("hide");
+    document.getElementById("d2-board").style.cursor = "crosshair";
     document.getElementById("p1-player").style.visibility = "visible";
+
+    gameConfig.started = true;
 
     for (let row = 0; row < quakeMap.length; row++){
         for (col = 0; col < quakeMap.length; col++){
@@ -99,22 +106,50 @@ function beginGame() {
 document.addEventListener("keydown", function(event) {
 
     if (event.keyCode === 40 || event.keyCode === 83){
-        playDirection = 0;
+        gameConfig.playDirection = 0;
     } else if (event.keyCode === 38 || event.keyCode === 87) {
-        playDirection = 1;
+        gameConfig.playDirection = 1;
     } else if (event.keyCode === 37 || event.keyCode === 65) {
-        playDirection = 2;
+        gameConfig.playDirection = 2;
     } else if (event.keyCode === 39 || event.keyCode === 68) {
-        playDirection = 3;    
-    } else if (event.keyCode === 32){
-        playDirection = -1;
+        gameConfig.playDirection = 3;    
     }
 
 });
 
+document.addEventListener("click", function(event) {
+
+    if (!gameConfig.started){
+        return;
+    }
+
+    let playerLeft = (parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("d2-board")).left.split("px")[0])) + document.getElementById("p1-player").clientWidth/2,
+    playerTop = (parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("d2-board")).top.split("px")[0])) + document.getElementById("p1-player").clientWidth/2,
+    targetLeft = (event.clientX - (parseFloat(getComputedStyle(document.getElementById("d1-board"))["margin-left"].split("px")[0])+20)),
+    targetTop = event.clientY - (parseFloat(getComputedStyle(document.getElementById("d1-board"))["top"].split("px")[0])+20),
+    velocity = document.getElementById("d2-board").clientWidth * 0.01;
+
+    if (targetTop - playerTop < 0){
+        velocity *= -1;
+    }
+
+    let bullet = document.createElement("div");
+    bullet.classList.add("d3-bullet");
+
+    Object.assign(bullet.style, {
+        left : (parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 1) + "%",
+        top: (parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 1) + "%",
+    });
+
+    document.getElementById("d2-board").append(bullet);
+
+    gameConfig.bulletArray.push([bullet, Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity, Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity])
+    console.log(gameConfig.bulletArray[0][1] + " " + gameConfig.bulletArray[0][2]);
+});
+
 setInterval(function (){
 
-    if (playDirection === 0 && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+2.99))/5)] === 0
+    if (gameConfig.playDirection === 0 && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+2.99))/5)] === 0
         && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor((parseFloat(document.getElementById("p1-player").style.left.split("%")[0]))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) <= 67){
             document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 0.25 + "%";
@@ -124,7 +159,7 @@ setInterval(function (){
         } else if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) < 97){
             document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 0.25 + "%";
         }
-    } else if (playDirection === 1 && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])-0.01))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+2.99))/5)] === 0
+    } else if (gameConfig.playDirection === 1 && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])-0.01))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+2.99))/5)] === 0
     && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])-0.01))/5)][Math.floor((parseFloat(document.getElementById("p1-player").style.left.split("%")[0]))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) >= 30){
             document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) - 0.25 + "%";
@@ -134,7 +169,7 @@ setInterval(function (){
         } else if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) > 0){
             document.getElementById("p1-player").style.top = parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) - 0.25 + "%";
         }
-    } else if (playDirection === 2 && quakeMap[Math.floor((parseFloat(document.getElementById("p1-player").style.top.split("%")[0]))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])-0.01))/5)] === 0
+    } else if (gameConfig.playDirection === 2 && quakeMap[Math.floor((parseFloat(document.getElementById("p1-player").style.top.split("%")[0]))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])-0.01))/5)] === 0
     && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+2.99))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])-0.01))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) >= 30){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) - 0.25 + "%";
@@ -144,8 +179,8 @@ setInterval(function (){
         } else if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) > 0){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) - 0.25 + "%";
         }
-    } else if (playDirection === 3 && quakeMap[Math.floor((parseInt(document.getElementById("p1-player").style.top.split("%")[0]))/5)][Math.floor(((parseInt(document.getElementById("p1-player").style.left.split("%")[0])+3))/5)] === 0
-    && quakeMap[Math.floor(((parseInt(document.getElementById("p1-player").style.top.split("%")[0])+2.99))/5)][Math.floor(((parseInt(document.getElementById("p1-player").style.left.split("%")[0])+3))/5)] === 0){
+    } else if (gameConfig.playDirection === 3 && quakeMap[Math.floor((parseFloat(document.getElementById("p1-player").style.top.split("%")[0]))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+3))/5)] === 0
+    && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+2.99))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+3))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) <= 67){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 0.25 + "%";
         } else if (parseFloat(document.getElementById("d2-board").style.left.split("%")[0]) >= -99.5){
@@ -153,6 +188,16 @@ setInterval(function (){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 0.25 + "%";
         } else if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) < 97){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 0.25 + "%";
+        }
+    }
+
+    for (bullet of gameConfig.bulletArray){
+        bullet[0].style.left = (parseFloat(getComputedStyle(bullet[0]).left.split("px")[0]) + bullet[1]) + "px";
+        bullet[0].style.top = (parseFloat(getComputedStyle(bullet[0]).top.split("px")[0]) + bullet[2]) + "px";
+
+        if (parseFloat(bullet[0].style.left.split("px")[0]) > 6000 || parseFloat(bullet[0].style.top.split("px")[0]) > 6000 || parseFloat(bullet[0].style.left.split("px")[0]) < 0 || parseFloat(bullet[0].style.top.split("px")[0]) < 0){
+            document.getElementById("d2-board").removeChild(bullet[0]);
+            gameConfig.bulletArray.splice(gameConfig.bulletArray.indexOf(bullet), 1);
         }
     }
 

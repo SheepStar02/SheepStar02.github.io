@@ -2,13 +2,13 @@ body{
     background-color: black;
 }
 #d1-board{
+    top:40px;
     margin:auto;
     position:relative;
     overflow:hidden;
     border-style:solid;
-    border-color: crimson;
+    border-color:darkorange;
     background-color:transparent}
-
 #b1-play-button{
     left:30%;
     width:40%;
@@ -43,7 +43,7 @@ body{
 .maptile{
     width:5%;
     height:5%;
-    z-index: -1;
+    z-index: 1;
     position: absolute;
     overflow: auto;
     background-size: cover;
@@ -51,9 +51,20 @@ body{
 #p1-player{
     width:3%;
     height:3%;
+    z-index:3;
     visibility: hidden;
     background-color: crimson;
     position: absolute;
+}
+.d3-bullet{
+    z-index:2;
+    position:absolute;
+    border-style: solid;
+    background-color: rgb(255, 122, 233);
+    border-radius: 50%;
+    width:1%;
+    height:1%;
+    border-color: rgb(255, 122, 233);
 }
 @font-face {
     font-family: quake-font;
