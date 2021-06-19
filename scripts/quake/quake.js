@@ -127,24 +127,18 @@ document.addEventListener("click", function(event) {
     playerTop = (parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("d2-board")).top.split("px")[0])) + document.getElementById("p1-player").clientWidth/2,
     targetLeft = (event.clientX - (parseFloat(getComputedStyle(document.getElementById("d1-board"))["margin-left"].split("px")[0])+20)),
     targetTop = event.clientY - (parseFloat(getComputedStyle(document.getElementById("d1-board"))["top"].split("px")[0])+20),
-    velocity = document.getElementById("d2-board").clientWidth * 0.01;
+    velocity = document.getElementById("d2-board").clientWidth * 0.03;
 
     if (targetTop - playerTop < 0){
         velocity *= -1;
     }
 
-    let bullet = document.createElement("div");
-    bullet.classList.add("d3-bullet");
+    gameConfig.bulletArray.push(["player-id", Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
+        Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
+        parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
+        parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + document.getElementById("p1-player").clientWidth/2, []]);
 
-    Object.assign(bullet.style, {
-        left : (parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 1) + "%",
-        top: (parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + 1) + "%",
-    });
-
-    document.getElementById("d2-board").append(bullet);
-
-    gameConfig.bulletArray.push([bullet, Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity, Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity])
-    console.log(gameConfig.bulletArray[0][1] + " " + gameConfig.bulletArray[0][2]);
+    console.log(gameConfig.bulletArray[0]);
 });
 
 setInterval(function (){
@@ -192,12 +186,29 @@ setInterval(function (){
     }
 
     for (bullet of gameConfig.bulletArray){
-        bullet[0].style.left = (parseFloat(getComputedStyle(bullet[0]).left.split("px")[0]) + bullet[1]) + "px";
-        bullet[0].style.top = (parseFloat(getComputedStyle(bullet[0]).top.split("px")[0]) + bullet[2]) + "px";
 
-        if (parseFloat(bullet[0].style.left.split("px")[0]) > 6000 || parseFloat(bullet[0].style.top.split("px")[0]) > 6000 || parseFloat(bullet[0].style.left.split("px")[0]) < 0 || parseFloat(bullet[0].style.top.split("px")[0]) < 0){
-            document.getElementById("d2-board").removeChild(bullet[0]);
+        let newBullet = document.createElement("div"), newLeft = bullet[3] + bullet[1], newTop = bullet[4] + bullet[2];
+
+        Object.assign(newBullet.style, {
+            left : newLeft + "px",
+            top : newTop + "px",
+        });
+
+        newBullet.classList.add("d3-bullet");
+
+        bullet[3] = newLeft, bullet[4] = newTop, bullet[5].push(newBullet);
+
+        document.getElementById("d2-board").append(newBullet);
+
+        if (newTop > 6000 || newLeft > 6000 || newLeft < 0 || newTop < 0){
             gameConfig.bulletArray.splice(gameConfig.bulletArray.indexOf(bullet), 1);
+
+            for (frame of bullet[5]){
+                document.getElementById("d2-board").removeChild(frame);
+                console.log("gonner");
+            }
+
+            console.log("deleted");
         }
     }
 
