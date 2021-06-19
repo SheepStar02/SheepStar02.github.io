@@ -9,6 +9,7 @@ let gameConfig = {
     started : false,
     playDirection : -1,
     bulletArray : [],
+    mouseMovement : [],
 }
 
 const quakeMap = [
@@ -113,32 +114,33 @@ document.addEventListener("keydown", function(event) {
         gameConfig.playDirection = 2;
     } else if (event.keyCode === 39 || event.keyCode === 68) {
         gameConfig.playDirection = 3;    
+    } else if (event.keyCode === 32){
+        if (!gameConfig.started){
+            return;
+        }
+
+        let playerLeft = (parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("d2-board")).left.split("px")[0])) + document.getElementById("p1-player").clientWidth/2,
+        playerTop = (parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("d2-board")).top.split("px")[0])) + document.getElementById("p1-player").clientWidth/2,
+        targetLeft = gameConfig.mouseMovement[0] - (parseFloat(getComputedStyle(document.getElementById("d1-board"))["margin-left"].split("px")[0])+20),
+        targetTop = gameConfig.mouseMovement[1] - (parseFloat(getComputedStyle(document.getElementById("d1-board"))["top"].split("px")[0])+20),
+        velocity = document.getElementById("d2-board").clientWidth * 0.03;
+        
+        if (targetTop - playerTop < 0){
+            velocity *= -1;
+        }
+    
+        gameConfig.bulletArray.push(["player-id", Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
+            Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
+            parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
+            parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + document.getElementById("p1-player").clientWidth/2, []]);
+    
+        console.log(gameConfig.bulletArray[0]);
     }
 
 });
 
-document.addEventListener("click", function(event) {
-
-    if (!gameConfig.started){
-        return;
-    }
-
-    let playerLeft = (parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("d2-board")).left.split("px")[0])) + document.getElementById("p1-player").clientWidth/2,
-    playerTop = (parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("d2-board")).top.split("px")[0])) + document.getElementById("p1-player").clientWidth/2,
-    targetLeft = (event.clientX - (parseFloat(getComputedStyle(document.getElementById("d1-board"))["margin-left"].split("px")[0])+20)),
-    targetTop = event.clientY - (parseFloat(getComputedStyle(document.getElementById("d1-board"))["top"].split("px")[0])+20),
-    velocity = document.getElementById("d2-board").clientWidth * 0.03;
-
-    if (targetTop - playerTop < 0){
-        velocity *= -1;
-    }
-
-    gameConfig.bulletArray.push(["player-id", Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
-        Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
-        parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
-        parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + document.getElementById("p1-player").clientWidth/2, []]);
-
-    console.log(gameConfig.bulletArray[0]);
+document.addEventListener("mousemove", function (event){
+    gameConfig.mouseMovement = [event.clientX, event.clientY]
 });
 
 setInterval(function (){
@@ -195,6 +197,7 @@ setInterval(function (){
         });
 
         newBullet.classList.add("d3-bullet");
+        newBullet.classList.add("fadeOut");
 
         bullet[3] = newLeft, bullet[4] = newTop, bullet[5].push(newBullet);
 

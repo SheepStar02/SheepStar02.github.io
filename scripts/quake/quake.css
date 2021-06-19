@@ -59,12 +59,30 @@ body{
     z-index:2;
     position:absolute;
     border-style: solid;
-    background-color: rgb(255, 122, 233);
+    background-color: rgb(39, 240, 213);
     border-radius: 50%;
-    width:1%;
-    height:1%;
-    border-color: rgb(255, 122, 233);
+    width:0.5%;
+    height:0.5%;
+    border-color: rgb(255, 139, 7);
 }
+.d3-bullet.fadeOut{
+    animation: fadeOut 0.5s;
+    -webkit-animation: fadeOut 0.5s;
+    -moz-animation: fadeOut 0.5s;
+    -o-animation-: fadeOut 0.5s;
+    -ms-animation: fadeOut 0.5s;
+    animation-fill-mode: forwards;}
+
+@keyframes fadeOut {
+    100%{opacity: 0;}}
+@-moz-keyframes fadeOut {
+    100%{opacity: 0;}}
+@-webkit-keyframes fadeOut {
+    100%{opacity: 0;}}
+@-o-keyframes fadeOut {
+    100%{opacity: 0;}}
+@-ms-keyframes fadeOut {
+    100%{opacity: 0;}}
 @font-face {
     font-family: quake-font;
     src: url(/assets/images/quake/quake-font.ttf);
