@@ -1,13 +1,7 @@
-console.log("test");
-console.log(firebase.database().ref());
-firebase.database().ref("testing").set({
-    name:"naeme",
-    tiddies:"tiddies"
-});
-
 let gameConfig = {
     started : false,
     playDirection : -1,
+    playerTag : -1,
     bulletArray : [],
     mouseMovement : [],
 }
@@ -46,13 +40,25 @@ function loadMenu() {
     adjustWindow();
 }
 
-function beginGame() {
+function loadPlayer() {
+    firebase.database().ref("players").get().then((snapshot) => {
+        for (let i = 0; i < 10; i++){
+            if (!snapshot.val()[i].playing){
+                beginGame(i);
+                break;
+            }
+        }
+    });
+}
+
+function beginGame(playerTag) {
 
     document.getElementById("b1-play-button").classList.add("hide");
     document.getElementById("d2-board").style.cursor = "crosshair";
     document.getElementById("p1-player").style.visibility = "visible";
 
     gameConfig.started = true;
+    gameConfig.playerTag = playerTag;
 
     for (let row = 0; row < quakeMap.length; row++){
         for (col = 0; col < quakeMap.length; col++){
@@ -145,6 +151,10 @@ document.addEventListener("mousemove", function (event){
 
 setInterval(function (){
 
+    if (!gameConfig.started){
+        return;
+    }
+
     if (gameConfig.playDirection === 0 && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+2.99))/5)] === 0
         && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor((parseFloat(document.getElementById("p1-player").style.left.split("%")[0]))/5)] === 0){
         if (parseFloat(document.getElementById("p1-player").style.top.split("%")[0])*2 + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]) <= 67){
@@ -196,24 +206,44 @@ setInterval(function (){
             top : newTop + "px",
         });
 
-        newBullet.classList.add("d3-bullet");
-        newBullet.classList.add("fadeOut");
+        newBullet.classList.add("d3-bullet", "fadeOut");
 
         bullet[3] = newLeft, bullet[4] = newTop, bullet[5].push(newBullet);
 
         document.getElementById("d2-board").append(newBullet);
 
-        if (newTop > 6000 || newLeft > 6000 || newLeft < 0 || newTop < 0){
+        if (quakeMap[Math.floor((newTop*20)/document.getElementById("d2-board").clientWidth)][Math.floor((newLeft*20)/document.getElementById("d2-board").clientHeight)] === 1){
             gameConfig.bulletArray.splice(gameConfig.bulletArray.indexOf(bullet), 1);
 
             for (frame of bullet[5]){
                 document.getElementById("d2-board").removeChild(frame);
-                console.log("gonner");
             }
-
-            console.log("deleted");
         }
     }
+
+    firebase.database().ref("players").child(gameConfig.playerTag).update({
+        playing : true,
+        x : document.getElementById("p1-player").style.left,
+        y : document.getElementById("p1-player").style.top,   
+    });
+
+    firebase.database().ref("players").get().then((snapshot) => {
+        for (let i = 0; i < 10; i++){
+            if (snapshot.val()[i].playing && i !== gameConfig.playerTag){
+                if (document.getElementById("p2-player-" + i) === null){
+                    let newPlayer = document.createElement("div");
+                    newPlayer.id = "p2-player-" + i;
+                    newPlayer.classList.add("p2-player");
+                    document.getElementById("d2-board").append(newPlayer);
+                }
+                Object.assign(document.getElementById("p2-player-"+i).style, {
+                    left : snapshot.val()[i].x,
+                    top : snapshot.val()[i].y,
+                });
+                console.log("updated");
+            }
+        }
+    });
 
 }, 20);
 
