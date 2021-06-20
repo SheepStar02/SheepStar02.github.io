@@ -2,7 +2,8 @@ let gameConfig = {
     started : false,
     playDirection : -1,
     playerTag : -1,
-    bulletArray : [],
+    bulletDelay : 0,
+    bulletPath : {},
     mouseMovement : [],
 }
 
@@ -11,10 +12,10 @@ const quakeMap = [
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,1,0,0,1],
     [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
-    [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
-    [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,1],
+    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,1],
     [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,1,1,1,1,0,1,0,0,0,0,0,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1],
@@ -37,6 +38,12 @@ function adjustWindow() {
 
 function loadMenu() {
     window.addEventListener('resize', adjustWindow);
+    for (let i = 0; i < document.getElementsByClassName("ammo-reload-bar").length; i++){
+        Object.assign(document.getElementsByClassName("ammo-reload-bar")[i].style, {
+            left : (i*10) + "%",
+            backgroundColor : "rgb(" + ((10-i)/10*255) + "," + (i/10*255) + ",0)",
+        })
+    }
     adjustWindow();
 }
 
@@ -51,37 +58,15 @@ function loadPlayer() {
     });
 }
 
-function beginGame(playerTag) {
+function beginGame(playerTag) { 
 
     document.getElementById("b1-play-button").classList.add("hide");
     document.getElementById("d2-board").style.cursor = "crosshair";
     document.getElementById("p1-player").style.visibility = "visible";
+    document.getElementById("d3-ammo-reload").style.visibility = "visible";
 
     gameConfig.started = true;
     gameConfig.playerTag = playerTag;
-
-    for (let row = 0; row < quakeMap.length; row++){
-        for (col = 0; col < quakeMap.length; col++){
-
-            let mapTile = document.createElement("div");
-
-            mapTile.id = "maptile-" + row + "-" + col;
-            mapTile.classList.add("maptile");
-            Object.assign(mapTile.style, {
-                left: col*5 + "%",
-                top: row*5 + "%",
-            });
-
-            if (quakeMap[row][col] === 0){
-                mapTile.style.backgroundImage = 'url("/assets/images/quake/empty-tile.png")';
-
-            } else if (quakeMap[row][col] === 1){
-                mapTile.style.backgroundImage = 'url("/assets/images/quake/barrier-tile.png")';
-            }
-
-            document.getElementById("d2-board").append(mapTile);
-        }
-    }
 
     let randLeft = Math.floor(Math.random() * 20), randTop = Math.floor(Math.random() * 20);
 
@@ -121,7 +106,7 @@ document.addEventListener("keydown", function(event) {
     } else if (event.keyCode === 39 || event.keyCode === 68) {
         gameConfig.playDirection = 3;    
     } else if (event.keyCode === 32){
-        if (!gameConfig.started){
+        if (!gameConfig.started || gameConfig.bulletDelay !== 0 || gameConfig.bulletPath.moveTop !== undefined){
             return;
         }
 
@@ -135,12 +120,15 @@ document.addEventListener("keydown", function(event) {
             velocity *= -1;
         }
     
-        gameConfig.bulletArray.push(["player-id", Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
-            Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
-            parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
-            parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + document.getElementById("p1-player").clientWidth/2, []]);
-    
-        console.log(gameConfig.bulletArray[0]);
+        gameConfig.bulletPath = {
+            moveLeft : Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
+            moveTop : Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
+            currentLeft: parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
+            currentTop : parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
+            keyFrames : [],
+        };
+
+        gameConfig.bulletDelay = 50;
     }
 
 });
@@ -149,11 +137,22 @@ document.addEventListener("mousemove", function (event){
     gameConfig.mouseMovement = [event.clientX, event.clientY]
 });
 
+window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    firebase.database().ref("players").child(gameConfig.playerTag).update({
+        playing : false,
+        x : 0,
+        y : 0,   
+    });
+});
+
 setInterval(function (){
 
     if (!gameConfig.started){
         return;
     }
+
+    let updateMovement = true;
 
     if (gameConfig.playDirection === 0 && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor(((parseFloat(document.getElementById("p1-player").style.left.split("%")[0])+2.99))/5)] === 0
         && quakeMap[Math.floor(((parseFloat(document.getElementById("p1-player").style.top.split("%")[0])+3))/5)][Math.floor((parseFloat(document.getElementById("p1-player").style.left.split("%")[0]))/5)] === 0){
@@ -195,11 +194,13 @@ setInterval(function (){
         } else if (parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) < 97){
             document.getElementById("p1-player").style.left = parseFloat(document.getElementById("p1-player").style.left.split("%")[0]) + 0.25 + "%";
         }
+    } else {
+        updateMovement = false;
     }
 
-    for (bullet of gameConfig.bulletArray){
+    if (gameConfig.bulletPath.moveTop !== undefined){
 
-        let newBullet = document.createElement("div"), newLeft = bullet[3] + bullet[1], newTop = bullet[4] + bullet[2];
+        let newBullet = document.createElement("div"), newLeft = gameConfig.bulletPath.currentLeft + gameConfig.bulletPath.moveLeft, newTop = gameConfig.bulletPath.currentTop + gameConfig.bulletPath.moveTop;
 
         Object.assign(newBullet.style, {
             left : newLeft + "px",
@@ -208,24 +209,36 @@ setInterval(function (){
 
         newBullet.classList.add("d3-bullet", "fadeOut");
 
-        bullet[3] = newLeft, bullet[4] = newTop, bullet[5].push(newBullet);
+        gameConfig.bulletPath.currentLeft = newLeft, gameConfig.bulletPath.currentTop = newTop, gameConfig.bulletPath.keyFrames.push(newBullet);
 
         document.getElementById("d2-board").append(newBullet);
 
         if (quakeMap[Math.floor((newTop*20)/document.getElementById("d2-board").clientWidth)][Math.floor((newLeft*20)/document.getElementById("d2-board").clientHeight)] === 1){
-            gameConfig.bulletArray.splice(gameConfig.bulletArray.indexOf(bullet), 1);
-
-            for (frame of bullet[5]){
+            for (frame of gameConfig.bulletPath.keyFrames){
                 document.getElementById("d2-board").removeChild(frame);
             }
+            gameConfig.bulletPath = {};
         }
     }
+    
+    if (gameConfig.bulletDelay !== 0){
+        document.getElementById("t1-ammo-status").innerHTML = "Reloading...";
+        gameConfig.bulletDelay -= 1;
+        document.getElementById("d4-ammo-reload-bar-" + Math.floor(((49-gameConfig.bulletDelay)/5))).style.visibility = "visible";
+    } else {
+        for (let i = 0; i < document.getElementsByClassName("ammo-reload-bar").length; i++){
+            document.getElementsByClassName("ammo-reload-bar")[i].style.visibility = "hidden";
+        }
+        document.getElementById("t1-ammo-status").innerHTML = "Ready!";
+    }
 
-    firebase.database().ref("players").child(gameConfig.playerTag).update({
-        playing : true,
-        x : document.getElementById("p1-player").style.left,
-        y : document.getElementById("p1-player").style.top,   
-    });
+    if (updateMovement){
+        firebase.database().ref("players").child(gameConfig.playerTag).update({
+            playing : true,
+            x : document.getElementById("p1-player").style.left,
+            y : document.getElementById("p1-player").style.top,   
+        });
+    }
 
     firebase.database().ref("players").get().then((snapshot) => {
         for (let i = 0; i < 10; i++){
@@ -240,7 +253,6 @@ setInterval(function (){
                     left : snapshot.val()[i].x,
                     top : snapshot.val()[i].y,
                 });
-                console.log("updated");
             }
         }
     });

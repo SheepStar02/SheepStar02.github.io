@@ -9,26 +9,28 @@ body{
     border-color:darkorange;
     background-color:transparent}
 #b1-play-button{
-    left:30%;
-    width:40%;
+    left:35%;
+    width:30%;
     top:70%;
     height:8%;
     font-size:48px;
     position: absolute;
     cursor: pointer;
-    border:1px solid #FFFFFF;
+    border-style: none;
     box-sizing: border-box;
     text-decoration:none;
     font-family:quake-font;
-    color:#978c8c;
+    border-color:transparent;
+    color:#71eba0;
+    border-style: solid;
     background-color: transparent;
     text-align:center;
     z-index: 1;
     transition: all 0.2s;
 }
 #b1-play-button:hover{
-    color:#000000;
-    background-color:#FFFFFF;
+    color: greenyellow;
+    border-width: 5px;
 }
 #b1-play-button.hide{
     opacity: 0;
@@ -37,6 +39,10 @@ body{
 #d2-board{
     width:200%;
     height:200%;
+    left:-50%;
+    top:-50%;
+    background-size: cover;
+    background-image: url("/assets/images/quake/map.png");
     position: absolute;
 }
 .maptile{
@@ -79,7 +85,35 @@ body{
     -o-animation-: fadeOut 0.3s;
     -ms-animation: fadeOut 0.3s;
     animation-fill-mode: forwards;}
-
+#d3-ammo-reload{
+    width:20%;
+    height:10%;
+    left:40%;
+    top:80%;
+    position: absolute;
+    z-index:5;
+    visibility: hidden;
+}
+#t1-ammo-status{
+    font-size:20px;
+    font-weight: bold;
+    color:greenyellow;
+    text-shadow: 0 0 5px aqua;
+    margin:0;
+    position: absolute;
+    text-align: center;
+    height:30%;
+    top:20%;
+    width:100%;
+}
+.ammo-reload-bar{
+    top:60%;
+    width:8%;
+    padding-top:4%;
+    background-color: rgb(0, 255, 0);
+    visibility: hidden;
+    position: absolute;
+}
 @keyframes fadeOut {
     100%{opacity: 0;}}
 @-moz-keyframes fadeOut {
