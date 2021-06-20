@@ -3,7 +3,7 @@ let gameConfig = {
     playDirection : -1,
     playerTag : -1,
     bulletDelay : 0,
-    bulletPath : {},
+    bulletPath : [],
     mouseMovement : [],
 }
 
@@ -51,6 +51,7 @@ function loadPlayer() {
     firebase.database().ref("players").get().then((snapshot) => {
         for (let i = 0; i < 10; i++){
             if (!snapshot.val()[i].playing){
+
                 beginGame(i);
                 break;
             }
@@ -91,6 +92,12 @@ function beginGame(playerTag) {
         top: (randTop * 5) + "%",
     });
 
+    firebase.database().ref("players").child(gameConfig.playerTag).update({
+        playing : true,
+        x : document.getElementById("p1-player").style.left,
+        y : document.getElementById("p1-player").style.top,   
+    });
+
     console.log(parseFloat(document.getElementById("p1-player").style.top.split("%")[0]) + " " + parseFloat(document.getElementById("d2-board").style.top.split("%")[0]))
 
 }
@@ -106,7 +113,7 @@ document.addEventListener("keydown", function(event) {
     } else if (event.keyCode === 39 || event.keyCode === 68) {
         gameConfig.playDirection = 3;    
     } else if (event.keyCode === 32){
-        if (!gameConfig.started || gameConfig.bulletDelay !== 0 || gameConfig.bulletPath.moveTop !== undefined){
+        if (!gameConfig.started || gameConfig.bulletDelay !== 0){
             return;
         }
 
@@ -120,13 +127,18 @@ document.addEventListener("keydown", function(event) {
             velocity *= -1;
         }
     
-        gameConfig.bulletPath = {
+        gameConfig.bulletPath.push({
             moveLeft : Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
             moveTop : Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity,
             currentLeft: parseFloat(getComputedStyle(document.getElementById("p1-player")).left.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
             currentTop : parseFloat(getComputedStyle(document.getElementById("p1-player")).top.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
             keyFrames : [],
-        };
+        });
+
+        firebase.database().ref("bulletMovement").child(gameConfig.playerTag).update({
+            moveLeft : (Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity)/document.getElementById("d2-board").clientWidth,
+            moveTop : (Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity)/document.getElementById("d2-board").clientWidth,
+        });
 
         gameConfig.bulletDelay = 50;
     }
@@ -144,7 +156,30 @@ window.addEventListener('beforeunload', function (e) {
         x : 0,
         y : 0,   
     });
+
+    firebase.database().ref("bulletMovement").child(gameConfig.playerTag).update({
+        moveLeft : 0,
+        moveTop : 0,   
+    });
 });
+
+firebase.database().ref("bulletMovement").on("child_changed", snapshot => {
+    console.log(snapshot.val())
+
+    if (parseInt(snapshot.key) === gameConfig.playerTag){
+        return;
+    }
+
+    console.log(gameConfig.playerTag + " " + snapshot.key)
+
+    gameConfig.bulletPath.push({
+        moveLeft : snapshot.val().moveLeft * document.getElementById("d2-board").clientWidth,
+        moveTop : snapshot.val().moveTop * document.getElementById("d2-board").clientWidth,
+        currentLeft : parseFloat(getComputedStyle(document.getElementById("p2-player-" + snapshot.key)).left.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
+        currentTop : parseFloat(getComputedStyle(document.getElementById("p2-player-" + snapshot.key)).top.split("px")[0]) + document.getElementById("p1-player").clientWidth/2,
+        keyFrames : [],
+    });
+})
 
 setInterval(function (){
 
@@ -198,9 +233,9 @@ setInterval(function (){
         updateMovement = false;
     }
 
-    if (gameConfig.bulletPath.moveTop !== undefined){
-
-        let newBullet = document.createElement("div"), newLeft = gameConfig.bulletPath.currentLeft + gameConfig.bulletPath.moveLeft, newTop = gameConfig.bulletPath.currentTop + gameConfig.bulletPath.moveTop;
+    for (bullet of gameConfig.bulletPath){
+        
+        let newBullet = document.createElement("div"), newLeft = bullet.currentLeft + bullet.moveLeft, newTop = bullet.currentTop + bullet.moveTop;
 
         Object.assign(newBullet.style, {
             left : newLeft + "px",
@@ -209,15 +244,15 @@ setInterval(function (){
 
         newBullet.classList.add("d3-bullet", "fadeOut");
 
-        gameConfig.bulletPath.currentLeft = newLeft, gameConfig.bulletPath.currentTop = newTop, gameConfig.bulletPath.keyFrames.push(newBullet);
+        bullet.currentLeft = newLeft, bullet.currentTop = newTop, bullet.keyFrames.push(newBullet);
 
         document.getElementById("d2-board").append(newBullet);
 
         if (quakeMap[Math.floor((newTop*20)/document.getElementById("d2-board").clientWidth)][Math.floor((newLeft*20)/document.getElementById("d2-board").clientHeight)] === 1){
-            for (frame of gameConfig.bulletPath.keyFrames){
+            for (frame of bullet.keyFrames){
                 document.getElementById("d2-board").removeChild(frame);
             }
-            gameConfig.bulletPath = {};
+            gameConfig.bulletPath.splice(gameConfig.bulletPath.indexOf(bullet), 1);
         }
     }
     
