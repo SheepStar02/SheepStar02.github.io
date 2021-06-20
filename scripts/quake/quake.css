@@ -57,15 +57,21 @@ body{
     width:3%;
     height:3%;
     z-index:3;
-    background-color: rgb(77, 220, 20);
+    border-radius: 50%;
+    border-color: rgb(184, 22, 22);
+    border-style: solid;
+    background-color: rgb(232, 141, 235);
     position: absolute;
 }
 #p1-player{
     width:3%;
     height:3%;
+    border-radius: 50%;
+    border-color: rgb(41, 255, 8);
+    border-style: solid;
     z-index:3;
     visibility: hidden;
-    background-color: crimson;
+    background-color: rgb(232, 141, 235);
     position: absolute;
 }
 .d3-bullet{
