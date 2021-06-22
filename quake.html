@@ -24,8 +24,24 @@
 
     </script>
     <body>
+        <audio id = "m1-background-music" loop = "true"><source src = "/assets/images/quake/background-music.mp3" type ="audio/mpeg"></audio>
+        <audio id = "m1-kill-effect"><source src = "/assets/images/quake/kill-effect.mp3" type ="audio/mpeg"></audio>
+        <audio id = "m1-shoot-effect"><source src = "/assets/images/quake/shoot-effect.mp3" type ="audio/mpeg"></audio>
     <div id = "d1-board">
-        <button id = "b1-play-button" onclick = "loadPlayer()">Play</button>
+        <p id = "t3-kill-counter">Kills : 0</p>
+        <div id = "d4-settings-panel">
+            <p id = "t2-volume-master" class = "t2-volume-text">Master Volume</p>
+            <input type="range" min="1" max="100" value="50" id = "s1-volume-slider-master" class = "s1-volume-slider">
+            <p id = "t2-volume-kill" class = "t2-volume-text">Kill</p>
+            <input type="range" min="1" max="100" value="50" id = "s1-volume-slider-kill" class = "s1-volume-slider">
+            <p id = "t2-volume-shoot" class = "t2-volume-text">Shoot</p>
+            <input type="range" min="1" max="100" value="50" id = "s1-volume-slider-shoot" class = "s1-volume-slider">
+            <p id = "t2-volume-music" class = "t2-volume-text">Music</p>
+            <input type="range" min="1" max="100" value="50" id = "s1-volume-slider-background" class = "s1-volume-slider">
+            <button id = "b2-returnHome" onclick = "closeSettings()" class = "homescreenOptions">Return</button>
+        </div>
+        <button id = "b1-play-button" onclick = "loadPlayer()" class = "homescreenOptions">Play</button>
+        <button id = "b1-settings-button" onclick = "openSettings()" class = "homescreenOptions">Settings</button>
         <div id = "d2-board">
             <p id = "p1-player-name">Badger8787</p>
             <div id = "p1-player">

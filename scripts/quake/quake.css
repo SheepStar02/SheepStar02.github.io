@@ -8,12 +8,7 @@ body{
     border-style:solid;
     border-color:darkorange;
     background-color:transparent}
-#b1-play-button{
-    left:35%;
-    width:30%;
-    top:70%;
-    height:8%;
-    font-size:48px;
+.homescreenOptions{
     position: absolute;
     cursor: pointer;
     border-style: none;
@@ -26,15 +21,29 @@ body{
     background-color: transparent;
     text-align:center;
     z-index: 1;
-    transition: all 0.2s;
 }
-#b1-play-button:hover{
+.homescreenOptions:hover{
     color: greenyellow;
     border-width: 5px;
 }
-#b1-play-button.hide{
+.homescreenOptions.hide{
     opacity: 0;
     visibility: hidden;
+}
+#b1-play-button{
+    transition: all 0.2s;
+    width:30%;
+    left:35%;
+    height:8%;
+    top:50%;
+    font-size:48px;
+}
+#b1-settings-button{
+    width:20%;
+    height:5%;
+    left:40%;
+    top:60%;
+    font-size:28px;
 }
 #d2-board{
     width:200%;
@@ -57,7 +66,6 @@ body{
     width:3%;
     height:3%;
     z-index:3;
-    border-radius: 50%;
     border-color: rgb(184, 22, 22);
     border-style: solid;
     background-color: rgb(232, 141, 235);
@@ -66,7 +74,6 @@ body{
 #p1-player{
     width:3%;
     height:3%;
-    border-radius: 50%;
     border-color: rgb(41, 255, 8);
     border-style: solid;
     z-index:3;
@@ -119,6 +126,101 @@ body{
     background-color: rgb(0, 255, 0);
     visibility: hidden;
     position: absolute;
+}
+audio{
+    visibility: hidden;
+    position: absolute;
+}
+#d4-settings-panel{
+    width:40%;
+    height:50%;
+    left:30%;
+    border-style:solid;
+    border-radius: 5px;
+    border-width: 5px;
+    border-color: rgb(240, 145, 68);
+    top:20%;
+    position: absolute;
+    z-index:5;
+    visibility: hidden;
+}
+.t2-volume-text{
+    margin:0;
+    position: absolute;
+    font-family : quake-font;
+    font-size:26px;
+    text-shadow: 0 0 5px red;
+    color:rgb(184, 245, 135);
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+#t2-volume-master{
+    width:100%;
+    top:10%;
+    text-align: center;
+}
+#t2-volume-kill{
+    width:50%;
+    top:30%;
+    left:50%;
+    text-align: center;
+}
+#t2-volume-shoot{
+    width:50%;
+    top:50%;
+    text-align: center;
+}
+#t2-volume-music{
+    width:50%;
+    top:30%;
+    text-align: center;
+}
+#s1-volume-slider-master{
+    width:90%;
+    top:20%;
+    position: absolute;
+    left:5%;
+}
+#s1-volume-slider-background{
+    width:40%;
+    top:40%;
+    position: absolute;
+    left:5%;
+}
+#s1-volume-slider-kill{
+    width:40%;
+    top:40%;
+    position: absolute;
+    left:50%;
+}
+#s1-volume-slider-shoot{
+    width:40%;
+    top:60%;
+    position: absolute;
+    left:5%;
+}
+.s1-volume-slider{
+    cursor:pointer;
+}
+#b2-returnHome{
+    left:30%;
+    width:40%;
+    top:80%;
+    height:10%;
+    font-size: 28px;
+}
+#t3-kill-counter{
+    position: absolute;
+    font-size: 20px;
+    z-index: 5;
+    font-family: quake-font;
+    left:80%;
+    width:20%;
+    color:red;
+    text-shadow: 0 0 5px blue;
 }
 @keyframes fadeOut {
     100%{opacity: 0;}}
