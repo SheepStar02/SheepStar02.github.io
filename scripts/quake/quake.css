@@ -51,7 +51,7 @@ body{
     left:-50%;
     top:-50%;
     background-size: cover;
-    background-image: url("/assets/images/quake/map.png");
+    background-image: url("/assets/images/quake/map2.png");
     position: absolute;
 }
 .maptile{
