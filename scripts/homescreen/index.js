@@ -29,3 +29,7 @@ function playClashQuest(){
 function playMinesweeper() {
     window.open("minesweeper", "_self");
 }
+
+function playQuake() {
+    window.open("quake", "_self");
+}

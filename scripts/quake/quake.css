@@ -35,14 +35,14 @@ body{
     width:30%;
     left:35%;
     height:8%;
-    top:50%;
+    top:60%;
     font-size:48px;
 }
 #b1-settings-button{
     width:20%;
     height:5%;
     left:40%;
-    top:60%;
+    top:70%;
     font-size:28px;
 }
 #d2-board{
@@ -66,17 +66,15 @@ body{
     width:3%;
     height:3%;
     z-index:3;
-    border-color: rgb(184, 22, 22);
-    border-style: solid;
+    background-size: cover;
     background-color: rgb(232, 141, 235);
     position: absolute;
 }
 #p1-player{
     width:3%;
     height:3%;
-    border-color: rgb(41, 255, 8);
-    border-style: solid;
     z-index:3;
+    background-size:cover;
     visibility: hidden;
     background-color: rgb(232, 141, 235);
     position: absolute;
@@ -105,7 +103,7 @@ body{
     top:80%;
     position: absolute;
     z-index:5;
-    visibility: hidden;
+    opacity: 0;
 }
 #t1-ammo-status{
     font-size:20px;
@@ -221,6 +219,115 @@ audio{
     width:20%;
     color:red;
     text-shadow: 0 0 5px blue;
+}
+#d5-player-tracker{
+    background-image: url("/assets/images/quake/compass.png");
+    width:5%;
+    height:5%;
+    visibility: hidden;
+    left:85%;
+    border-radius: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black;
+    top:10%;
+    position: absolute;
+    z-index: 5;
+    background-size: cover;
+}
+#d6-user-customization{
+    width:40%;
+    height:35%;
+    left:30%;
+    top:25%;
+    position: absolute;
+    z-index:5;
+}
+#t4-skin-input{
+    margin:0;
+    width:100%;
+    top:5%;
+    font-family: quake-font;
+    font-size: 28px;
+    color:#71eba0;
+    position: absolute;
+    text-align: center;
+}
+#d7-skin-preview{
+    width:20%;
+    left:40%;
+    top:20%;
+    padding-top:20%;
+    border:none;
+    background-image: url("/assets/images/quake/player-skin-0.png");
+    background-size: cover;
+    position: absolute;
+}
+#t4-skin-name{
+    margin:0;
+    width:100%;
+    top:45%;
+    font-size: 18px;
+    color:#ff5024;
+    text-shadow: 0 0 5px rgb(38, 89, 255);
+    position: absolute;
+    text-align: center;
+}
+.skin-selector-buttons{
+    width:10%;
+    top:25%;
+    padding-top:10%;
+    cursor:pointer;
+    border:none;
+    outline:none;
+    background-color: transparent;
+    background-size: cover;
+    position: absolute;
+}
+#b3-skin-select-left{
+    background-image: url("/assets/images/quake/selection-arrow-left.png");
+    left:15%;
+}
+#b3-skin-select-right{
+    background-image: url("/assets/images/quake/selection-arrow-right.png");
+    left:75%;
+}
+#t4-username-input{
+    margin:0;
+    width:100%;
+    top:65%;
+    font-family: quake-font;
+    font-size: 28px;
+    color:#71eba0;
+    position: absolute;
+    text-align: center;
+}
+.t5-player{
+    z-index:5;
+    position: absolute;
+    color: red;
+    margin:0;
+    width:13%;
+    font-size:18px;
+    text-align: center;
+}
+#i1-username-input{
+    width:80%;
+    height:10%;
+    left:10%;
+    top:80%;
+    background-color: transparent;
+    font-size: 26px;
+    outline:none;
+    color:rgb(41, 8, 63);
+    border-color: rgb(144, 218, 55);
+    border-style: solid;
+    border-radius: 15px;
+    text-align: center;
+    border-width: 3px;
+    background-color: rgba(248, 237, 215, 0.5);
+    font-family:quake-font;
+    position: absolute;
 }
 @keyframes fadeOut {
     100%{opacity: 0;}}

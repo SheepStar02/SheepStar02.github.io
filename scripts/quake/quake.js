@@ -2,6 +2,8 @@ let gameConfig = {
     started:false,
 }
 
+let selectedSkin = 0;
+
 let volumeConfig = {
     master : 100,
     background : 100,
@@ -9,6 +11,10 @@ let volumeConfig = {
     shoot : 100,
 }
 
+/*
+Constant local storage and map arrangement
+*/
+const skinNames = ["Default", "Bailey", "DCGasm", "Giant Skeleton", ":ESL:"];
 const localStorage = window.localStorage;
 const quakeMap = 
 [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -44,7 +50,6 @@ function adjustWindow() {
 /*
 load main menu screen
 */
-
 function loadMenu() {
     window.addEventListener('resize', adjustWindow);
     for (let i = 0; i < document.getElementsByClassName("ammo-reload-bar").length; i++){
@@ -66,7 +71,6 @@ function loadMenu() {
 /*
 Reset unloading
 */
-
 window.addEventListener('beforeunload', function (e) {
     e.preventDefault();
     unloadStatus();
@@ -75,7 +79,6 @@ window.addEventListener('beforeunload', function (e) {
 /*
 Loads player tag
 */
-
 function loadPlayer() {
     firebase.database().ref("players").get().then((snapshot) => {
         for (let i = 0; i < 10; i++){
@@ -91,7 +94,6 @@ function loadPlayer() {
 Begins game
 Hide main menu, set up player locations
 */
-
 function beginGame(playerTag) { 
     gameConfig = {
         started : true,
@@ -107,8 +109,10 @@ function beginGame(playerTag) {
     document.getElementById("b1-play-button").classList.add("hide");
     document.getElementById("b1-settings-button").classList.add("hide");
     document.getElementById("d2-board").style.cursor = "crosshair";
+    document.getElementById("d6-user-customization").style.visibility = "hidden";
     document.getElementById("p1-player").style.visibility = "visible";
-    document.getElementById("d3-ammo-reload").style.visibility = "visible";
+    document.getElementById("p1-player").style.backgroundImage = 'url("/assets/images/quake/player-skin-' + selectedSkin + '.png")';
+    document.getElementById("d3-ammo-reload").style.opacity = "1";
 
     let randLeft = Math.floor(Math.random() * 20), randTop = Math.floor(Math.random() * 20);
 
@@ -116,7 +120,7 @@ function beginGame(playerTag) {
         randLeft = Math.floor(Math.random() * 20), randTop = Math.floor(Math.random() * 20);
     }
 
-    let boardLeft = randLeft * -10 + 50, boardTop = randTop * -10 + 50, playerLeft = randLeft * 5, playerTop = randTop * 5;
+    let boardLeft = randLeft * -10 + 50, boardTop = randTop * -10 + 50;
 
     boardLeft = Math.min(boardLeft, 0);
     boardLeft = Math.max(boardLeft, -100);
@@ -131,14 +135,19 @@ function beginGame(playerTag) {
     firebase.database().ref("players").get().then(snapshot => {
         for (let i = 0; i < 10; i++){
             if (i === playerTag){
-                gameConfig.playerCoordinates[i] = {direction:-1,playing:true,x:(randLeft * 5),y:randTop*5};
+                gameConfig.playerCoordinates[i] = {direction:-1,playing:true,x:(randLeft * 5),y:randTop*5,username:document.getElementById("i1-username-input").value,icon:selectedSkin};
             } else {
                 gameConfig.playerCoordinates[i] = snapshot.val()[i];
                 if (gameConfig.playerCoordinates[i].playing){
-                    let player = document.createElement("div");
+                    let player = document.createElement("div"), name = document.createElement("p");
+                    name.classList.add("t5-player");
+                    name.id = "t5-player-" + i;
+                    name.innerHTML = snapshot.val()[i].username;
                     player.classList.add("p2-player");
+                    player.style.backgroundImage = 'url("/assets/images/quake/player-skin-' + snapshot.val()[i].icon + '.png")';
                     player.id = "p2-player-" + i;
                     document.getElementById("d2-board").append(player);
+                    document.getElementById("d2-board").append(name);
                 }
             }
             
@@ -150,20 +159,20 @@ function beginGame(playerTag) {
 /*
 Update current player coordinates and direction
 */
-
 function updateCoordinates() {
     firebase.database().ref("players").child(gameConfig.playerTag).update({
         playing : true,
         direction : gameConfig.playerCoordinates[gameConfig.playerTag].direction,
         x : gameConfig.playerCoordinates[gameConfig.playerTag].x,
-        y : gameConfig.playerCoordinates[gameConfig.playerTag].y,   
+        y : gameConfig.playerCoordinates[gameConfig.playerTag].y,
+        icon : gameConfig.playerCoordinates[gameConfig.playerTag].icon,
+        username :gameConfig.playerCoordinates[gameConfig.playerTag].username,
     });
 }
 
 /*
 Event listener keydown -> movement and shooting
 */
-
 document.addEventListener("keydown", function(event) {
 
     if (!gameConfig.started){
@@ -188,6 +197,37 @@ document.addEventListener("keydown", function(event) {
     }
 });
 
+/*
+Event Listener -> track mouse location
+*/
+document.addEventListener("mousemove", function (event){
+    gameConfig.mouseMovement = [event.clientX, event.clientY]
+});
+
+/*
+Event Listener -> Volume input adjustment 
+*/
+document.addEventListener("input", function (event){
+    if (event.srcElement.type === "range"){
+        volumeConfig[event.srcElement.id.split("s1-volume-slider-")[1]] = parseInt(event.srcElement.value);
+    }
+    adjustVolume();
+});
+
+/*
+Event Listener -> Fire bullet using mouse
+*/
+document.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (e.srcElement.id === "b1-play-button"){
+        return;
+    }
+    fireBullet();
+});
+
+/*
+Create bullet object to fire bullet
+*/
 function fireBullet() {
     if (!gameConfig.started || gameConfig.bulletDelay !== 0){
         return;
@@ -214,7 +254,7 @@ function fireBullet() {
         keyFrames : [],
     });
 
-    firebase.database().ref("bulletMovement").child(gameConfig.playerTag).update({
+    firebase.database().ref("bulletMovement").child(gameConfig.playerTag).set({
         moveLeft : (Math.sin(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity)/document.getElementById("d2-board").clientWidth,
         moveTop : (Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity)/document.getElementById("d2-board").clientWidth,
     });
@@ -222,26 +262,9 @@ function fireBullet() {
     gameConfig.bulletDelay = 50;
 }
 
-document.addEventListener("mousemove", function (event){
-    gameConfig.mouseMovement = [event.clientX, event.clientY]
-});
-
-document.addEventListener("input", function (event){
-    if (event.srcElement.type === "range"){
-        volumeConfig[event.srcElement.id.split("s1-volume-slider-")[1]] = parseInt(event.srcElement.value);
-    }
-    adjustVolume();
-});
-
-document.addEventListener("click", function (e) {
-    e.preventDefault();
-    if (e.srcElement.id === "b1-play-button"){
-        return;
-    }
-    console.log(e.srcElement);
-    fireBullet();
-})
-
+/*
+Set volume changes
+*/
 function adjustVolume() {
     document.getElementById("m1-background-music").volume = (volumeConfig.master/100) * (volumeConfig.background/100);
     document.getElementById("m1-shoot-effect").volume = (volumeConfig.master/100) * (volumeConfig.shoot/100);
@@ -252,6 +275,9 @@ function adjustVolume() {
     }
 }
 
+/*
+Unload player status 
+*/
 function unloadStatus(){
     if (!gameConfig.started){
         return;
@@ -260,6 +286,8 @@ function unloadStatus(){
     firebase.database().ref("players").child(gameConfig.playerTag).update({
         playing : false,
         direction : 0,
+        username : "",
+        icon : 0,
         x : 0,
         y : 0,   
     });
@@ -270,6 +298,9 @@ function unloadStatus(){
     });
 }
 
+/*
+Detect enemy bullets being fired
+*/
 firebase.database().ref("bulletMovement").on("child_changed", snapshot => {
 
     if (parseInt(snapshot.key) === gameConfig.playerTag || !gameConfig.started || (snapshot.val().moveLeft === 0 && snapshot.val().moveTop === 0)){
@@ -285,6 +316,9 @@ firebase.database().ref("bulletMovement").on("child_changed", snapshot => {
     });
 });
 
+/*
+Detect enemy movement
+*/
 firebase.database().ref("players").on("child_changed", snapshot => {
 
     if (parseInt(snapshot.key) === gameConfig.playerTag || !gameConfig.started){
@@ -292,16 +326,24 @@ firebase.database().ref("players").on("child_changed", snapshot => {
     }
 
     if (!gameConfig.playerCoordinates[parseInt(snapshot.key)].playing && snapshot.val().playing){
-        let player = document.createElement("div");
+        let player = document.createElement("div"), name = document.createElement("p");
+        name.classList.add("t5-player");
+        name.id = "t5-player-" + snapshot.key;
+        name.innerHTML = snapshot.val().username;
         player.classList.add("p2-player");
+        player.style.backgroundImage = 'url("/assets/images/quake/player-skin-' + snapshot.val().icon + '.png")';
         player.id = "p2-player-" + snapshot.key;
         document.getElementById("d2-board").append(player);
+        document.getElementById("d2-board").append(name);
         updateCoordinates();
     }
     gameConfig.playerCoordinates[parseInt(snapshot.key)] = snapshot.val();
 
 });
 
+/*
+Detect eliminations 
+*/
 firebase.database().ref("eliminations").on("value", snapshot => {
 
     if (snapshot.val() === -1 || !gameConfig.started){
@@ -314,18 +356,29 @@ firebase.database().ref("eliminations").on("value", snapshot => {
         document.getElementById("b1-settings-button").classList.remove("hide");
         document.getElementById("d2-board").style.cursor = "default";
         document.getElementById("p1-player").style.visibility = "hidden";
-        document.getElementById("d3-ammo-reload").style.visibility = "hidden";
+        document.getElementById("d6-user-customization").style.visibility = "visible";
+        document.getElementById("d5-player-tracker").style.visibility = "hidden";
+        document.getElementById("d3-ammo-reload").style.opacity = "0";
         for (child of document.getElementsByClassName("p2-player")){
-            document.getElementById("d2-board").removeChild(child);  
+            child.remove();  
+        }
+        for (child of document.getElementsByClassName("d3-bullet.fadeout")){
+            child.remove();
+        }
+        for (child of document.getElementsByClassName("t5-player")){
+            child.remove();
         }
         gameConfig = {started:false}
         eliminate(-1);
     } else {
         document.getElementById("d2-board").removeChild(document.getElementById("p2-player-" + snapshot.val()));
+        document.getElementById("d2-board").removeChild(document.getElementById("t5-player-" + snapshot.val()));
     }
 });
 
-
+/*
+Main game interval -> Moves players and bullets 
+*/
 setInterval(function (){
 
     if (!gameConfig.started){
@@ -397,6 +450,10 @@ setInterval(function (){
                 left : gameConfig.playerCoordinates[playerNum].x + "%",
                 top : gameConfig.playerCoordinates[playerNum].y + "%",
             });
+            Object.assign(document.getElementById("t5-player-" + playerNum).style, {
+                left : (gameConfig.playerCoordinates[playerNum].x-5) + "%",
+                top : gameConfig.playerCoordinates[playerNum].y-2 + "%",
+            });
         }
     }
 
@@ -423,7 +480,7 @@ setInterval(function (){
         }
 
         for (let player = 0; player < 10; player++){
-            if (player === gameConfig.playerTag || document.getElementById("p2-player-" + player) === null){
+            if (player === gameConfig.playerTag || !gameConfig.playerCoordinates[player].playing){
                 continue;
             } 
 
@@ -436,7 +493,38 @@ setInterval(function (){
                     eliminate(player);
             }
         }
-    }    
+    }
+
+    let solo = true, nearest = 10000, angle = 0;
+
+    for (let i = 0; i < 10; i++){
+        if (i !== gameConfig.playerTag && gameConfig.playerCoordinates[i].playing && Math.sqrt(Math.pow((gameConfig.playerCoordinates[i].x - gameConfig.playerCoordinates[gameConfig.playerTag].x), 2) + Math.pow((gameConfig.playerCoordinates[i].y - gameConfig.playerCoordinates[gameConfig.playerTag].y), 2)) < nearest){
+            nearest = Math.sqrt(Math.pow((gameConfig.playerCoordinates[i].x - gameConfig.playerCoordinates[gameConfig.playerTag].x), 2) + Math.pow((gameConfig.playerCoordinates[i].y - gameConfig.playerCoordinates[gameConfig.playerTag].y), 2));
+            angle = Math.atan(Math.abs(gameConfig.playerCoordinates[gameConfig.playerTag].x - gameConfig.playerCoordinates[i].x)/Math.abs(gameConfig.playerCoordinates[gameConfig.playerTag].y - gameConfig.playerCoordinates[i].y)) * 180 / Math.PI;
+            if (gameConfig.playerCoordinates[gameConfig.playerTag].y < gameConfig.playerCoordinates[i].y){
+                if (gameConfig.playerCoordinates[gameConfig.playerTag].x < gameConfig.playerCoordinates[i].x){
+                    angle = 180-angle;
+                } else {
+                    angle += 180;
+                }
+            } else {
+                if (gameConfig.playerCoordinates[gameConfig.playerTag].x > gameConfig.playerCoordinates[i].x){
+                    angle = 360 - angle;
+                }
+            }
+            solo = false;
+        }
+    }
+
+    if (solo){
+        document.getElementById("d5-player-tracker").style.visibility = "hidden";
+    } else {
+        document.getElementById("d5-player-tracker").style.visibility = "visible";
+        document.getElementById("d5-player-tracker").style.transform = "rotate(" + angle + "deg)";
+    }
+
+    
+
     if (gameConfig.bulletDelay !== 0){
         document.getElementById("t1-ammo-status").innerHTML = "Reloading...";
         gameConfig.bulletDelay -= 1;
@@ -450,19 +538,41 @@ setInterval(function (){
 
 }, 20);
 
+/*
+Eliminate a player
+*/
 function eliminate(player){
     firebase.database().ref("eliminations").set(player);
 }
 
+function selectSkin(skin){
+    if (selectedSkin+skin < 0 || selectedSkin+skin > 4){
+        return;
+    }
+    selectedSkin += skin;
+    document.getElementById("d7-skin-preview").style.backgroundImage = 'url("/assets/images/quake/player-skin-' + selectedSkin + '.png")';
+    document.getElementById("t4-skin-name").innerHTML = skinNames[selectedSkin];
+}
+
+/*
+Open settings menu
+*/
 function openSettings() {
     document.getElementById("b1-play-button").classList.add("hide");
     document.getElementById("b1-settings-button").classList.add("hide"); 
     setTimeout(function () {document.getElementById("d4-settings-panel").style.visibility = "visible"},200);
 }
 
+/*
+Close settings menu
+*/
 function closeSettings() {
     document.getElementById("b1-play-button").classList.remove("hide");
     document.getElementById("b1-settings-button").classList.remove("hide");
     document.getElementById("d4-settings-panel").style.visibility = "hidden";
 }
+
+/*
+Load startup menu
+*/
 loadMenu();
