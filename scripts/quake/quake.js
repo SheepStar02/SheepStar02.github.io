@@ -73,7 +73,7 @@ Reset unloading
 */
 window.addEventListener('beforeunload', function (e) {
     e.preventDefault();
-    unloadStatus();
+    unloadStatus(gameConfig.playerTag);
 });
 
 /*
@@ -139,18 +139,9 @@ function beginGame(playerTag) {
             } else {
                 gameConfig.playerCoordinates[i] = snapshot.val()[i];
                 if (gameConfig.playerCoordinates[i].playing){
-                    let player = document.createElement("div"), name = document.createElement("p");
-                    name.classList.add("t5-player");
-                    name.id = "t5-player-" + i;
-                    name.innerHTML = snapshot.val()[i].username;
-                    player.classList.add("p2-player");
-                    player.style.backgroundImage = 'url("/assets/images/quake/player-skin-' + snapshot.val()[i].icon + '.png")';
-                    player.id = "p2-player-" + i;
-                    document.getElementById("d2-board").append(player);
-                    document.getElementById("d2-board").append(name);
+                    createEnemy(snapshot.val()[i], i);
                 }
-            }
-            
+            }      
         }
         updateCoordinates();
     });
@@ -161,7 +152,7 @@ Update current player coordinates and direction
 */
 function updateCoordinates() {
     firebase.database().ref("players").child(gameConfig.playerTag).update({
-        playing : true,
+        playing : gameConfig.started,
         direction : gameConfig.playerCoordinates[gameConfig.playerTag].direction,
         x : gameConfig.playerCoordinates[gameConfig.playerTag].x,
         y : gameConfig.playerCoordinates[gameConfig.playerTag].y,
@@ -278,12 +269,12 @@ function adjustVolume() {
 /*
 Unload player status 
 */
-function unloadStatus(){
+function unloadStatus(playerTag){
     if (!gameConfig.started){
         return;
     }
 
-    firebase.database().ref("players").child(gameConfig.playerTag).update({
+    firebase.database().ref("players").child(playerTag).update({
         playing : false,
         direction : 0,
         username : "",
@@ -292,10 +283,53 @@ function unloadStatus(){
         y : 0,   
     });
 
-    firebase.database().ref("bulletMovement").child(gameConfig.playerTag).update({
+    firebase.database().ref("bulletMovement").child(playerTag).update({
         moveLeft : 0,
         moveTop : 0,   
     });
+}
+
+/*
+Creates new enemy player
+*/
+function createEnemy(snapshot, key) {
+    let player = document.createElement("div"), name = document.createElement("p");
+    name.classList.add("t5-player");
+    name.id = "t5-player-" + key;
+    name.innerHTML = snapshot.username;
+    player.classList.add("p2-player");
+    player.style.backgroundImage = 'url("/assets/images/quake/player-skin-' + snapshot.icon + '.png")';
+    player.id = "p2-player-" + key;
+    document.getElementById("d2-board").append(player);
+    document.getElementById("d2-board").append(name);
+}
+
+/*
+Removes all players, resetting the game
+*/
+function onDeath() {
+
+    gameConfig = {started:false}
+    unloadStatus(gameConfig.playerTag);
+    document.getElementById("b1-play-button").classList.remove("hide");
+    document.getElementById("b1-settings-button").classList.remove("hide");
+    document.getElementById("d2-board").style.cursor = "default";
+    document.getElementById("p1-player").style.visibility = "hidden";
+    document.getElementById("d6-user-customization").style.visibility = "visible";
+    document.getElementById("d5-player-tracker").style.visibility = "hidden";
+    document.getElementById("d3-ammo-reload").style.opacity = "0";
+
+    while (document.getElementsByClassName("p2-player").length !== 0){
+        document.getElementById("d2-board").removeChild(document.getElementsByClassName("p2-player")[0]);
+    }
+    
+    while (document.getElementsByClassName("d3-bullet fadeOut").length !== 0){
+        document.getElementById("d2-board").removeChild(document.getElementsByClassName("d3-bullet fadeOut")[0]);   
+    }
+
+    while (document.getElementsByClassName("t5-player").length !== 0){
+        document.getElementById("d2-board").removeChild(document.getElementsByClassName("t5-player")[0]);
+    }
 }
 
 /*
@@ -320,60 +354,25 @@ firebase.database().ref("bulletMovement").on("child_changed", snapshot => {
 Detect enemy movement
 */
 firebase.database().ref("players").on("child_changed", snapshot => {
-
-    if (parseInt(snapshot.key) === gameConfig.playerTag || !gameConfig.started){
+    if (!gameConfig.started){
         return;
     }
 
     if (!gameConfig.playerCoordinates[parseInt(snapshot.key)].playing && snapshot.val().playing){
-        let player = document.createElement("div"), name = document.createElement("p");
-        name.classList.add("t5-player");
-        name.id = "t5-player-" + snapshot.key;
-        name.innerHTML = snapshot.val().username;
-        player.classList.add("p2-player");
-        player.style.backgroundImage = 'url("/assets/images/quake/player-skin-' + snapshot.val().icon + '.png")';
-        player.id = "p2-player-" + snapshot.key;
-        document.getElementById("d2-board").append(player);
-        document.getElementById("d2-board").append(name);
+        createEnemy(snapshot.val(), snapshot.key);
         updateCoordinates();
-    }
-    gameConfig.playerCoordinates[parseInt(snapshot.key)] = snapshot.val();
-
-});
-
-/*
-Detect eliminations 
-*/
-firebase.database().ref("eliminations").on("value", snapshot => {
-
-    if (snapshot.val() === -1 || !gameConfig.started){
+    } else if (gameConfig.playerCoordinates[parseInt(snapshot.key)].playing && !snapshot.val().playing){
+        if (parseInt(snapshot.key) === gameConfig.playerTag){
+            onDeath();
+        } else {
+            document.getElementById("d2-board").removeChild(document.getElementById("p2-player-" + snapshot.key));
+            document.getElementById("d2-board").removeChild(document.getElementById("t5-player-" + snapshot.key));
+        }
         return;
     }
 
-    if (snapshot.val() === gameConfig.playerTag){
-        unloadStatus();
-        document.getElementById("b1-play-button").classList.remove("hide");
-        document.getElementById("b1-settings-button").classList.remove("hide");
-        document.getElementById("d2-board").style.cursor = "default";
-        document.getElementById("p1-player").style.visibility = "hidden";
-        document.getElementById("d6-user-customization").style.visibility = "visible";
-        document.getElementById("d5-player-tracker").style.visibility = "hidden";
-        document.getElementById("d3-ammo-reload").style.opacity = "0";
-        for (child of document.getElementsByClassName("p2-player")){
-            child.remove();  
-        }
-        for (child of document.getElementsByClassName("d3-bullet.fadeout")){
-            child.remove();
-        }
-        for (child of document.getElementsByClassName("t5-player")){
-            child.remove();
-        }
-        gameConfig = {started:false}
-        eliminate(-1);
-    } else {
-        document.getElementById("d2-board").removeChild(document.getElementById("p2-player-" + snapshot.val()));
-        document.getElementById("d2-board").removeChild(document.getElementById("t5-player-" + snapshot.val()));
-    }
+    gameConfig.playerCoordinates[parseInt(snapshot.key)] = snapshot.val();
+
 });
 
 /*
@@ -490,7 +489,9 @@ setInterval(function (){
                 && newTop < (parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).top.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).width.split("px")[0]))){
                     document.getElementById("m1-kill-effect").play();
                     document.getElementById("t3-kill-counter").innerHTML = "Kills : " + (parseInt(document.getElementById("t3-kill-counter").innerHTML.split("Kills : ")[1])+1);
-                    eliminate(player);
+                    firebase.database().ref("players").child(player).update({
+                        playing:false,
+                    });
             }
         }
     }
@@ -538,13 +539,6 @@ setInterval(function (){
 
 }, 20);
 
-/*
-Eliminate a player
-*/
-function eliminate(player){
-    firebase.database().ref("eliminations").set(player);
-}
-
 function selectSkin(skin){
     if (selectedSkin+skin < 0 || selectedSkin+skin > 4){
         return;
@@ -558,6 +552,7 @@ function selectSkin(skin){
 Open settings menu
 */
 function openSettings() {
+    document.getElementById("d6-user-customization").style.visibility = "hidden";
     document.getElementById("b1-play-button").classList.add("hide");
     document.getElementById("b1-settings-button").classList.add("hide"); 
     setTimeout(function () {document.getElementById("d4-settings-panel").style.visibility = "visible"},200);
@@ -567,6 +562,7 @@ function openSettings() {
 Close settings menu
 */
 function closeSettings() {
+    document.getElementById("d6-user-customization").style.visibility = "visible";
     document.getElementById("b1-play-button").classList.remove("hide");
     document.getElementById("b1-settings-button").classList.remove("hide");
     document.getElementById("d4-settings-panel").style.visibility = "hidden";
