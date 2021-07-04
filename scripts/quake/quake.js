@@ -2,7 +2,7 @@ let gameConfig = {
     started:false,
 }
 
-let selectedSkin = 0;
+let playerEffects = [0, 0], reloadSpeed = 50, selectedSkin = 0, enemyEffects = new Array(10).fill({shield:false,reload:false});
 
 let volumeConfig = {
     master : 100,
@@ -15,28 +15,9 @@ let volumeConfig = {
 Constant local storage and map arrangement
 */
 const skinNames = ["Default", "Bailey", "DCGasm", "Giant Skeleton", ":ESL:"];
+const effectData = [{name:"shield",duration:300},{name:"reload",duration:200}];
 const localStorage = window.localStorage;
-const quakeMap = 
-[[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,1,0,0,1],
-[1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
-[1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,1],
-[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,1,1,1,1,0,1,0,0,0,0,0,1,1,1,1,1,1],
-[1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,1],
-[1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,0,1],
-[1,0,1,1,0,1,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-[1,0,1,0,0,1,1,1,0,0,1,1,1,1,1,1,0,0,0,1],
-[1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1],
-[1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1],
-[1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,0,0,1],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
+const quakeMap = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,1,0,0,1],[1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],[1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,1],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,1,1,1,1,0,1,0,0,0,0,0,1,1,1,1,1,1],[1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,1],[1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,0,1],[1,0,1,1,0,1,0,0,0,1,1,0,0,0,0,0,0,1,0,1],[1,0,1,0,0,1,1,1,0,0,1,1,1,1,1,1,0,0,0,1],[1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1],[1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,0,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
 
 /*
 Adjust Window Height 
@@ -145,6 +126,19 @@ function beginGame(playerTag) {
         }
         updateCoordinates();
     });
+
+    firebase.database().ref("powerups").get().then(snapshot => {
+
+        if (snapshot.val() === null){
+            return;
+        }
+
+        for (let i = 0; i < snapshot.val().length; i++){
+            if (snapshot.val()[i] !== undefined){
+                createPowerup(snapshot.val()[i], i);
+            }
+        }
+    });
 }
 
 /*
@@ -183,6 +177,7 @@ document.addEventListener("keydown", function(event) {
     } else if (event.keyCode === 32){
         fireBullet();
     }
+
     if (originalDirection !== gameConfig.playerCoordinates[gameConfig.playerTag]){
         updateCoordinates();
     }
@@ -250,7 +245,11 @@ function fireBullet() {
         moveTop : (Math.cos(Math.atan((targetLeft-playerLeft)/(targetTop- playerTop)))*velocity)/document.getElementById("d2-board").clientWidth,
     });
 
-    gameConfig.bulletDelay = 50;
+    if ((Math.floor(Math.random()*10)) === 0 && document.getElementsByClassName("powerup-items").length < 3){
+        newPowerup();
+    }
+
+    gameConfig.bulletDelay = reloadSpeed;
 }
 
 /*
@@ -287,6 +286,106 @@ function unloadStatus(playerTag){
         moveLeft : 0,
         moveTop : 0,   
     });
+
+    firebase.database().ref("playerEffects").child(playerTag).update({
+        shield:false,
+        reload:false,
+    });
+}
+
+/*
+Creates new random powerup
+*/
+function newPowerup() {
+    let x = Math.floor(Math.random() * 90)+5, y = Math.floor(Math.random()*90)+5, t = Math.floor(Math.random()*2);
+
+    while (quakeMap[Math.floor(y/5)][Math.floor(x/5)] === 1){
+        x = Math.floor(Math.random()*90)+5
+        y = Math.floor(Math.random()*90)+5;
+    }
+
+    for (let i = 0; i < 3; i++) {
+        if (document.getElementById("d8-powerup-" + i) === null){
+            firebase.database().ref("powerups").child(i).update({
+                left : x,
+                top : y,
+                type : t,
+            }); 
+            return;
+        }
+    }
+}
+
+function createPowerup (data, num) {
+    let powercube = document.createElement("div"), glow = document.createElement("div");
+    powercube.classList.add("powerup-items");
+    powercube.type = data.type;
+    powercube.id = "d8-powerup-" + num;
+
+    Object.assign(powercube.style, {
+        left : data.left + "%",
+        top : data.top + "%",
+        backgroundImage : "url('/assets/images/quake/effect-" + effectData[data.type].name + ".png",
+    });
+
+    if (data.type === 0){
+        powercube.style.boxShadow = "0px 0px 3px 3px rgba(0, 255, 255, 0.5)";
+        powercube.style.backgroundColor = "rgba(0, 255, 255, 0.7)";
+    } else {
+       powercube.style.boxShadow = "0px 0px 3px 3px rgba(255, 0, 0, 0.5)";
+       powercube.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
+    }
+
+    document.getElementById("d2-board").append(powercube);
+}
+
+/*
+Picks up and applies the powerup
+*/
+function collectPowerup(powerup){
+
+    firebase.database().ref("powerups").child(parseInt(powerup.id.split("d8-powerup-")[1])).remove();
+
+    firebase.database().ref("playerEffects").child(gameConfig.playerTag).update({
+        [effectData[powerup.type].name] : true,
+    });
+
+    if (effectData[powerup.type].name === "shield"){
+        playerEffects[0] = effectData[powerup.type].duration;
+    } else if (effectData[powerup.type].name === "reload"){
+        playerEffects[1] = effectData[powerup.type].duration;
+    }
+
+    applyPlayerEffect();
+}
+
+function applyEnemyEffect(enemy) {
+
+    if (enemyEffects[enemy].shield && enemyEffects[enemy].reload){
+        document.getElementById("p2-player-" + enemy).style.boxShadow = "0px 0px 1px 1px purple";
+    } else if (enemyEffects[enemy].shield){
+        document.getElementById("p2-player-" + enemy).style.boxShadow = "0px 0px 1px 1px #0ff";
+    } else if (enemyEffects[enemy].reload){
+        document.getElementById("p2-player-" + enemy).style.boxShadow = "0px 0px 1px 1px red";
+    } else {
+        document.getElementById("p2-player-" + enemy).style.boxShadow = "";
+    }
+}
+
+function applyPlayerEffect() {
+
+    if (playerEffects[0]){
+        document.getElementById("p1-player").style.boxShadow = "0px 0px 1px 1px #0ff";
+    } else if (playerEffects[1]){
+        document.getElementById("p1-player").style.boxShadow = "0px 0px 1px 1px red";
+        reloadSpeed = 25;
+    } else {
+        document.getElementById("p1-player").style.boxShadow = "";
+    }
+
+    if (playerEffects[0] && playerEffects[1]){
+        document.getElementById("p1-player").style.boxShadow = "0px 0px 1px 1px purple";
+    }
 }
 
 /*
@@ -318,6 +417,7 @@ function onDeath() {
     document.getElementById("d6-user-customization").style.visibility = "visible";
     document.getElementById("d5-player-tracker").style.visibility = "hidden";
     document.getElementById("d3-ammo-reload").style.opacity = "0";
+    document.getElementById("p1-player").style.boxShadow = "";
 
     while (document.getElementsByClassName("p2-player").length !== 0){
         document.getElementById("d2-board").removeChild(document.getElementsByClassName("p2-player")[0]);
@@ -329,6 +429,10 @@ function onDeath() {
 
     while (document.getElementsByClassName("t5-player").length !== 0){
         document.getElementById("d2-board").removeChild(document.getElementsByClassName("t5-player")[0]);
+    }
+
+    while (document.getElementsByClassName("powerup-items").length !== 0){
+        document.getElementById("d2-board").removeChild(document.getElementsByClassName("powerup-items")[0]);
     }
 }
 
@@ -367,12 +471,49 @@ firebase.database().ref("players").on("child_changed", snapshot => {
         } else {
             document.getElementById("d2-board").removeChild(document.getElementById("p2-player-" + snapshot.key));
             document.getElementById("d2-board").removeChild(document.getElementById("t5-player-" + snapshot.key));
+            gameConfig.playerCoordinates[parseInt(snapshot.key)] = {playing:false,x:0,y:0,icon:"",username:""}
         }
         return;
     }
 
     gameConfig.playerCoordinates[parseInt(snapshot.key)] = snapshot.val();
 
+});
+
+firebase.database().ref("powerups").on("child_added", snapshot => {
+    if (!gameConfig.started){
+        return;
+    }
+    createPowerup(snapshot.val(), parseInt(snapshot.key));
+});
+
+firebase.database().ref("powerups").on("child_removed", snapshot => {
+    if (!gameConfig.started){
+        return;
+    }
+    console.log(snapshot.val());
+    document.getElementById("d2-board").removeChild(document.getElementById("d8-powerup-" + snapshot.key));
+});
+
+firebase.database().ref("playerEffects").on("child_changed", snapshot => {
+
+    if (!gameConfig.started){
+        return;
+    }
+
+    if (parseInt(snapshot.key) === gameConfig.playerTag){
+
+        if (!snapshot.val().shield){
+            playerEffects[0] = 0;
+        } else if (!snapshot.val().reload){
+            playerEffects[1] = 0;
+        }
+
+        applyPlayerEffect();
+    } else if (gameConfig.playerCoordinates[parseInt(snapshot.key)].playing){
+        enemyEffects[parseInt(snapshot.key)] = snapshot.val();
+        applyEnemyEffect(parseInt(snapshot.key));
+    }
 });
 
 /*
@@ -430,6 +571,15 @@ setInterval(function (){
                 top : gameConfig.playerCoordinates[gameConfig.playerTag].y + "%",
             });
 
+            for (powerup of document.getElementsByClassName("powerup-items")){
+                if (parseInt(powerup.style.left.split("%")[0]) > gameConfig.playerCoordinates[gameConfig.playerTag].x - 2
+                && parseInt(powerup.style.left.split("%")[0]) < gameConfig.playerCoordinates[gameConfig.playerTag].x + 3
+                && parseInt(powerup.style.top.split("%")[0]) > gameConfig.playerCoordinates[gameConfig.playerTag].y - 2
+                && parseInt(powerup.style.top.split("%")[0]) < gameConfig.playerCoordinates[gameConfig.playerTag].y + 3) {
+                    collectPowerup(powerup);
+                }
+            }
+
         } else {
 
             if (gameConfig.playerCoordinates[playerNum].direction === 0 && quakeMap[Math.floor((gameConfig.playerCoordinates[playerNum].y+3)/5)][Math.floor((gameConfig.playerCoordinates[playerNum].x+2.99)/5)] === 0
@@ -484,17 +634,42 @@ setInterval(function (){
             } 
 
             if (newLeft > parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).left.split("px")[0])
-                && newLeft < (parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).left.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).width.split("px")[0]))
-                && (newTop > parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).top.split("px")[0]))
-                && newTop < (parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).top.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).width.split("px")[0]))){
+            && newLeft < (parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).left.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).width.split("px")[0]))
+            && (newTop > parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).top.split("px")[0]))
+            && newTop < (parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).top.split("px")[0]) + parseFloat(getComputedStyle(document.getElementById("p2-player-" + player)).width.split("px")[0]))){
+                
+                if (enemyEffects[player].shield){
+                    firebase.database().ref("playerEffects").child(player).update({
+                        shield : false,
+                    });
+                } else {
                     document.getElementById("m1-kill-effect").play();
                     document.getElementById("t3-kill-counter").innerHTML = "Kills : " + (parseInt(document.getElementById("t3-kill-counter").innerHTML.split("Kills : ")[1])+1);
                     firebase.database().ref("players").child(player).update({
                         playing:false,
                     });
+                }
             }
         }
     }
+
+    for (let i = 0; i < playerEffects.length; i++){
+
+        if (playerEffects[i] === 0){
+            continue;
+        }
+
+        playerEffects[i] --;
+
+        if (playerEffects[i] === 0){
+            firebase.database().ref("playerEffects").child(gameConfig.playerTag).update({
+                [effectData[i].name] : false,
+            });
+            applyPlayerEffect();
+        }
+    }
+
+    
 
     let solo = true, nearest = 10000, angle = 0;
 
@@ -524,12 +699,10 @@ setInterval(function (){
         document.getElementById("d5-player-tracker").style.transform = "rotate(" + angle + "deg)";
     }
 
-    
-
     if (gameConfig.bulletDelay !== 0){
         document.getElementById("t1-ammo-status").innerHTML = "Reloading...";
-        gameConfig.bulletDelay -= 1;
-        document.getElementById("d4-ammo-reload-bar-" + Math.floor(((49-gameConfig.bulletDelay)/5))).style.visibility = "visible";
+        gameConfig.bulletDelay --;
+        document.getElementById("d4-ammo-reload-bar-" + (9-Math.floor((gameConfig.bulletDelay/reloadSpeed)*10))).style.visibility = "visible";
     } else {
         for (let i = 0; i < document.getElementsByClassName("ammo-reload-bar").length; i++){
             document.getElementsByClassName("ammo-reload-bar")[i].style.visibility = "hidden";
@@ -539,6 +712,9 @@ setInterval(function (){
 
 }, 20);
 
+/*
+Changes players selected skin
+*/
 function selectSkin(skin){
     if (selectedSkin+skin < 0 || selectedSkin+skin > 4){
         return;
@@ -568,7 +744,4 @@ function closeSettings() {
     document.getElementById("d4-settings-panel").style.visibility = "hidden";
 }
 
-/*
-Load startup menu
-*/
 loadMenu();

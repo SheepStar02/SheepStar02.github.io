@@ -33,3 +33,23 @@ function playMinesweeper() {
 function playQuake() {
     window.open("quake", "_self");
 }
+
+function quakePatchnotes() {
+
+    console.log("HWLKDJFS");
+
+    if (document.getElementById("play-quake-patchnotes").innerHTML === "View Patchnotes"){
+        document.getElementById("patchnotes").style.visibility = "visible";
+        document.getElementById("room-menu-div").style.visibility = "hidden";
+        document.getElementById("play-quake-patchnotes").innerHTML = "Return";
+        document.getElementById("patchnotes").appendChild(document.getElementById("play-quake-patchnotes"));
+        document.getElementById("room-menu-div").removeChild(document.getElementById("play-quake-patchnotes"));
+    } else {
+        document.getElementById("patchnotes").style.visibility = "hidden";
+        document.getElementById("room-menu-div").style.visibility = "visible";
+        document.getElementById("play-quake-patchnotes").innerHTML = "View Patchnotes";
+        document.getElementById("room-menu-div").appendChild(document.getElementById("play-quake-patchnotes"));
+        document.getElementById("patchnotes").removeChild(document.getElementById("play-quake-patchnotes"));
+    }
+    
+}

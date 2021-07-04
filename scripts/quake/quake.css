@@ -31,6 +31,7 @@ body{
     visibility: hidden;
 }
 #b1-play-button{
+    user-select: none;
     transition: all 0.2s;
     width:30%;
     left:35%;
@@ -39,6 +40,7 @@ body{
     font-size:48px;
 }
 #b1-settings-button{
+    user-select: none;
     width:20%;
     height:5%;
     left:40%;
@@ -107,6 +109,7 @@ body{
 }
 #t1-ammo-status{
     font-size:20px;
+    user-select: none;
     font-weight: bold;
     color:greenyellow;
     text-shadow: 0 0 5px aqua;
@@ -143,6 +146,7 @@ audio{
     visibility: hidden;
 }
 .t2-volume-text{
+    user-select: none;
     margin:0;
     position: absolute;
     font-family : quake-font;
@@ -211,6 +215,7 @@ audio{
     font-size: 28px;
 }
 #t3-kill-counter{
+    user-select: none;
     position: absolute;
     font-size: 20px;
     z-index: 5;
@@ -244,6 +249,7 @@ audio{
     z-index:5;
 }
 #t4-skin-input{
+    user-select: none;
     margin:0;
     width:100%;
     top:5%;
@@ -264,6 +270,7 @@ audio{
     position: absolute;
 }
 #t4-skin-name{
+    user-select: none;
     margin:0;
     width:100%;
     top:45%;
@@ -293,6 +300,7 @@ audio{
     left:75%;
 }
 #t4-username-input{
+    user-select: none;
     margin:0;
     width:100%;
     top:65%;
@@ -303,6 +311,7 @@ audio{
     text-align: center;
 }
 .t5-player{
+    user-select: none;
     z-index:5;
     position: absolute;
     color: red;
@@ -327,6 +336,14 @@ audio{
     border-width: 3px;
     background-color: rgba(248, 237, 215, 0.5);
     font-family:quake-font;
+    position: absolute;
+}
+.powerup-items{
+    width:2%;
+    height:2%;
+    background-size: cover;
+    z-index: 5;
+    border-radius: 50%;
     position: absolute;
 }
 @keyframes fadeOut {

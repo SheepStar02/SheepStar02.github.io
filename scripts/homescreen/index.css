@@ -61,82 +61,87 @@ body {
     -o-animation-: fadeIn 0.3s;
     -ms-animation: fadeIn 0.3s;
     animation-fill-mode: forwards;}
+
 #play-2048-button{
-    cursor: pointer;
     background-color: #9400bd;
     border-color: darkblue;
-    border-style: solid;
-    border-width: 5px;
-    border-radius: 15px;
-    font-family: "Arial Black";
-    font-weight: bold;
-    font-size: 22px;
-    top: 30px;
-    left: 50px;
-    width: 400px;
-    height: 60px;
-    outline: none;
-    position: relative;}
+    top:20px;
+}
+
 #play-2048-button:hover{
     background-color:purple}
+
 #play-minesweeper-button{
-    cursor: pointer;
     background-color: #22bf44;
     border-color: darkblue;
-    border-style: solid;
-    border-width: 5px;
-    border-radius: 15px;
-    font-family: "Arial Black";
-    font-weight: bold;
-    font-size: 22px;
-    top: 10px;
-    left: 50px;
-    width: 400px;
-    height: 60px;
-    outline: none;
-    position: relative;}
+}
+
 #play-clash-quest-button{
-    cursor: pointer;
     background-color: #ffe817;
     border-color: darkblue;
+    top: 40px;
+}
+
+.play-games-buttons{
+    cursor: pointer;
     border-style: solid;
     border-width: 5px;
     border-radius: 15px;
     font-family: "Arial Black";
     font-weight: bold;
     font-size: 22px;
-    top: 50px;
     left: 50px;
     width: 400px;
     height: 60px;
     outline: none;
     position: relative;
 }
+
 #play-clash-quest-button:hover{
     background-color: rgb(187, 170, 14);
 }
+
 #play-quake-button{
-    cursor: pointer;
     background-color: #f57d46;
     border-color: darkblue;
-    border-style: solid;
-    border-width: 5px;
-    border-radius: 15px;
-    font-family: "Arial Black";
-    font-weight: bold;
-    font-size: 22px;
-    top: 70px;
-    left: 50px;
-    width: 400px;
-    height: 60px;
-    outline: none;
-    position: relative;
+    top:60px;
 }
+
 #play-quake-button:hover{
     background-color: tomato;
 }
+
 #play-minesweeper-button:hover{
     background-color:#147529}
+
+#play-quake-patchnotes{
+    position: absolute;
+    color:rgb(0, 247, 255);
+    background-color: transparent;
+    border:none;
+    cursor: pointer;
+    left:460px;
+    top:20px;
+}
+#play-quake-patchnotes:hover{
+    background-color: rgba(181, 238, 75, 0.137);
+}
+p{
+    color:rgb(255, 135, 36);
+}
+h3{
+    color:red;
+}
+#patchnotes{
+    visibility: hidden;
+    left: 150px;
+    z-index:10;
+    top: 200px;
+    width: 500px;
+    height: 400px;
+    position: absolute;
+}
+
 /*Key frame functions */
 
 @keyframes fadeOut {

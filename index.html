@@ -6,10 +6,25 @@
             <img src = "/images/Shed-Logo.png" id = "main-shed-logo">
         </div> 
         <div id = "room-menu-div">
-            <button id = "play-minesweeper-button" onclick = "playMinesweeper();">Play Minesweeper</button>   
-            <button id = "play-2048-button" onclick = "play2048();">Play 2048 - Epic</button>  
-            <button id = "play-clash-quest-button" onclick = "playClashQuest();">Play Clash Quest</button>  
-            <button id = "play-quake-button" onclick = "playQuake();">Play QUAKE</button>  
+            <button id = "play-minesweeper-button" onclick = "playMinesweeper();" class = "play-games-buttons">Play Minesweeper</button>   
+            <button id = "play-2048-button" onclick = "play2048();" class = "play-games-buttons">Play 2048 - Epic</button>  
+            <button id = "play-clash-quest-button" onclick = "playClashQuest();" class = "play-games-buttons">Play Clash Quest</button>  
+            <button id = "play-quake-button" onclick = "playQuake();" class = "play-games-buttons">Play QUAKE</button>  
+            <button id = "play-quake-patchnotes" onclick = "quakePatchnotes();">View Patchnotes</button>  
+        </div>
+        <div id = "patchnotes">
+            <h3 class = "stuffz">Powerup items:</h3>
+            <p class = "stuffz">Random chance to spawn when players are shooting</p>
+            <p class = "stuffz">Maximum of 3 powerups can exist at a time</p>
+            <h3 class = "stuffz">Reload speed increase:</h3>
+            <p class = "stuffz">Doubles reload speed</p>
+            <p class = "stuffz">Supposed to last 4 seconds but it's defo not 50 frames a second so it's prob more like 8 seconds</p>
+            <h3 class = "stuffz">temporary shield:</h3>
+            <p class = "stuffz">Again, lasts 6 seconds but it's bugged so more like a week</p>
+            <p class = "stuffz">neek</p>
+            <p class = "stuffz">One time use, dissapears when hit</p>
+            <h3 class = "stuffz">Bug fixes:</h3>
+            <p class = "stuffz">I rather not sound like a huge nerd, things got fixed, less crashes. You don't notice anything</p>
         </div>
         <div id = "shed-image-div">
             <img src = "/images/Shed-Image.png" id = "main-shed-image">
