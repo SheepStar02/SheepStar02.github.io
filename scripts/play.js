@@ -1,4 +1,4 @@
-const socket = new WebSocket("ws://webserveresl.herokuapp.com");
+const socket = new WebSocket("wss://webserveresl.herokuapp.com");
 
 document.onreadystatechange = () => {
     if (document.readyState === "complete"){

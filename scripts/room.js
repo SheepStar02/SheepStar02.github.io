@@ -1,5 +1,5 @@
 //New socket connection and url parameters
-const socket = new WebSocket("ws://ws://webserveresl.herokuapp.com"), urlParams = new URLSearchParams(window.location.search);
+const socket = new WebSocket("wss://webserveresl.herokuapp.com"), urlParams = new URLSearchParams(window.location.search);
 
 //Stored socket response functions
 let socketId = {}, gameStatus = {optionChoice: "playerturn", tradeInterval: 0, gameComplete: false};
