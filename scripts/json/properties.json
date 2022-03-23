@@ -1,0 +1,13 @@
+[
+    {"names":["MEDITER AVENUE","BALTIC AVENUE"],"key":"brown","costs":"50"},
+    {"names":["ORIENTAL AVENUE","VERMONT AVENUE","CONNECTICUT AVENUE"],"key":"lightblue","costs":"50"},
+    {"names":["ST. CHARLES PLACE","STATES AVENUE","VIRGINIA AVENUE"],"key":"pink","costs":"100"},
+    {"names":["ST. JAMES PLACE","TENNESSEE AVENUE","NEW YORK AVENUE"],"key":"orange","costs":"100"},
+    {"names":["KENTUCKY AVENUE","INDIANA AVENUE","ILLINOIS AVENUE"],"key":"red","costs":"150"},
+    {"names":["ATLANTIC AVENUE","VENTNOR AVENUE","MARVIN GARDEN"],"key":"yellow","costs":"150"},
+    {"names":["PACIFIC AVENUE","NORTH CAROLINA AVENUE","PENNSYL AVENUE"],"key":"green","costs":"200"},
+    {"names":["PARK PLACE","BOARDWALK"],"key":"blue","costs":"200"},
+    {"names":["READING RAILROAD","PENNSYLVANIA RAILROAD","B. & O RAILROAD","SHORT LINE"],"key":"railroad"},
+    {"names":["WATER WORKS","ELECTRIC COMPANY"],"key":"utility"}
+        
+]

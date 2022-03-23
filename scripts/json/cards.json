@@ -1,0 +1,38 @@
+{
+    "chance":[
+        {"name":"Advance to Boardwalk","text":"Advance to Boardwalk","type":"ADVANCE","value":"BOARDWALK"},
+        {"name":"Advance to GO","text":"Advance to Go (Collect $200)","type":"ADVANCE","value":"GO"},
+        {"name":"Advance to Illinois","text":"Advance to Illinois Avenue. If you pass Go, collect $200","type":"ADVANCE","value":"ILLINOIS"},
+        {"name":"Advance to St. Charles Place","text":"Advance to St. Charles Place. If you pass Go, collect $200","type":"ADVANCE","value":"ST. CHARLES PLACE"},
+        {"name":"Advance to Nearest Railroad","text":"Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay wonder twice the rental to which they are otherwise entitled","type":"ADVANCE_NEAREST","value":"RAILROAD"},
+        {"name":"Advance to Nearest Railroad","text":"Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay wonder twice the rental to which they are otherwise entitled","type":"ADVANCE_NEAREST","value":"RAILROAD"},
+        {"name":"Advance to Nearest Utility","text":"Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.","type":"ADVANCE_NEAREST","value":"UTILITY"},
+        {"name":"Bank Dividend","text":"Bank pays you dividend of $50","type":"EARN_MONEY","value":50},
+        {"name":"Get Out of Jail Free","text":"Get Out of Jail Free","type":"GET_OUT_OF_JAIL","value":0},
+        {"name":"Go back 3 spaces","text":"Go Back 3 Spaces","type":"MOVEMENT","value":-3},
+        {"name":"Go to jail","text":"Go to Jail. Go directly to Jail, do not pass Go, do not collect $200","type":"TO_JAIL","value":"JAIL"},
+        {"name":"General Repairs","text":"Make general repairs on all your property. For each house pay $25. For each hotel pay $100","type":"GENERAL_REPAIR","value":[25,50]},
+        {"name":"Speeding Fine","text":"Speeding fine $15","type":"LOSE_MONEY","value":15},
+        {"name":"Advance to Reading Railroad","text":"Take a trip to Reading Railroad. If you pass Go, collect $200","type":"ADVANCE","value":"READING RAILROAD"},
+        {"name":"Elected Chairman","text":"You have been elected Chairman of the Board. Pay each player $50","type":"ELECTED_CHAIRMAN","value":50},
+        {"name":"Building Load Matures","text":"Your building loan matures. Collect $150","type":"EARN_MONEY","value":150}
+    ],
+    "community chest":[
+        {"name":"Advance to GO","text":"Advance to Go (Collect $200)","type":"ADVANCE","value":"GO"},
+        {"name":"Bank Error","text":"Bank error in your favor. Collect $200","type":"EARN_MONEY","value":200},
+        {"name":"Doctor's Fee","text":"Doctor's fee. Pay $50","type":"LOSE_MONEY","value":50},
+        {"name":"Stock Earning","text":"From sale of stock you get $50","type":"EARN_MONEY","value":50},
+        {"name":"Get Out of Jail Free","text":"Get Out of Jail Free","type":"GET_OUT_OF_JAIL","value":0},
+        {"name":"Go to jail","text":"Go to Jail. Go directly to Jail, do not pass Go, do not collect $200","type":"TO_JAIL","value":"JAIL"},
+        {"name":"H  oliday Funds Mature","text":"Holiday fund matures. Receive $100","type":"EARN_MONEY","value":100},
+        {"name":"Income Tax Refund","text":"Income tax refund. Collect $20","type":"EARN_MONEY","value":20},
+        {"name":"It's your birthday","text":"It is your birthday. Collect $10 from every player","type":"EARN_MONEY","value":10},
+        {"name":"Life Insurance Matures","text":"Life insurance matures. Collect $100","type":"EARN_MONEY","value":100},
+        {"name":"Hospital Fees","text":"Pay hospital fees of $100","type":"LOSE_MONEY","value":100},
+        {"name":"School Fees","text":"Pay school fees of $50","type":"LOSE_MONEY","value":50},
+        {"name":"Consultancy Fee","text":"Receive $25 consultancy fee","type":"EARN_MONEY","value":25},
+        {"name":"Street Repair","text":"You are assessed for street repair. $40 per house. $115 per hotel","type":"GENERAL_REPAIR","value":[40,115]},
+        {"name":"Second in Beauty Contest","text":"You have won second prize in a beauty contest. Collect $10","type":"EARN_MONEY","value":10},
+        {"name":"Inherit Money","text":"You inherit $100","type":"EARN_MONEY","value":100}
+    ]
+}

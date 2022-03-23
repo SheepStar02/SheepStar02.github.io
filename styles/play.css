@@ -1,0 +1,565 @@
+body{
+    margin:0;
+}
+
+.page-overlay{
+    background-color: rgba(0, 0, 0, 0.5);
+    width:100%;
+    height:100%;
+    opacity:0;
+    overflow:hidden;
+    visibility:hidden;
+    z-index:3;
+    position:absolute;
+}
+
+.page-overlay.show{
+    animation:overlayFadeIn 0.25s forwards;
+    visibility:visible;
+}
+
+.page-overlay.hide{
+    visibility:hidden;
+    opacity:0;
+}
+
+.wallpaper{
+    background-color:rgb(230, 125, 125);
+    background-size:cover;
+    z-index:-99;    
+    position:absolute;
+}
+
+.header{
+    height:60px;
+    z-index:4;
+    position:absolute;
+    width:100%;
+    background-color: rgb(255, 153, 0);
+}
+
+.header.show{
+    visibility:visible;
+}
+
+.header.hide{
+    visibility:hidden;
+}
+
+.header .menu-icon{
+    top:14px;
+    left:10px;
+    width:70px;
+    cursor:pointer;
+    position:absolute;
+}
+
+.header .menu-icon div{
+    visibility:visible;
+    width:30px;
+    left:20px;
+    border-radius:6px;
+    height:4px;
+    background-color:rgb(255, 255, 255);
+    margin:5px 0px;
+    cursor:pointer;
+    position:relative;
+}
+
+@keyframes menuFadeIn{
+    from{left:-350px} to {left:0px;}
+}
+
+.header .menubar-container div{
+    left:30px;
+    top:15px;
+    display:flex;
+    cursor:pointer;
+    position:relative;
+}
+
+.header .menubar-container div:hover span{
+    color:white;
+}
+
+.header .menubar-container div>span{
+    color:rgb(194, 194, 194);
+    transition-duration:0.5s;
+    font-family:mainFont;
+    font-size:22px;
+    margin-top:auto;
+    margin-bottom:auto;
+    position:inherit;
+}
+
+.header .menubar-container .close{
+    width:40px;
+    height:40px;
+    margin-bottom:20px;
+    cursor:pointer;
+    background-image:url("/images/close.svg");
+    background-size:cover;
+}
+
+.header .menubar-container .link{
+    height:90px;
+    width:290px;
+    border-top:2px rgb(59, 59, 59) solid;
+}
+
+.header .menubar-container div:last-child{
+    border-bottom:2px rgb(59, 59, 59) solid;
+}
+
+.header .username{
+    right:30px;
+    width:300px;
+    padding:16.8px 0;
+    position:absolute;
+}
+
+.header p{
+    font-size:18px;
+    font-family:mainFont;
+    color:white;
+    text-align:right;
+    margin:0;
+    position:relative;
+}
+
+.content-wrapper{
+    position:absolute;
+    width:100%;
+    height:100%;
+    margin:0;
+}
+
+.wrapper{
+    position:relative;
+    width:100%;
+    user-select:none;
+    display:block;
+    overflow-y:overlay;
+    overflow-x:hidden;
+    height:100%;
+    margin:0;
+    background-color:rgba(50,50,50);
+}
+
+.wrapper::-webkit-scrollbar {
+    width:10px;
+}
+
+.wrapper::-webkit-scrollbar-thumb {
+    background-color: grey; 
+}
+
+.container{
+    position:relative;
+    width:100%;
+}
+
+.container>.content{
+    position:inherit;
+    margin-left:auto;
+    margin-right:auto;
+    height:100%;
+}
+
+.join-room{
+    top:100px;
+    height:500px;
+}
+
+.join-room .content{
+    width:1000px;
+    background-color:rgba(40,40,40);
+}
+
+.join-room .content>div{
+    vertical-align:top;
+    display:inline-block;
+    height:100%;
+    position:relative;
+}
+
+.join-room .code{
+    width:30%;
+}
+
+.join-room .code::before{
+    content:"";
+    top:10%;
+    position:absolute;
+    height:80%;
+    border-right:1px rgba(255, 255, 255, 0.25) solid;
+    width:100%;
+}
+
+.wrapper h1{
+    font-family:mainFont;
+    width:100%;
+    color:#b0fcff;
+    position:relative;
+    text-align:center;
+}
+
+.join-room .code input{
+    position:relative;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    top:0px;
+    font-weight:bold;
+    font-size:24px;
+    width:200px;
+    height:35px;
+    text-align:center;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    top:40px;
+    color:rgb(36, 26, 23);
+    background-color:#e0e0e0;
+    text-transform:uppercase;
+}
+
+.join-room button{
+    font-family:mainFont;
+    position:relative;
+    display:block;
+    top:70px;
+    border-radius:10px;
+    border:none;
+    border-bottom:5px solid #44582c;
+    color:white;
+    cursor:pointer;
+    background-color:#7fa650;
+    width:180px;
+    height:35px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.join-room button:hover{
+    background-color:#90bb5c;
+}
+
+.join-room .search{
+    width:69%;
+}
+
+.join-room .room-list{
+    width:80%;
+    height:70%;
+    left:10%;
+    display:inline-block;
+    background-color:rgb(35,35,35);
+    position:relative;
+}
+
+.create-room{
+    height:70px;
+    top:140px;
+}
+
+.create-room .content{
+    background-color:rgb(40,40,40);
+    width:1000px;
+    overflow:hidden;
+}
+
+.create-room .head{
+    width:100%;
+    display:flex;
+    align-items:center;
+    height:70px;
+}
+
+.create-room.animate{
+    animation: showRoomCreation 0.25s ease-out forwards;
+}
+
+@keyframes showRoomCreation {
+    to {height: 500px}
+}
+
+.create-room h1{
+    font-family:mainFont;
+    margin:0;
+    padding:10px;
+    width:fit-content;
+    display:inline-block;
+    position:relative;
+}
+
+.create-room .body{
+    display:none;
+}
+
+.create-room .create{
+    border:2px solid green;
+	background-color: transparent;
+	font-size:16px;
+	height:2.5em;
+	width:2.5em;
+    left:20px;
+    cursor:pointer;
+	border-radius:50%;
+	position:relative;
+}
+
+.create-room .create:hover{
+    background-color:rgba(9, 255, 0, 0.164);
+}
+
+.create-room .create:before, .create-room .create:after{
+    content: "";
+    display: block;
+    background-color: green;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+	
+.create-room .create:before {
+    height: 1em;
+    width: 0.2em;
+}
+
+.create-room .create:after {
+    height: 0.2em;
+    width: 1em;
+}
+
+.footer{
+    height:20px;
+    top:140px;
+}
+
+.create-room .panel{
+    position:relative;
+    display:inline-block;
+    vertical-align:top;
+}
+
+.create-room .left{
+    width:500px;
+    margin:10px;
+    margin-left:20px;
+}
+
+.create-room .left>*{
+    margin:10px;
+    display:block;
+    position:relative;
+}
+
+.create-room .left>label{
+    color:rgb(194, 194, 194);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.create-room .left>input,.description{
+    resize:none;
+    background-color:black;
+    border:none;
+    border-radius:10px;
+    outline:none;   
+    color:rgb(148, 196, 186);
+    font-size:14px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight:bold;
+    padding-left:5px;
+}
+
+.create-room .name{
+    height:40px;
+    width:350px;
+}
+
+.create-room .description{
+    height:65px;
+    overflow:hidden;
+    padding-top:5px;
+    width:470px;
+}
+
+.create-room .options{
+    width:480px;
+    height:170px;
+}
+
+.create-room .right{
+    width:400px;   
+}
+
+.create-room .option{
+    height:40px;
+    width:800px;
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    position:relative;
+}
+
+.create-room .toggle{
+    -webkit-appearance:none;
+    outline:none;
+    -moz-appearance:none;
+    appearance:none;
+    -webkit-tap-highlight-color:transparent;
+    cursor:pointer;
+    height:32px;
+    width:52px;
+    border-radius:16px;
+    display:inline-block;
+    position:relative;
+    margin:0;
+    border:2px solid;
+    border-color:red;
+    background:linear-gradient(180deg, #2D2F39 0%, #1F2027 100%);
+    transition:all .2s ease;
+}
+
+.create-room .toggle::after{
+    content:'';
+    position:absolute;
+    top:2px;
+    left:2px;
+    width:24px;
+    height:24px;
+    border-radius: 50%;
+    background:white;
+    box-shadow:0 1px 2px rgba(44,44,44,0.2);
+    transition:all 0.2s cubic-bezier(0.5,0.1,0.75,1.35);
+}
+
+.create-room .toggle:checked{
+    border-color: greenyellow;
+}
+
+.create-room .toggle:checked::after{
+    transform:translatex(20px);
+}
+
+.create-room .option label{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    left:30px;
+    position:relative;
+    color:rgb(228, 198, 198);
+    font-size:16px;
+}
+
+.create-room p{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin:20px;
+}
+
+.create-room .info{
+    color:rgb(124, 153, 151);
+}
+
+.create-room .error{
+    color:rgb(243, 87, 87);
+    font-size:12px;
+    margin-left:40px;
+    display:none;
+}
+
+.create-room button{
+    width:40%;
+    margin-left:20px;
+    height:40px;
+    border:none;
+    cursor:pointer;
+    border-radius:15px;
+    font-family:mainFont;
+    color:white;
+}
+
+.create-room .confirm{
+    background-color:#7fa650;
+}
+
+.create-room .confirm:hover{
+    background-color: rgb(138, 194, 55);
+}
+
+.create-room .cancel{
+    background-color:rgb(185, 70, 70);
+}
+
+.create-room .cancel:hover{
+    background-color: rgb(168, 36, 36);
+}
+
+.alert-box{
+    pointer-events:none;
+    right:30px;
+    bottom:20px;
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    height:50%;
+    width:300px;
+    z-index: 5;
+}
+
+.alert-box .alert{
+    overflow:hidden;
+    width:100%;
+    height:0px;
+    margin-top:15px;
+    border-radius:5px;
+    display: flex;
+    align-items: center;
+    background-color: #6b6b6baf;
+    border-left: 5px rgba(255, 0, 0, 0.466) solid;
+    font-family:  Verdana, Geneva, Tahoma, sans-serif;
+    animation: alertEnter 0.15s linear forwards;
+    transition: 0.3s;
+}
+
+@keyframes alertEnter {
+    100%{height:70px}
+}
+
+.alert-box span{
+    user-select: none;
+    pointer-events:all;
+    cursor:pointer;
+    font-weight:bolder;
+    left: 80%;
+    position:relative;
+    font-size: 12px;
+    color:black;
+}
+
+.alert-box p{
+    user-select: none;
+    position: absolute;
+    width:75%;
+    left:15px;
+    margin: 15px 0 0 0;
+    color: white;
+    font-size:12px;
+}
+
+.alert-box p::after{
+    font-size: 16px;
+    content: "Unexpected Error";
+    color:red;
+    position: absolute;
+    width:100%;
+    text-align: center;
+    left:0px;
+    top:-23px;
+}
+
+@font-face {
+    font-family: mainFont;
+    src: url("/fonts/mainFont.ttf");
+}   

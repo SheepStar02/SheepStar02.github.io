@@ -1,0 +1,60 @@
+.g-menubar-container{
+    visibility:visible;
+    position:inherit;
+    display:none;
+    z-index:4;
+    width:350px;
+    left:-350px;
+    height:100vh;
+    background-color:rgb(31, 31, 31);
+}
+
+.g-menubar-container.show{
+    display:block;
+    animation: menuFadeIn 0.25s forwards;
+}
+
+@keyframes menuFadeIn{
+    from{left:-350px} to {left:0px;}
+}
+
+.g-menubar-container div{
+    left:30px;
+    top:15px;
+    display:flex;
+    cursor:pointer;
+    position:relative;
+}
+
+.g-menubar-container div:hover span{
+    color:white;
+}
+
+.g-menubar-container div>span{
+    color:rgb(194, 194, 194);
+    transition-duration:0.5s;
+    font-family:mainFont;
+    font-size:22px;
+    margin-top:auto;
+    margin-bottom:auto;
+    position:inherit;
+}
+
+.g-menubar-container .close{
+    width:40px;
+    height:40px;
+    margin-bottom:20px;
+    cursor:pointer;
+    background-image:url("/images/close.svg");
+    background-size:cover;
+}
+
+.g-menubar-container .link{
+    height:90px;
+    width:290px;
+    border-top:2px rgb(59, 59, 59) solid;
+}
+
+.g-menubar-container div:last-child{
+    border-bottom:2px rgb(59, 59, 59) solid;
+}

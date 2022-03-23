@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset= "UTF-8">
+        <title>Monopoly</title>
+        <link rel = "stylesheet" href = "/styles/room.css">
+
+        <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-firestore.js"></script>
+
+        <script>
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyABEReprjiIcKJBuCehs9bBkyzouRBJmec",
+                authDomain: "website-502fe.firebaseapp.com",
+                projectId: "website-502fe",
+                storageBucket: "website-502fe.appspot.com",
+                messagingSenderId: "820514700793",
+                appId: "1:820514700793:web:ffaaa20c73563b7334d128",
+                measurementId: "G-CVDD3NX4MK"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+
+        </script>
+        <script src = "/scripts/globalfunctions.js"></script>
+        <script src = "/scripts/room.js"></script>
+    </head>
+    <body>
+        <div class = "wrapper">
+        <div class = "content-wrapper">
+            <div class = "transition-container">
+                <div class = "loader-container fadeIn">
+                    <div class = "loader-icon"></div>
+                    <p>Connecting to servers...</p>
+                </div>
+                <div class = "transition-background left leftslideIn" data-transition = "left"></div>
+                <div class = "transition-background right rightslideIn"  data-transition = "right"></div>
+            </div>
+            <div class = "pre-room-container toscrollable">
+                <div class = "background-image"></div>
+                <section class = "pre-room header">
+                    <div class = "pre-room content">
+                        <h1 class = "room-code">XGHW</h1>
+                        <div class = "copy-code-container">
+                            <button class = "copy-code">Click to copy url</button>
+                        </div>
+                        <h1 class = "room-title"></h1>
+                    </div>
+                </section>
+                <section class = "pre-room body">
+                    <div class = "column left">
+                        <div class = "players-container">
+                            <div class = "players-label"><h1>Players <span>[1 of 6]</span></h1></div>
+                            <div class = "players">
+                                <div class = "player">
+                                    <div class = "player-container">
+                                        <div class = "player-icon" data-icon = "0"></div>
+                                        <div class = "player-status"></div>
+                                        <p class = "player-name"></p>
+                                        <div class = "player-settings">
+                                            <div class = "settings-container">
+                                                <div class = "settings-options">
+                                                    <button data-setting = "kick"><span style = "color:rgb(255, 88, 88)">Kick</span></button>
+                                                    <button data-setting = "profile"><span style = "color:rgb(202, 227, 255)">Profile</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class = "player-border">
+                                        <p class = "player-waiting">Waiting For Players</p>
+                                        <div class = "corner-node"></div>
+                                    </div>
+                                </div>
+                                <div class = "player">
+                                    <div class = "player-container">
+                                        <div class = "player-icon" data-icon = "1"></div>
+                                        <div class = "player-status"></div>
+                                        <p class = "player-name"></p>
+                                        <div class = "player-settings">
+                                            <div class = "settings-container">
+                                                <div class = "settings-options">
+                                                    <button data-setting = "kick"><span style = "color:rgb(255, 88, 88)">Kick</span></button>
+                                                    <button data-setting = "profile"><span style = "color:rgb(202, 227, 255)">Profile</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class = "player">
+                                    <div class = "player-container">
+                                        <div class = "player-icon" data-icon = "2"></div>
+                                        <div class = "player-status"></div>
+                                        <p class = "player-name"></p>
+                                        <div class = "player-settings">
+                                            <div class = "settings-container">
+                                                <div class = "settings-options">
+                                                    <button data-setting = "kick"><span style = "color:rgb(255, 88, 88)">Kick</span></button>
+                                                    <button data-setting = "profile"><span style = "color:rgb(202, 227, 255)">Profile</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class = "player">
+                                    <div class = "player-container">
+                                        <div class = "player-icon" data-icon = "3"></div>
+                                        <div class = "player-status"></div>
+                                        <p class = "player-name"></p>
+                                        <div class = "player-settings">
+                                            <div class = "settings-container">
+                                                <div class = "settings-options">
+                                                    <button data-setting = "kick"><span style = "color:rgb(255, 88, 88)">Kick</span></button>
+                                                    <button data-setting = "profile"><span style = "color:rgb(202, 227, 255)">Profile</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class = "player">
+                                    <div class = "player-container">
+                                        <div class = "player-icon" data-icon = "3"></div>
+                                        <div class = "player-status"></div>
+                                        <p class = "player-name"></p>
+                                        <div class = "player-settings">
+                                            <div class = "settings-container">
+                                                <div class = "settings-options">
+                                                    <button data-setting = "kick"><span style = "color:rgb(255, 88, 88)">Kick</span></button>
+                                                    <button data-setting = "profile"><span style = "color:rgb(202, 227, 255)">Profile</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class = "player">
+                                    <div class = "player-container">
+                                        <div class = "player-icon" data-icon = "3"></div>
+                                        <div class = "player-status"></div>
+                                        <p class = "player-name"></p>
+                                        <div class = "player-settings">
+                                            <div class = "settings-container">
+                                                <div class = "settings-options">
+                                                    <button data-setting = "kick"><span style = "color:rgb(255, 88, 88)">Kick</span></button>
+                                                    <button data-setting = "profile"><span style = "color:rgb(202, 227, 255)">Profile</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class = "player">
+                                    <div class = "player-container">
+                                        <div class = "player-icon" data-icon = "3"></div>
+                                        <div class = "player-status"></div>
+                                        <p class = "player-name"></p>
+                                        <div class = "player-settings">
+                                            <div class = "settings-container">
+                                                <div class = "settings-options">
+                                                    <button data-setting = "kick"><span style = "color:rgb(255, 88, 88)">Kick</span></button>
+                                                    <button data-setting = "profile"><span style = "color:rgb(202, 227, 255)">Profile</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class = "player">
+                                    <div class = "player-container">
+                                        <div class = "player-icon" data-icon = "3"></div>
+                                        <div class = "player-status"></div>
+                                        <p class = "player-name"></p>
+                                        <div class = "player-settings">
+                                            <div class = "settings-container">
+                                                <div class = "settings-options">
+                                                    <button data-setting = "kick"><span style = "color:rgb(255, 88, 88)">Kick</span></button>
+                                                    <button data-setting = "profile"><span style = "color:rgb(202, 227, 255)">Profile</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "column center">
+                        <div class = "center-container">
+                            <button class = "center-option start">Start Game</button>
+                            <button class = "center-option delete">Delete Room</button>
+                        </div>
+                        <div class = "token-selection">
+                            <h1 class = "token-title">Select Your Token</h1>
+                            <div class = "token-scrollbox">
+                                <div>
+                                    <div class = "token" data-token = "boot"></div>
+                                    <div class = "token" data-token = "battleship"></div>
+                                    <div class = "token" data-token = "dog"></div>
+                                    <div class = "token" data-token = "cat"></div>
+                                    <div class = "token" data-token = "thimble"></div>
+                                    <div class = "token" data-token = "wheelbarrow"></div>
+                                    <div class = "token" data-token = "car"></div>
+                                    <div class = "token" data-token = "hat"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "column right">
+                        <div class = "room-option-container">
+                            <h1>Room Settings</h1>
+                            <div class = "option enable-chat">
+                                <input type = "checkbox" class = "toggle">
+                                <label>Disable Chat</label>
+                            </div>
+                            <div class = "option skip-tutorial">
+                                <input type = "checkbox" class = "toggle">
+                                <label>Skip Tutorial</label>
+                            </div>
+                            <div class = "option room-type">
+                            </div>
+                        </div>
+                        <div class = "game-option-contianer">
+                            <h1>Game Settings (Soon)</h1>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class = "game-container toscrollable">
+                <div class = "background-image"></div>
+                <section class = "game-wrapper">
+                <div class = "main-board">
+                    <div class = "player-options-wrapper">
+                        <div class = "player-options-container">
+                            <div class = "turn-container" data-option = "playerturn">  
+                                <h1 class = "options-title">
+                                    <span>New Turn</span>
+                                    <span>Johnny Bobberson</span>
+                                </h1>
+                                <div class = "dice-container">
+                                    <div class = "dice" data-dicenum = "1">
+                                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                    </div>
+                                    <div class = "dice" data-dicenum = "2">
+                                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                    </div>
+                                </div>
+                                <h1 class = "dice-rolling">The dice are rolling...</h1>
+                                <button class = "roll-dice">Roll Dice</button>
+                            </div>
+                            <div class = "actions-container" data-option = "action">
+                                <h1 class = "options-title">
+                                    <span>Actions</span>
+                                    <span>Property offers</span>
+                                </h1>
+                                <h4>No properties for <br> sale currently :/</h4>
+                                <div class = "property-buy-offer">
+                                    <h5 class = "purchase-price">Purchase this property for $69?</h5>
+                                    <button class = "purchase-yes" data-confirm = "yes">Confirm</button>
+                                    <button class = "purchase-no" data-confirm = "no">Auction</button>
+                                </div>
+                                <div class = "property-auction-offer">
+                                    <h5 class = "auction-price">
+                                        <span class = "highest-price">Top bid: $100</span>
+                                        <span class = "bidder">Jonny Bobberson</span>
+                                    </h5>
+                                    <div class = "bid-countdown"></div>
+                                    <div class = "bidding-container">
+                                        <p>$</p><input class = "bid-input" placeholder="Enter Bid" min = "0" max = "1500" type = "number">
+                                    </div>
+
+                                    <button class = "bid-confirm">Submit</button>
+                                </div>
+                            </div>
+                            <div class = "players-container" data-option = "player">
+                                <h1 class = "options-title">
+                                    <span>Players</span>
+                                    <span>Manage Trades</span>
+                                </h1>
+                                <div class = "players-list">
+                                </div>
+                                <div class = "player-wrapper">
+                                    <div class = "player-info">
+                                        <h1 class = "info-name">Jonny Bobberson</h1>
+                                        <h1 class = "info-balance">Balance: $1500</h1>
+                                        <button class = "create-trade" data-status = "trading">Offer Trade</button>
+                                        <p class = "trade-error">Sample text except it is a lot longer than expecteds</p>
+                                        <button class = "return-to-list">Back</button>
+                                    </div>
+                                    <div class = "player-properties">
+                                        <div class = "search-property">
+                                            <input type = "text" placeholder = "Search..." data-for = "list">
+                                            <button class = "confirm-search-property"></button>
+                                        </div>
+                                        <div class = "properties-list toscrollable"></div>
+                                    </div>
+                                </div>
+                                <div class = "player-trades">
+                                    <div class = "self-offer offer-panel">
+                                        <div class = "add-offer-panel">
+                                            <div class = "search-property">
+                                                <input type = "text" placeholder = "Search..." data-for = "trade">
+                                                <button class = "close-add-offer"><div></div><div></div></button>
+                                            </div>
+                                            <div class = "trade-properties toscrollablemini">
+                                                <div class = "trade-currency">
+                                                    <p>Currency $</p><input type = "number" placeholder = "0.00" class = "input-add-currency" min = "0">
+                                                </div>
+                                                <div class = "trade-jailcard">
+                                                    <p>Jail Cards</p>
+                                                    <div class = "trade-jailcard-container">
+                                                        <button class = "add-jail-card"><div></div><div></div></button>
+                                                        <p>0</p>
+                                                        <button class = "remove-jail-card"><div></div></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h1 class = "self-trade-status">Waiting</h1>
+                                        <button class = "add-offer" data-status = "waiting"><div></div><span>Add Offer</span></button>
+                                        <div class = "offer-list">
+                                            <div class = "offer-items toscrollablemini">
+                                            </div>
+                                        </div>
+                                        <div class = "offer-options">
+                                            <button class = "confirm-trade">Confirm</button>
+                                            <button class = "back-trade">Back</button>
+                                            <button class = "cancel-trade">Cancel</button>
+                                        </div>
+                                        <button class = "cancel-trade-confirm">Cancel</button>
+                                    </div>
+                                    <div class = "their-offer offer-panel">
+                                        <h1 class = "trade-name">
+                                        </h1>
+                                        <p class = "offer-status">Pending</p>
+                                        <div class = "offer-list">
+                                            <div class = "offer-items toscrollablemini"></div>
+                                        </div>
+                                        <p class = "additional-tax">Additional Tax: $0</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "properties-container" data-option = "property">
+                                <h1 class = "options-title">
+                                    <span>Properties</span>
+                                    <span>Purchase Upgrades</span>
+                                </h1>
+                                <h4>Select a property from the board<br>or your own hand to view :)</h4>
+                                <div class = "property-details">  
+                                    <h5 class = "property-ownership">
+                                        <span>Owner</span>
+                                        <span>Johny Bobberson</span>
+                                    </h5>
+                                    <div class = "improvements">
+                                        <label>Improvements:</label>
+                                        <p class = "no-improvements">NONE</p>
+                                        <img>
+                                        <p class = "improvements-count">x2</p>
+                                    </div>
+                                    <div class = "property-options">
+                                        <button class = "upgrade">Buy House for $200</button>
+                                        <button class = "downgrade">Sell House for $100</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "billings-container" data-option = "billing">
+                                <h1 class = "options-title">
+                                    <span>Billings</span>
+                                    <span>Your Owings</span>
+                                </h1>
+                                <h4 style = "display:none">You have no bills to be paid.<br>Don't worry, you will soon ;)</h4>
+                                <div class = "recipt-container">
+                                    <h1 class = "recipt-title">Reciept</h1>
+                                    <img class = "recipt-logo">
+                                    <p class = "owing-amount"><span>Income Tax</span><span>$10</span></p>
+                                    <div class = "use-jailcard-container"><div><img></div><p></p><button class = "use-jail-card">Use</button></div>
+                                    <p class = "total-owing">Total</span><span>$50</p>
+                                    <button class = "pay-owings">Confirm Payment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "board-card-outline chest"></div>
+                    <div class = "board-card-outline chance"></div>
+                    <div class = "board-card-container chest">
+                        <div class = "board-card-inner">
+                            <div class = "chest-front board-card-front">
+                                <div>
+                                    <div><div></div></div>
+                                </div>
+                            </div>
+                            <div class = "chest-back board-card-back" data-img = "left">
+                                <div>
+                                    <h1>COMMUNITY CHEST</h1>
+                                    <div class = "board-card-text">
+                                        <p>BANK ERROR IN YOUR FAVOR. COLLECT $200</p>
+                                    </div>
+                                    <div class = "board-card-image"><img src = "/images/Monopoly/board-card-earn.png"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "board-card-container chance">
+                        <div class = "board-card-inner">
+                            <div class = "chance-front board-card-front">
+                                <div>
+                                    <div><div></div></div>
+                                </div>
+                            </div>
+                            <div class = "chance-back board-card-back" data-img = "left">
+                                <div>
+                                    <h1>CHANCE</h1>
+                                    <div class = "board-card-text">
+                                        <p>Get Out of Jail Free</p>
+                                    </div>
+                                    <div class = "board-card-image"><img src = "/images/Monopoly/board-card-advance.png"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "board-menu-container board-menu-shown">
+                        <button class = "board-menu-option toggle-turn" data-option = "playerturn">Player-Turn</button>
+                        <button class = "board-menu-option toggle-auctions" data-option = "action">Actions</button>
+                        <button class = "board-menu-option toggle-players" data-option = "player">Players</button>
+                        <button class = "board-menu-option toggle-properties" data-option = "property">Properties</button>
+                        <button class = "board-menu-option toggle-billing" data-option = "billing">Your billings</button>
+                    </div>
+                    <div class = "monopoly-logo-container"></div>
+                    <div class = "board-bottom board-horizontal">
+                        <div class = "corner-tile tile">
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "corner-tile tile">
+                        </div>
+                    </div>
+                    <div class = "board-left board-verticle">
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                    </div>
+                    <div class = "board-top board-horizontal">
+                        <div class = "corner-tile tile">
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "corner-tile tile">
+                        </div>
+                    </div>
+                    <div class = "board-right board-verticle">
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                        <div class = "tile">
+                            <div class = "tile-head"></div>
+                            <h2 class = "tile-name"></h2>
+                            <div class = "tile-icon"></div>
+                            <h2 class = "tile-cost"></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class = "game-menu">
+                    <section class = "menu-section player-turn">
+                        <div class = "player-token"></div>
+                        <div class = "player-name">
+                            <h3>Turn:</h3>
+                            <h1>Johnny bobberson</h1>
+                        </div>
+                    </section>
+                    <section class = "menu-section chat-logs">
+                        <div class = "chat toscrollable">
+                        <span class = "game">Welcome to the chatroom!</span>
+                        </div>
+                        <input class = "chat-input">
+                    </section>
+                    <section class = "menu-section player-account">
+                        <div class = "account-display-container">
+                            <h1 class = "player-balance-label">Balance: </h1>
+                            <h3 class = "player-balance">$1500</h3>
+                            <button type = "button" class = "end-turn-button">End Turn</button>
+                        </div>
+                    </section>
+                    <section class = "menu-section player-functions">
+                        <h1 class = "function-title">Your Properties</h1>
+                        <div class = "property-container toscrollable">
+                        </div>
+                    </section>
+                </div>
+            </section>
+            </div>
+            <div class = "end-room-container">
+                <div class = "background-image"></div>
+            </div>
+        </div>
+        </div>
+    </body> 
+</html>

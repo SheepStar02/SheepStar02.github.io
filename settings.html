@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel = "stylesheet" href = "/styles/settings.css">
+        <link rel = "stylesheet" href = "/styles/menubar.css">
+
+        <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-firestore.js"></script>
+
+        <script>
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyABEReprjiIcKJBuCehs9bBkyzouRBJmec",
+                authDomain: "website-502fe.firebaseapp.com",
+                projectId: "website-502fe",
+                storageBucket: "website-502fe.appspot.com",
+                messagingSenderId: "820514700793",
+                appId: "1:820514700793:web:ffaaa20c73563b7334d128",
+                measurementId: "G-CVDD3NX4MK"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+
+        </script>
+        <script src = "/scripts/settings.js"></script>
+        <script src = "/scripts/globalfunctions.js"></script>
+    </head>
+    <body>
+        <div class = "page-overlay hide"></div>
+        <div class = "login-overlay hide"></div>
+        <div class = "warning-overlay hide"></div>
+        <div class = "header show">
+            <div class = "username">
+                <p></p>
+            </div>
+            <div class = "menu-icon hide">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class = "g-menubar-container">
+                <div class = "close"></div>
+                <div class = "link index"><span>Home</span></div>
+                <div class = "link profile"><span>View Profile</span></div>
+                <div class = "link play"><span>Play Games</span></div>
+                <div class = "link settings"><span>Account Settings</span></div>
+            </div>
+        </div>
+        <div class = "login-container hide">
+            <div class = "page-wrapper">
+                <div class = "login-page">
+                    <h1>Login</h1>
+                    <div class = "login">
+                        <input class = "username" type = "text" placeholder = "Username" maxlength = "18">
+                        <input class = "password" type = "password" placeholder = "Password" maxlength = "18">
+                        <div class = "warning"><p></p></div>
+                        <div class = "switch-type"><span>Don't have an account?</span><span data-selector = "register">Register here</span></div>
+                        <div class = "checkbox-container">                        
+                            <input id = "remember-me-checkbox" class = "radio" type = "checkbox" checked>
+                            <label for = "remember-me-checkbox">Remember me</label>
+                        </div>
+                        <button>Login</button>
+                    </div>
+                </div>
+                <div class = "register-page">
+                    <h1>Register</h1>
+                    <div class = "register">
+                        <input class = "username" type = "text" placeholder = "Username" maxlength = "18">
+                        <input class = "password" type = "password" placeholder = "Password" maxlength = "18">
+                        <input class = "confirm" type = "password" placeholder = "Confirm Password" maxlength = "18">
+                        <div class = "warning"><p></p></div>
+                        <div class = "switch-type"><span>Already have an account?</span><span data-selector = "login">Login here</span></div>
+                        <div class = "checkbox-container">                        
+                            <input id = "transfer-account-checkbox" class = "radio" type = "checkbox" checked>
+                            <label for = "transfer-account-checkbox">Transfer account</label>
+                        </div>
+                        <button>Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class = "logout-container hide">
+            <fieldset>
+                <legend>Are You Sure?</legend>
+                <p></p>
+                <button data-for = "confirm">Yes - I'm Certain</button>
+                <button data-for = "deny">No - Go Back</button>
+            </fieldset>
+        </div>
+        <div class = "content-wrapper show">
+        <div class = "content">
+            <div class = "wallpaper"></div>
+            <div class = "guest-wrapper">
+                <div class = "guest-settings-container">
+                    <div class = "warning show">
+                        <h1>Convert your account</h1>
+                        <p>You are currently using a guest account. Login or create a new account to gain access to the entire website.</p>
+                        <button data-selector = "login">Login</button>
+                        <button data-selector = "register">Register</button>
+                    </div>
+                </div>
+                <div class = "credentials-container">
+                    <div class = "credentials">
+                        <h1 class = title>Your Information</h1>
+                        <div class = "credentials-wrap">
+                        <div class = "item username"><h3>Username</h3><h3></h3></div>
+                        <div class = "item password"><h3>Password</h3><h3></h3></div>
+                        <div class = "item usercode"><h3>Client ID</h3><h3></h3></div>
+                        </div>
+                        <div class = "credentials-explaination">
+                            <h4>What is this for?</h4>
+                            <p>Nothing! Your credentials do not matter for a guest account. This information is not able to be used anywhere and the developer does not care. I added this to take up some free space.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "registered-wrapper">
+                <div class = "account-container">
+                    <fieldset class = "account register-set">
+                    <legend>Your Information</legend>
+                    <div class = "set-wrapper">
+                        <div class = "username account-cred">
+                            <h3>Username</h3>
+                            <div><p></p><button data-change-for = "username">Change</button></div>
+                        </div>
+                        <div class = "password account-cred">
+                            <h3>Password</h3>
+                            <div><p></p><span data-for = "password"></span><button data-change-for = "password">Change</button></div>
+                        </div>
+                        <div class = "usercode account-cred">
+                            <h3>Usercode</h3>
+                            <div><p></p><span data-for = "usercode"></span></div>
+                        </div>  
+                    </div>
+                    <div class = "change-info username">
+                        <div class = "input-container">
+                            <input type = "text" placeholder = "Enter New Username">
+                            <input type = "password" placeholder = "Enter Password">
+                            <button class = "confirm" data-confirm = "username">Confirm</button>
+                            <button class = "cancel" data-cancel = "username">Cancel</button>
+                        </div>
+                        <span class = "error"></span>
+                        <p>Your username can be changed as many times as you'd like. We all have identity problems, there's no need to panic.</p>
+                    </div>
+                    <div class = "change-info password">
+                        <div class = "input-container">
+                            <input type = "password" placeholder = "Enter New Password">
+                            <input type = "password" placeholder = "Confirm Password">
+                            <input type = "password" placeholder = "Enter old Password">
+                            <button class = "confirm" data-confirm = "password">Confirm</button>
+                            <button class = "cancel" data-cancel = "password">Cancel</button>
+                        </div>
+                        <span class = "error"></span>
+                        <p>Your password can be changed as many times as you'd like. Whatever makes you feel the safest.</p>
+                    </div>
+                    </fieldset>
+                    <fieldset class = "options register-set">
+                        <legend>Options</legend>
+                        <div class = "set-wrapper">
+                            <div class = "option friends">
+                                <input type = "checkbox" class = "toggle" checked>
+                                <label>Friend Requests</label>
+                            </div>  
+                            <div class = "option profile-viewable">
+                                <input type = "checkbox" class = "toggle" checked>
+                                <label>Public Profile</label>
+                            </div>
+                            <div class = "option user-api">
+                                <input type = "checkbox" class = "toggle" checked>
+                                <label>API Enabled</label>
+                            </div>
+                            <div class = "option messaging">
+                                <input type = "checkbox" class = "toggle" checked>
+                                <label>Private Messaging</label>
+                            </div>
+                            <div class = "option chat-enabled">
+                                <input type = "checkbox" class = "toggle">
+                                <label>Hide Chat</label>
+                            </div>
+                            <div class = "option chat-filtered">
+                                <input type = "checkbox" class = "toggle">
+                                <label>Chat Filters</label>
+                            </div>
+                            <div class = "option unknown">
+                                <input type = "checkbox" class = "toggle">
+                                <label>Unknown</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class = "danger register-set">
+                        <legend>Danger Zone</legend>
+                        <div class = "set-wrapper">
+                            <button class = "logout" data-selector = "logout">Logout</button>
+                            <button class = "delete-account" data-selector = "delete-account">Delete Account</button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        </div>
+    </body> 
+</html>

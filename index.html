@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel = "stylesheet" href = "/styles/index.css">
+        <link rel = "stylesheet" href = "/styles/menubar.css">
+
+        <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-firestore.js"></script>
+
+        <script>
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyABEReprjiIcKJBuCehs9bBkyzouRBJmec",
+                authDomain: "website-502fe.firebaseapp.com",
+                projectId: "website-502fe",
+                storageBucket: "website-502fe.appspot.com",
+                messagingSenderId: "820514700793",
+                appId: "1:820514700793:web:ffaaa20c73563b7334d128",
+                measurementId: "G-CVDD3NX4MK"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+
+        </script>
+        <script src = "/scripts/globalfunctions.js"></script>
+        <script src = "/scripts/index.js"></script>
+        
+    </head>
+    <body>
+        <div class = "page-overlay hide"></div>
+        <div class = "header show">
+            <div class = "username">
+                <p>Testing Name</p>
+            </div>
+            <div class = "menu-icon hide">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class = "g-menubar-container">
+                <div class = "close"></div>
+                <div class = "link index"><span>Home</span></div>
+                <div class = "link profile"><span>View Profile</span></div>
+                <div class = "link play"><span>Play Games</span></div>
+                <div class = "link settings"><span>Account Settings</span></div>
+            </div>
+        </div>
+        <div class = "content-wrapper">
+            <div class = "wallpaper"></div>
+            <div class = "panel-container main">
+                <div class = "panel main">
+                    <div class = "image-container">
+                        <div class = "image"></div>
+                        <div class = "caption">
+                            <span>Play now!</span>
+                        </div>
+                    </div>
+                    <div class = "text-container">
+                        <span class = "title">Welcome!</span>
+                        <p class = "intro">Fancy a few classic games with your friends!? Have no friends!? Choose through all of your favorite games which currently only consist of monopoly. More games to come in the future...</p>
+                        <p class = "foot">Here's some more text for you to read.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body> 
+</html>
