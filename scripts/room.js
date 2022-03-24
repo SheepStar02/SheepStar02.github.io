@@ -241,7 +241,7 @@ function loadGameRoom(){
         let toExit = false;
 
         document.querySelectorAll(".game-container .monopoly-logo-container, .game-container .board-card-container").forEach(item => {
-            if (event.path.includes(item)){
+            if (event.target === item){
                 toExit = true;
                 return;
             }
