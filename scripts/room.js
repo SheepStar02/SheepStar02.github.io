@@ -4,10 +4,10 @@ const socket = new WebSocket("wss://webserveresl.herokuapp.com"), urlParams = ne
 //Stored socket response functions
 let socketId = {}, gameStatus = {optionChoice: "playerturn", tradeInterval: 0, gameComplete: false};
 
-const boardLocationNames = JSON.parse(`{"bottom":[{"type":"PROPERTY","name":"MEDITER AVENUE","color":"rgb(149,84,54)","value":60,"rent":[2,10,30,90,160,250]},{"type":"CHEST","name":"COMMUNITY CHEST","img":"/images/monopoly/chest-icon.png"},{"type":"PROPERTY","name":"BALTIC AVENUE","color":"rgb(149,84,54)","value":60,"rent":[4,20,60,180,320,450]},{"type":"TAX","name":"INCOME TAX","value":200,"img":"/images/monopoly/tax-income-icon.png"},{"type":"RAILROAD","name":"READING RAILROAD","value":200,"img":"/images/monopoly/railroad-icon.png","rent":[25,50,100,200]},{"type":"PROPERTY","name":"ORIENTAL AVENUE","color":"rgb(170,224,250)","value":100,"rent":[6,30,90,270,400,550]},{"type":"CHANCE","name":"CHANCE","img":"/images/monopoly/chance-icon-1.png"},{"type":"PROPERTY","name":"VERMONT AVENUE","color":"rgb(170,224,250)","value":100,"rent":[6,30,90,270,400,550]},{"type":"PROPERTY","name":"CONNECTICUT AVENUE","color":"rgb(170,224,250)","value":120,"rent":[8,40,100,300,450,600]}],
-    "left":[{"type":"PROPERTY","name":"ST. CHARLES PLACE","color":"rgb(217,58,150)","value":140,"rent":[10,50,150,450,625,750]},{"type":"UTILITY","name":"ELECTRIC COMPANY","value":150,"img":"/images/monopoly/electric-utility-icon.png"},{"type":"PROPERTY","name":"STATES AVENUE","color":"rgb(217,58,150)","value":140,"rent":[10,50,150,450,625,750]},{"type":"PROPERTY","name":"VIRGINIA AVENUE","color":"rgb(217,58,150)","value":160,"rent":[12,60,180,500,700,900]},{"type":"RAILROAD","name":"PENNSYLVANIA RAILROAD","value":200,"img":"/images/monopoly/railroad-icon.png","rent":[25,50,100,200]},{"type":"PROPERTY","name":"ST. JAMES PLACE","color":"rgb(249,148,29)","value":180,"rent":[14,70,200,550,750,950]},{"type":"CHEST","name":"COMMUNITY CHEST","img":"/images/monopoly/chest-icon.png"},{"type":"PROPERTY","name":"TENNESSEE AVENUE","color":"rgb(249,148,29)","value":180,"rent":[14,70,200,550,750,950]},{"type":"PROPERTY","name":"NEW YORK AVENUE","color":"rgb(249,148,29)","value":200,"rent":[16,80,220,600,800,1000]}],
-    "top":[{"type":"PROPERTY","name":"KENTUCKY AVENUE","color":"rgb(237,27,36)","value":220,"rent":[18,90,250,700,875,1050,110]},{"type":"CHANCE","name":"CHANCE","img":"/images/monopoly/chance-icon-2.png"},{"type":"PROPERTY","name":"INDIANA AVENUE","color":"rgb(237,27,36)","value":220,"rent":[18,90,250,700,875,1050,110]},{"type":"PROPERTY","name":"ILLINOIS AVENUE","color":"rgb(237,27,36)","value":240,"rent":[20,100,300,750,925,1100]},{"type":"RAILROAD","name":"B. & O RAILROAD","value":200,"img":"/images/monopoly/railroad-icon.png","rent":[25,50,100,200]},{"type":"PROPERTY","name":"ATLANTIC AVENUE","color":"rgb(254,242,0)","value":260,"rent":[22,110,330,800,975,1150]},{"type":"PROPERTY","name":"VENTNOR AVENUE","color":"rgb(254,242,0)","value":260,"rent":[22,110,330,800,975,1150]},{"type":"UTILITY","name":"WATER WORKS","value":150,"img":"/images/monopoly/water-utility-icon.png"},{"type":"PROPERTY","name":"MARVIN GARDEN","color":"rgb(254,242,0)","value":280,"rent":[24,120,360,850,1025,1200]}],
-    "right":[{"type":"PROPERTY","name":"PACIFIC AVENUE","color":"rgb(33,177,90)","value":300,"rent":[26,130,390,900,1100,1275]},{"type":"PROPERTY","name":"NORTH CAROLINA AVENUE","color":"rgb(33,177,90)","value":300,"rent":[26,130,390,900,1100,1275]},{"type":"CHEST","name":"COMMUNITY CHEST","img":"/images/monopoly/chest-icon.png"},{"type":"PROPERTY","name":"PENNSYL AVENUE","color":"rgb(33,177,90)","value":320,"rent":[28,150,450,1000,1200,1400]},{"type":"RAILROAD","name":"SHORT LINE","value":200,"img":"/images/monopoly/railroad-icon.png","rent":[25,50,100,200]},{"type":"CHANCE","name":"CHANCE","img":"/images/monopoly/chance-icon-3.png"},{"type":"PROPERTY","name":"PARK PLACE","color":"rgb(0,114,187)","value":350,"rent":[35,175,500,1100,1300,1500]},{"type":"TAX","name":"LUXURY TAX","value":100,"img":"/images/monopoly/tax-luxury-icon.png"},{"type":"PROPERTY","name":"BOARDWALK","color":"rgb(0,114,187)","value":400,"rent":[50,200,600,1400,1700,2000]}]}`),
+const boardLocationNames = JSON.parse(`{"bottom":[{"type":"PROPERTY","name":"MEDITER AVENUE","color":"rgb(149,84,54)","value":60,"rent":[2,10,30,90,160,250]},{"type":"CHEST","name":"COMMUNITY CHEST","img":"/images/Monopoly/chest-icon.png"},{"type":"PROPERTY","name":"BALTIC AVENUE","color":"rgb(149,84,54)","value":60,"rent":[4,20,60,180,320,450]},{"type":"TAX","name":"INCOME TAX","value":200,"img":"/images/Monopoly/tax-income-icon.png"},{"type":"RAILROAD","name":"READING RAILROAD","value":200,"img":"/images/Monopoly/railroad-icon.png","rent":[25,50,100,200]},{"type":"PROPERTY","name":"ORIENTAL AVENUE","color":"rgb(170,224,250)","value":100,"rent":[6,30,90,270,400,550]},{"type":"CHANCE","name":"CHANCE","img":"/images/Monopoly/chance-icon-1.png"},{"type":"PROPERTY","name":"VERMONT AVENUE","color":"rgb(170,224,250)","value":100,"rent":[6,30,90,270,400,550]},{"type":"PROPERTY","name":"CONNECTICUT AVENUE","color":"rgb(170,224,250)","value":120,"rent":[8,40,100,300,450,600]}],
+    "left":[{"type":"PROPERTY","name":"ST. CHARLES PLACE","color":"rgb(217,58,150)","value":140,"rent":[10,50,150,450,625,750]},{"type":"UTILITY","name":"ELECTRIC COMPANY","value":150,"img":"/images/Monopoly/electric-utility-icon.png"},{"type":"PROPERTY","name":"STATES AVENUE","color":"rgb(217,58,150)","value":140,"rent":[10,50,150,450,625,750]},{"type":"PROPERTY","name":"VIRGINIA AVENUE","color":"rgb(217,58,150)","value":160,"rent":[12,60,180,500,700,900]},{"type":"RAILROAD","name":"PENNSYLVANIA RAILROAD","value":200,"img":"/images/Monopoly/railroad-icon.png","rent":[25,50,100,200]},{"type":"PROPERTY","name":"ST. JAMES PLACE","color":"rgb(249,148,29)","value":180,"rent":[14,70,200,550,750,950]},{"type":"CHEST","name":"COMMUNITY CHEST","img":"/images/Monopoly/chest-icon.png"},{"type":"PROPERTY","name":"TENNESSEE AVENUE","color":"rgb(249,148,29)","value":180,"rent":[14,70,200,550,750,950]},{"type":"PROPERTY","name":"NEW YORK AVENUE","color":"rgb(249,148,29)","value":200,"rent":[16,80,220,600,800,1000]}],
+    "top":[{"type":"PROPERTY","name":"KENTUCKY AVENUE","color":"rgb(237,27,36)","value":220,"rent":[18,90,250,700,875,1050,110]},{"type":"CHANCE","name":"CHANCE","img":"/images/Monopoly/chance-icon-2.png"},{"type":"PROPERTY","name":"INDIANA AVENUE","color":"rgb(237,27,36)","value":220,"rent":[18,90,250,700,875,1050,110]},{"type":"PROPERTY","name":"ILLINOIS AVENUE","color":"rgb(237,27,36)","value":240,"rent":[20,100,300,750,925,1100]},{"type":"RAILROAD","name":"B. & O RAILROAD","value":200,"img":"/images/Monopoly/railroad-icon.png","rent":[25,50,100,200]},{"type":"PROPERTY","name":"ATLANTIC AVENUE","color":"rgb(254,242,0)","value":260,"rent":[22,110,330,800,975,1150]},{"type":"PROPERTY","name":"VENTNOR AVENUE","color":"rgb(254,242,0)","value":260,"rent":[22,110,330,800,975,1150]},{"type":"UTILITY","name":"WATER WORKS","value":150,"img":"/images/Monopoly/water-utility-icon.png"},{"type":"PROPERTY","name":"MARVIN GARDEN","color":"rgb(254,242,0)","value":280,"rent":[24,120,360,850,1025,1200]}],
+    "right":[{"type":"PROPERTY","name":"PACIFIC AVENUE","color":"rgb(33,177,90)","value":300,"rent":[26,130,390,900,1100,1275]},{"type":"PROPERTY","name":"NORTH CAROLINA AVENUE","color":"rgb(33,177,90)","value":300,"rent":[26,130,390,900,1100,1275]},{"type":"CHEST","name":"COMMUNITY CHEST","img":"/images/Monopoly/chest-icon.png"},{"type":"PROPERTY","name":"PENNSYL AVENUE","color":"rgb(33,177,90)","value":320,"rent":[28,150,450,1000,1200,1400]},{"type":"RAILROAD","name":"SHORT LINE","value":200,"img":"/images/Monopoly/railroad-icon.png","rent":[25,50,100,200]},{"type":"CHANCE","name":"CHANCE","img":"/images/Monopoly/chance-icon-3.png"},{"type":"PROPERTY","name":"PARK PLACE","color":"rgb(0,114,187)","value":350,"rent":[35,175,500,1100,1300,1500]},{"type":"TAX","name":"LUXURY TAX","value":100,"img":"/images/Monopoly/tax-luxury-icon.png"},{"type":"PROPERTY","name":"BOARDWALK","color":"rgb(0,114,187)","value":400,"rent":[50,200,600,1400,1700,2000]}]}`),
 propertyGroupings = JSON.parse('[{"names":["MEDITER AVENUE","BALTIC AVENUE"],"key":"brown","costs":"50"},{"names":["ORIENTAL AVENUE","VERMONT AVENUE","CONNECTICUT AVENUE"],"key":"lightblue","costs":"50"},{"names":["ST. CHARLES PLACE","STATES AVENUE","VIRGINIA AVENUE"],"key":"pink","costs":"100"},{"names":["ST. JAMES PLACE","TENNESSEE AVENUE","NEW YORK AVENUE"],"key":"orange","costs":"100"},{"names":["KENTUCKY AVENUE","INDIANA AVENUE","ILLINOIS AVENUE"],"key":"red","costs":"150"},{"names":["ATLANTIC AVENUE","VENTNOR AVENUE","MARVIN GARDEN"],"key":"yellow","costs":"150"},{"names":["PACIFIC AVENUE","NORTH CAROLINA AVENUE","PENNSYL AVENUE"],"key":"green","costs":"200"},{"names":["PARK PLACE","BOARDWALK"],"key":"blue","costs":"200"},{"names":["READING RAILROAD","PENNSYLVANIA RAILROAD","B. & O RAILROAD","SHORT LINE"],"key":"railroad"},{"names":["WATER WORKS","ELECTRIC COMPANY"],"key":"utility"}]'),
 diceConfiuration = [[0,1,2,3,5,6,7,8],[1,2,3,4,5,6,7],[1,2,3,5,6,7],[1,3,4,5,7],[1,3,5,7],[1,4,7]],
 randomCardNames = JSON.parse(`{"chance":[{"name":"Advance to Boardwalk","text":"Advance to Boardwalk","type":"ADVANCE","value":"BOARDWALK"},{"name":"Advance to GO","text":"Advance to Go (Collect $200)","type":"ADVANCE","value":"GO"},{"name":"Advance to Illinois","text":"Advance to Illinois Avenue. If you pass Go, collect $200","type":"ADVANCE","value":"ILLINOIS"},{"name":"Advance to St. Charles Place","text":"Advance to St. Charles Place. If you pass Go, collect $200","type":"ADVANCE","value":"ST. CHARLES PLACE"},{"name":"Advance to Nearest Railroad","text":"Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay wonder twice the rental to which they are otherwise entitled","type":"ADVANCE_NEAREST","value":"RAILROAD"},{"name":"Advance to Nearest Railroad","text":"Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay wonder twice the rental to which they are otherwise entitled","type":"ADVANCE_NEAREST","value":"RAILROAD"},{"name":"Advance to Nearest Utility","text":"Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.","type":"ADVANCE_NEAREST","value":"UTILITY"},{"name":"Bank Dividend","text":"Bank pays you dividend of $50","type":"EARN_MONEY","value":50},{"name":"Get Out of Jail Free","text":"Get Out of Jail Free","type":"GET_OUT_OF_JAIL","value":0},{"name":"Go back 3 spaces","text":"Go Back 3 Spaces","type":"MOVEMENT","value":-3},{"name":"Go to jail","text":"Go to Jail. Go directly to Jail, do not pass Go, do not collect $200","type":"TO_JAIL","value":"JAIL"},{"name":"General Repairs","text":"Make general repairs on all your property. For each house pay $25. For each hotel pay $100","type":"GENERAL_REPAIR","value":[25,50]},{"name":"Speeding Fine","text":"Speeding fine $15","type":"LOSE_MONEY","value":15},{"name":"Advance to Reading Railroad","text":"Take a trip to Reading Railroad. If you pass Go, collect $200","type":"ADVANCE","value":"READING RAILROAD"},{"name":"Elected Chairman","text":"You have been elected Chairman of the Board. Pay each player $50","type":"LOSE_PLAYER_MONEY","value":50},{"name":"Building Load Matures","text":"Your building loan matures. Collect $150","type":"EARN_MONEY","value":150}],
@@ -450,11 +450,11 @@ function updateImprovements(cardName) {
 
         if (card.improvements > 0 && card.improvements < 5) {
             improvements.style.display = "flex";
-            improvements.querySelector("img").src = "/images/monopoly/house-icon.png";
+            improvements.querySelector("img").src = "/images/Monopoly/house-icon.png";
             improvements.querySelector("p").textContent = `x${card.improvements}`;
         } else if (card.improvements === 5){
             improvements.style.display = "flex";
-            improvements.querySelector("img").src = "/images/monopoly/hotel-icon.png";
+            improvements.querySelector("img").src = "/images/Monopoly/hotel-icon.png";
             improvements.querySelector("p").textContent = "x1";
         }
     }
@@ -498,10 +498,10 @@ function loadPropertyDetails(cardName){
         } else {
             if (propertyDetails.improvements === 5){
                 document.querySelector(".game-container .improvements-count").textContent = `x1`;
-                document.querySelector(".game-container .improvements>img").src = `/images/monopoly/hotel-icon.png`;
+                document.querySelector(".game-container .improvements>img").src = `/images/Monopoly/hotel-icon.png`;
             } else {
                 document.querySelector(".game-container .improvements-count").textContent = `x${propertyDetails.improvements}`;
-                document.querySelector(".game-container .improvements>img").src = `/images/monopoly/house-icon.png`;
+                document.querySelector(".game-container .improvements>img").src = `/images/Monopoly/house-icon.png`;
             }
             document.querySelector(".game-container .improvements>img").style.display = "block";
             document.querySelector(".game-container .improvements-count").style.display = "block";
@@ -670,7 +670,7 @@ function updatePreroomPlayers() {
             else {player.querySelector(".player-status").style.backgroundColor = "red"}
             player.querySelector(".settings-options").dataset.usercode = gameStatus.room.players[index].usercode;
             player.querySelector(".player-name").textContent = gameStatus.room.players[index].name;
-            player.querySelector(".player-icon").style["background-image"] = `url('/images/monopoly/player-icon-${index%4}.svg')`;
+            player.querySelector(".player-icon").style["background-image"] = `url('/images/Monopoly/player-icon-${index%4}.svg')`;
         } else if (index === gameStatus.room.players.length) {
             player.style.display = "flex";
             player.querySelector(".player-container").style.display = "none";
@@ -993,42 +993,42 @@ function showChanceCard(path) {
 
     switch(card.type){
         case "ADVANCE":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-advance.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-advance.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "left";
             break;
         case "ADVANCE_NEAREST":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-advance.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-advance.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "left";
             break;
         case "MOVEMENT":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-advance.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-advance.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "right";
             break;
         case "TO_JAIL":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-tojail.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-tojail.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "center";
             break; 
         case "GET_OUT_OF_JAIL":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-outjail.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-outjail.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "center";
             break;
         case "EARN_MONEY":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-earn.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-earn.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "right";
             break;
         case "LOSE_MONEY":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-loss.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-loss.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "left";
             break;
         case "LOSE_PLAYER_MONEY":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-loss.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-loss.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "left";
         case "EARN_PLAYER_MONEY":
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-earn.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-earn.png";
              document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "right";
             break;
         case "GENERAL_REPAIR": 
-            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/monopoly/board-card-repair.png";
+            document.querySelector(`.game-container .${card.cardType} img`).src = "/images/Monopoly/board-card-repair.png";
             document.querySelector(`.game-container .${card.cardType}-back`).dataset.img = "left";
             break;
     }
@@ -1257,7 +1257,7 @@ function loadPlayerProperties(usercode, query) {
                 let container = document.createElement("div"), name = document.createElement("p"), logo = document.createElement("div"), img = document.createElement("img");
                 name.textContent = `CURRENCY: $${offer.currency}`;
                 container.dataset.static = "true";
-                img.src = "/images/monopoly/currency-icon.svg";
+                img.src = "/images/Monopoly/currency-icon.svg";
                 logo.appendChild(img);
                 container.append(logo, name);
                 offer === trade ? document.querySelector(".game-container .self-offer .offer-items").appendChild(container) : document.querySelector(".game-container .their-offer .offer-items").appendChild(container)
@@ -1269,7 +1269,7 @@ function loadPlayerProperties(usercode, query) {
                 let container = document.createElement("div"), name = document.createElement("p"), logo = document.createElement("div"), img = document.createElement("img");
                 name.textContent = `GET OUT OF JAIL x${offer.jailCards}`;
                 container.dataset.static = "true";
-                img.src = "/images/monopoly/jailcard-icon.png";
+                img.src = "/images/Monopoly/jailcard-icon.png";
                 logo.appendChild(img);
                 container.append(logo, name);
                 offer === trade ? document.querySelector(".game-container .self-offer .offer-items").appendChild(container) : document.querySelector(".game-container .their-offer .offer-items").appendChild(container)
