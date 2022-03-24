@@ -40,7 +40,6 @@ function loadAll() {
             }
 
         }
-
         if (data.id !== undefined){
             socketId[data.id](data);
         } else {
