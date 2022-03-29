@@ -2,7 +2,7 @@ const socket = new WebSocket("wss://webserveresl.herokuapp.com");
 
 document.onreadystatechange = () => {
     if (document.readyState === "complete"){
-        loadGlobalFunctions().then(status => {loadAll()}); 
+        loadGlobalFunctions().then(() => {loadAll()}); 
     }
 }
 

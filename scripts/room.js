@@ -19,7 +19,7 @@ document.onreadystatechange = () => {
         if (socket.readyState === WebSocket.OPEN){
             loadGlobalFunctions().then(() => {loadAll()});
         } else {
-            socket.onopen = function () {loadAll()}
+            socket.onopen = function () {loadGlobalFunctions().then(() => {loadAll()})}
         }      
     }
 }
