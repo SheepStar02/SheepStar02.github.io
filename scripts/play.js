@@ -56,7 +56,7 @@ function loadAll() {
 
         if (document.querySelector(".create-room .name").value.length === 0){
             document.querySelector(".create-room .error").style.display = "block";
-        } else if (socket.readyState === WebSocket.OPEN){
+        } else if (socket.readyState === WebSocket.OPEN && USER.credentials.username && USER.credentials.usercode){
             socket.send(JSON.stringify({
                 type : "CREATE_NEW_ROOM",
                 host : USER.credentials.username,
