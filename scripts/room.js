@@ -340,7 +340,7 @@ function loadGameRoom(){
 
     document.querySelector(".game-container .use-jail-card").onclick = function () {
         if (searchPlayer().owings.ownership === "GO_TO_JAIL" && searchPlayer().jailCards > 0){
-            sendSocket({type: "PAY_OWINGS", usercode: USER.credentials.usercode, code: gameStatus.roomCode, userJailCard: true});
+            sendSocket({type: "PAY_OWINGS", usercode: USER.credentials.usercode, code: gameStatus.roomCode, useJailCard: true});
         }
     }
 
@@ -793,7 +793,17 @@ function createDeedCard(forPurchase, cardName){
                 } else {
                     let rentLeft = document.createElement("span"), rentRight = document.createElement("span");
                     rentValues[r].classList.add("house");
-                    rentLeft.textContent = `With ${r} House`;
+                    switch (r) {
+                        case 1:
+                            rentLeft.textContent = `With ${r} House`;
+                            break;
+                        case 5:
+                            rentLeft.textContent = `With Hotel`;
+                            break;
+                        default:
+                            rentLeft.textContent = `With ${r} Houses`
+                            break;
+                    }
                     rentRight.textContent = `$${card.rent[r]}`;
                     rentValues[r].append(rentLeft, rentRight);
                 }
