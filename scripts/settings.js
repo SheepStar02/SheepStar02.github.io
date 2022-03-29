@@ -99,7 +99,7 @@ function loadAll() {
                     document.querySelector(`.content-wrapper .${item.dataset.confirm} .error`).style.display = "block";
                 }
 
-                if (error !== ""){
+                if (error){
                     displayErr(`New ${item.dataset.confirm} ${error}`);
                     return;
                 }
@@ -161,7 +161,6 @@ function validateCredential(text) {
     } else if (text.match(/^[a-zA-Z0-9_]+$/) === null) {
         return "cannot contain special characters!";
     }
-    return "";
 }
 
 function validateRegistration(data) {
