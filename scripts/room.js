@@ -148,6 +148,10 @@ function loadAll() {
             } else {document.querySelector(".loader-container p").textContent = "Error: Connection failed. " + response.error}
         });
     } else {document.querySelector(".loader-container p").textContent = "Error: Connection failed. Invalid code."}
+
+    setInterval(() => {
+        sendSocket({type: "PREVENT_IDLE", message: "Automated message over the minimum bit limit so the server stays up"});
+    }, 1000)
 }
 
 function loadPreroom (room) {
@@ -1325,7 +1329,8 @@ function createPropertyItem (property, liftCased) {
     if (searchCard(property.name).type === "PROPERTY"){
         logo.style["background-color"] = searchCard(property.name).color;
     } else {
-        img.src = `${searchCard(property.name).img.toLowerCase().replace("icon", "mini")}`;
+        console.log(`${searchCard(property.name).img.replace("icon", "mini")}`);
+        img.src = `${searchCard(property.name).img.replace("icon", "mini")}`;
         logo.appendChild(img);
     }
 

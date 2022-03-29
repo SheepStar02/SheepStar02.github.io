@@ -61,7 +61,7 @@ function loadAll() {
                     window.open("./", "_self");
                 } else {
                     document.querySelector(".login-container .login-page .warning p").style.display = "block";
-                    document.querySelector(".login-container .login-page .warning p").textContent = "Your usename or password is incorrect!";
+                    document.querySelector(".login-container .login-page .warning p").textContent = "Your username or password is incorrect!";
                 }
             });
         }
