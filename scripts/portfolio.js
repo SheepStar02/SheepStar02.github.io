@@ -8,7 +8,7 @@ function App () {
             <div className = "header-container">
                 <div className = "header-logo">
                     <div className = "logo-container">
-                        <img src = "/images/portfolio/logo.png"></img>
+                        <img src = "/images/Portfolio/logo.png"></img>
                     </div>
                     <NavbarItem name = "Contact"/>
                 </div>
@@ -27,13 +27,13 @@ function App () {
                 <div className = "animated-logos">
                     <div className = "rotating-logos-container">
                         <div className = "center-logo">
-                            <img src = "images/portfolio/react-logo.png"></img>
+                            <img src = "images/Portfolio/react-logo.png"></img>
                         </div>
                         <div className = "outside-logos">
-                            <div className = "top-logo"><img src = "/images/portfolio/html-logo.png"></img></div>
+                            <div className = "top-logo"><img src = "/images/Portfolio/html-logo.png"></img></div>
                             <div className = "bottom-logo">
-                                <img src = "/images/portfolio/css-logo.png"></img>
-                                <img src = "/images/portfolio/javascript-logo.png"></img>
+                                <img src = "/images/Portfolio/css-logo.png"></img>
+                                <img src = "/images/Portfolio/javascript-logo.png"></img>
                             </div>
                         </div>
                     </div>
@@ -58,8 +58,8 @@ function App () {
                 <Skills />
             </section>
             <div className = "footer" id = "contact-page">
-                <a className = "contact-github" href = "https://github.com/sheepstar02"><img src = "/images/portfolio/github-logo.png"></img></a>
-                <a className = "contact-twitter" href = "https://twitter.com/EricLin_Dev"><img src = "/images/portfolio/twitter-logo.png"></img></a>
+                <a className = "contact-github" href = "https://github.com/sheepstar02"><img src = "/images/Portfolio/github-logo.png"></img></a>
+                <a className = "contact-twitter" href = "https://twitter.com/EricLin_Dev"><img src = "/images/Portfolio/twitter-logo.png"></img></a>
                 <p className = "contact-email" onClick = {() => navigator.clipboard.writeText("ericlin.su@gmail.com")}>Ericlin.su@gmail.com<br></br><span>click to copy</span></p>
             </div>
             </div>
@@ -147,7 +147,7 @@ function TimelineFrame (props) {
                                 <h3>{slide.title}</h3>
                                 <p>{slide.text}</p>
                             </div>
-                            <div className = "slide-image-container"><img src = {`/images/portfolio/${slide.img}.png`}></img></div>
+                            <div className = "slide-image-container"><img src = {`/images/Portfolio/${slide.img}.png`}></img></div>
                             <div>        
                                 <h3>Skills Learned</h3>                        
                                 <ul>
@@ -170,7 +170,7 @@ function TimelineFrame (props) {
 function TimelineScroller (props) {
     return (
         <div className = "scroll-button-container" onClick = {props.changeSlide}   >
-            <img src = "/images/portfolio/slide-arrow.png"></img>
+            <img src = "/images/Portfolio/slide-arrow.png"></img>
         </div>
     )
 }
@@ -229,7 +229,7 @@ class Project extends React.Component {
                         <button className = "slideshow-nav hideable" onClick = {() => this.handleClick(this.state.selected-1)}><img src = "/images/Portfolio/slide-arrow.png"></img></button>
                         <button className = "slideshow-nav hideable" onClick = {() => this.handleClick(this.state.selected+1)}><img src = "/images/Portfolio/slide-arrow.png"></img></button>
                         <h1 className = "project-ribbon">{this.props.project.title.split("{")[0]}</h1>
-                        <img className = "project-image" ref = {this.state.image} src = {`/images/portfolio/${(this.props.selected === this.props.id && this.props.project.images[this.state.selected]) || this.props.project.images[0]}.png`}></img>
+                        <img className = "project-image" ref = {this.state.image} src = {`/images/Portfolio/${(this.props.selected === this.props.id && this.props.project.images[this.state.selected]) || this.props.project.images[0]}.png`}></img>
                         <div className = "nodes hideable">
                             {this.props.project.images.map(node => (<div className = "node" key = {this.props.project.images.indexOf(node)} style = {{opacity:this.props.project.images.indexOf(node) === this.state.selected && 0.8 || 0.3}} onClick = {() => this.handleClick(this.props.project.images.indexOf(node))}></div>))}
                         </div>
@@ -246,8 +246,8 @@ class Project extends React.Component {
                     </div>
                 </div>
                 <div className = "project-footer">
-                    <a href = {this.props.project.src[0]} target = "_blank">View Project<img src = "/images/portfolio/chain-link.png"></img></a>
-                    <a href = {this.props.project.src[1]} target = "_blank">View Source<img src = "/images/portfolio/src-icon.png"></img></a>
+                    <a href = {this.props.project.src[0]} target = "_blank">View Project<img src = "/images/Portfolio/chain-link.png"></img></a>
+                    <a href = {this.props.project.src[1]} target = "_blank">View Source<img src = "/images/Portfolio/src-icon.png"></img></a>
                 </div>
             </div>
         )
@@ -345,7 +345,7 @@ class Skills extends React.Component {
 function Skill (props) {
     return (
         <div className = {`skill-node ${props.content.x > 50 && "to-left" || ""}`} style = {{left:`${props.content.x}%`,top:`${props.content.y}%`}} onMouseEnter = {() => {props.setSpeed(0)}} onMouseLeave = {() => {props.setSpeed(-1)}}>
-            <img className = "skill-img" src = {`/images/portfolio/${props.content.img}.png`}></img>
+            <img className = "skill-img" src = {`/images/Portfolio/${props.content.img}.png`}></img>
             <div className = "skill-content">
                 <h4>{props.content.name}</h4>
                 <p>{props.content.content}</p>
