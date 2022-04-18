@@ -1,0 +1,19 @@
+{
+    "Timeline" : [{"title":"First Programming Language","text":"Hello. I first got into programming in 2018 (10th grade) through a python course and loved it ever since. After learning python and java in highschool, I decided to give web development a try bringing me to creating this portfolio infront of you","img":"","skills":["Python","Basic programming concepts","Simple GUI"]},
+    {"title":"Learning Java and algorithms","text":"After my first year of python, I was introduced to Java and built many applications and explored the complex world of software development","img":"","skills":["Java","Advanced data structures","Classes and inheritance","Coding competitions","Time complexities","Sorting/searching algorithms"]},
+    {"title":"Trying out Javascript","text":"I felt tired of doing coding contests that didn't give me practical experience. After trying to build bots for social media apps, I began learning Javascript","img":"","skills":["Javascript","Revising old concepts","Utilizing API's","NodeJS"]},
+    {"title":"Creating websites","text":"After trying to create Discord bots, Twitch bots and even chrome extentions, I began to try out web development and front-end development.","img":"","skills":["HTML5","CSS","JQuery","DOM manipulation and events","JSON files"]},
+    {"title":"Sharpening Front-end skills","text":"Progress felt decently fast and I was improving a lot. I began building some simple projects and trying to understand full stack applications","img":"","skills":["Node servers","Back-end development","Using databases","Github pages"]},
+    {"title":"First major project","text":"My first year of web development made me really abitious to create larger projects, and I began working on my lastest project to host classic games online.","img":"","skills":["Firebase","Web sockets","Improving CSS skills","Client-Server conncetions"]},
+    {"title":"Keeping pace with school","text":"As first year university started, progress started to slow down slightly. I continued working on my main project while trying to learn new things","img":"","skills":["Advanced CSS layouts","Hosting servers","ES6+ Features"]},
+    {"title":"Finally learning React","text":"Towards the second half of 2021, I decided to learn React as it is the most popular Javascript library at the time","img":"","skills":["React JS","JSX","Bable"]},
+    {"title":"Creating a smaller project","text":"The year concludes with me being very close to completing my large project and starting a side project with a friend of mine to create a small application for users to uplaod images.","img":"","skills":["Express","Retriving and converting images","Collaboration skills"]},
+    {"title":"Building this portfolio","text":"It's been a long journey, so thank you for reading this far even if you skipped ahead. I feel confortable now building front-end applications and understand back-end development and really feel ready to further apply my knowledge by firstly building this portfolio.","img":"","skills":["Designing a portfolio","Improving React knowledge","Improving user experience"]}],
+
+    "Projects": [
+        {"title" : "Gaming Website (Monopoly)", "images": ["react-logo"]},
+        {"title" : "Image Uploader", "images": ["react-logo"]}
+    ]
+
+}
+
