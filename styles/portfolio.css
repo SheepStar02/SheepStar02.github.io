@@ -77,10 +77,16 @@ body {
     font-weight: bold;
     font-family: Georgia, 'Times New Roman', Times, serif;
     transition-duration: 0.2s;
+    padding: 0;
 }
 
 .contact a {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    height: 100%;
+    padding: 0 !important;
 }
 
 .navbar-item.contact:hover {

@@ -76,7 +76,7 @@ class NavbarItem extends React.Component {
 
     render () {
         return (
-            <button className = {`navbar-item ${this.props.name.toLowerCase()}`} onClick = {this.handleClick}><a href = {`#${this.props.name.toLowerCase()}-page`}>{this.props.name}</a></button>
+            <button className = {`navbar-item ${this.props.name.toLowerCase()}`} onClick = {this.handleClick}><a href = {`#${this.props.name.toLowerCase()}-page`}><span>{this.props.name}</span></a></button>
         )
     }
 }
