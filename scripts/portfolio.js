@@ -1,7 +1,6 @@
 // Load main app HTML
 let testingCount = 0
 function App () {
-    const BIO_TEXT = JSON.parse('"Hello, my name is Eric Lin. I have been coding since 2018 and got into web development in 2020. I am confortable with front-end languages, frame works and understand building full stack applications. I am currently looking for opportunities/work. Contact me if interested."')
     return (
         <div className = "main-container">
             <div className = "backdrop-filter"><div className = "background-image"></div></div>
@@ -58,6 +57,7 @@ function App () {
                 <Skills />
             </section>
             <div className = "footer" id = "contact-page">
+                <a className = "contact-resume" href = "/portfolio/resume.pdf"><img src = "/images/Portfolio/resume-icon.png"></img></a>
                 <a className = "contact-github" href = "https://github.com/sheepstar02"><img src = "/images/Portfolio/github-logo.png"></img></a>
                 <a className = "contact-twitter" href = "https://twitter.com/EricLin_Dev"><img src = "/images/Portfolio/twitter-logo.png"></img></a>
                 <p className = "contact-email" onClick = {() => navigator.clipboard.writeText("ericlin.su@gmail.com")}>Ericlin.su@gmail.com<br></br><span>click to copy</span></p>
