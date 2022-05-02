@@ -468,7 +468,7 @@ body {
     text-indent: 0;
     font-weight: 900;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: var(--titleTheme);
+    color: var(--headerTheme);
 }
 
 .slide-content p {
