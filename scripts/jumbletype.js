@@ -41,7 +41,7 @@ function App () {
                             <div className = "end-menu"><button onClick = {() => {setScreen("begin")}}>Return<img src = "/images/jumbletype/return.png"></img></button><button onClick = {() => {
                                 let text = "Jumble Type Results: \n";
                                 for (let word of results.words) {results.answers.includes(word) ? text += "✅ " : text += "❌ "}
-                                text += "\nTry and beat my score: https://sheepstar02.github.io/jumbletext";
+                                text += "\nTry and beat my score: https://sheepstar02.github.io/jumbletype";
                                 navigator.clipboard.writeText(text)
                             }}>Share<img src = "/images/jumbletype/share.png"></img></button></div>
                         </div>
