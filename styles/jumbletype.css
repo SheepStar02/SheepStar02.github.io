@@ -216,9 +216,41 @@ body {
     display: none;
 }
 
-.jumble-play.phase-show h1, .jumble-play.phase-answer input{
+.jumble-play.phase-show h1{
     display: block;
 }
+
+.jumble-play.phase-answer .word-inputs {
+    display: flex;
+}
+
+.word-inputs {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.word-inputs button {
+    border: none;
+    background-color: transparent;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+}
+
+.word-inputs button.fadeIn {
+    animation: endButtonFade 0.2s linear 2s forwards;
+}
+
+@keyframes endButtonFade {
+    from {opacity:0;pointer-events:none;} to {opacity:1;pointer-events:all;}
+}
+
 
 .jumble-input h1 {
     font-family: Jumblefont;    
@@ -228,6 +260,7 @@ body {
     text-align: center;
     position: relative;
     letter-spacing: 3px;
+    user-select: none;
 }
 
 .jumble-input input {

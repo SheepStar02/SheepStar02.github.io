@@ -4,6 +4,7 @@ function App () {
 
     const [darkMode, setDarkMode] = React.useState((localStorage.getItem("dark") === "true") && true || false),
     [screen, setScreen] = React.useState("begin"),
+    [copied, setCopied] = React.useState(false),
     [results, setResults] = React.useState({words:[], answers:[], matches:0});
 
     return (
@@ -42,8 +43,9 @@ function App () {
                                 let text = "Jumble Type Results: \n";
                                 for (let word of results.words) {results.answers.includes(word) ? text += "✅ " : text += "❌ "}
                                 text += "\nTry and beat my score: https://sheepstar02.github.io/jumbletype";
-                                navigator.clipboard.writeText(text)
-                            }}>Share<img src = "/images/jumbletype/share.png"></img></button></div>
+                                navigator.clipboard.writeText(text);
+                                setCopied(true);
+                            }}>{(!copied && "Share" || "Copied")}<img src = "/images/jumbletype/share.png"></img></button></div>
                         </div>
                     </div>
                 </div>
@@ -63,7 +65,8 @@ class Jumble extends React.Component {
             wordNum: 0,
             started: false,
             delay: 3000,
-            input: React.createRef()
+            input: React.createRef(),
+            showGiveUp: false,
         }
     }
 
@@ -95,16 +98,21 @@ class Jumble extends React.Component {
 
     handleKeyPress = (event) => {
         if (event.code === "Enter" && this.state.input.current.value.length > 0) {
+            this.setState({showGiveUp:false});
             this.state.answers.push(this.state.input.current.value.trim().toUpperCase());
             this.state.input.current.value = "";
             if (this.state.answers.length >= 10) {
-                let score = 0;
-                for (let word of this.state.words) {if (this.state.answers.includes(word)) score++}
-                this.props.setResults({answers:this.state.answers,words:this.state.words,matches:score})
-                this.props.setScreen("end");
-                this.setState({words: [],answers: [],instructionNum : 0,wordNum: 0,started: false,delay: 3000});
+                this.completeGame()
             }
         }
+    }
+
+    completeGame () {
+        let score = 0;
+        for (let word of this.state.words) {if (this.state.answers.includes(word)) score++}
+        this.props.setResults({answers:this.state.answers,words:this.state.words,matches:score})
+        this.props.setScreen("end");
+        this.setState({words: [],answers: [],instructionNum : 0,wordNum: 0,started: false,delay: 3000});
     }
 
     updateWord () {
@@ -114,6 +122,8 @@ class Jumble extends React.Component {
     }
 
     render () {
+
+        if (!this.state.showGiveUp) {setTimeout(() => {this.setState({showGiveUp:true})}, 10)}
 
         if (this.props.started && !this.state.started) {
             this.state.started = true;
@@ -128,7 +138,10 @@ class Jumble extends React.Component {
                 </div>
                 <div className = "jumble-input">
                     <h1>{this.state.words[this.state.wordNum]}</h1>
-                    <input ref = {this.state.input} type = "text" maxLength={11} placeholder = "TYPE HERE" onKeyPress = {this.handleKeyPress}></input>
+                    <div className = "word-inputs">
+                        <input ref = {this.state.input} type = "text" maxLength={11} placeholder = "TYPE HERE" onKeyPress = {this.handleKeyPress}></input>
+                        <button className = {(this.state.showGiveUp && "fadeIn" || "")} onClick = {() => {this.completeGame()}}>Give up?</button>
+                    </div>
                 </div>
             </div>
         )
