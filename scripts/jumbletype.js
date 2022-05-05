@@ -22,8 +22,8 @@ function App (props) {
             <div className = "content-wrap">
                 <div className = "head">
                     <div className = "navbar">
-                        <button className = {(!challenge && "selected" || "")} onClick = {() => {if(screen !== "play"){setChallenge(!challenge);setScreen("begin")}}}>Free Play</button>
-                        <button className = {(challenge && "selected" || "")} onClick = {() => {if(screen !== "play"){setChallenge(!challenge);if(localStorage.getItem("challenged") === "true" && screen !== "end" && JSON.stringify(localStorage.getItem("words").split(",")) === JSON.stringify(props.words)){setScreen("end")}}}}>Daily Challenge</button>
+                        <button className = {(!challenge && "selected" || "")} onClick = {() => {if(screen !== "play"){setCopied(false);setChallenge(!challenge);setScreen("begin")}}}>Free Play</button>
+                        <button className = {(challenge && "selected" || "")} onClick = {() => {if(screen !== "play"){setCopied(false);setChallenge(!challenge);if(localStorage.getItem("challenged") === "true" && screen !== "end" && JSON.stringify(localStorage.getItem("words").split(",")) === JSON.stringify(props.words)){setScreen("end")}}}}>Daily Challenge</button>
                         <input id = "darkmode" type = "checkbox" style = {{display: "none"}} onClick = {() => {localStorage.setItem("dark", !darkMode);setDarkMode(!darkMode)}} checked = {darkMode}></input>
                         <label for = "darkmode" className = "darkmode">
                             <i></i>
