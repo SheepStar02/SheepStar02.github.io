@@ -48,6 +48,39 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: rgba(0, 119, 255, 0.492);
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+}
+
+.navbar button {
+    height: 40px;
+    background-color: transparent;
+    border-radius: 50px;
+    border: 5px solid transparent;
+    font-family: Jumblefont;
+    font-size: 24px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+    transition-duration: 0.2s;
+    color: var(--reverseTheme);
+}
+
+.navbar button.selected {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.navbar button:hover:not(.selected) {
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 .title {
@@ -61,6 +94,8 @@ body {
     font-family: Jumblefont;
     user-select: none;
     text-align: center;
+    margin: 0;
+    margin-bottom: 10px;
 }
 
 .darkmode {
