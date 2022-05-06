@@ -83,6 +83,10 @@ body {
     border-color: rgba(0, 0, 0, 0.2);
 }
 
+.navbar button.loading {
+    pointer-events: none;
+}
+
 .title {
     display: flex;
     flex-direction: column;

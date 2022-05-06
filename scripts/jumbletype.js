@@ -23,7 +23,7 @@ function App (props) {
                 <div className = "head">
                     <div className = "navbar">
                         <button className = {(!challenge && "selected" || "")} onClick = {() => {if(screen !== "play"){setCopied(false);setChallenge(!challenge);setScreen("begin")}}}>Free Play</button>
-                        <button className = {(challenge && "selected" || "")} onClick = {() => {if(screen !== "play"){setCopied(false);setChallenge(!challenge);if(localStorage.getItem("challenged") === "true" && screen !== "end" && JSON.stringify(localStorage.getItem("words").split(",")) === JSON.stringify(props.words)){setScreen("end")}}}}>Daily Challenge</button>
+                        <button className = {((challenge && !props.words) && "selected loading" || !props.words && "loading" || challenge && "selected" || "")} onClick = {() => {if(screen !== "play"){setCopied(false);setChallenge(!challenge);if(localStorage.getItem("challenged") === "true" && screen !== "end" && JSON.stringify(localStorage.getItem("words").split(",")) === JSON.stringify(props.words)){setScreen("end")}}}}>Daily Challenge</button>
                         <input id = "darkmode" type = "checkbox" style = {{display: "none"}} onClick = {() => {localStorage.setItem("dark", !darkMode);setDarkMode(!darkMode)}} checked = {darkMode}></input>
                         <label for = "darkmode" className = "darkmode">
                             <i></i>
@@ -175,15 +175,17 @@ class Jumble extends React.Component {
     }
 }
 
-socket.onopen = function () {
-}
-
 socket.onmessage = function (event) {
     let data = JSON.parse(event.data);
     if (data.type === "DAILY_JUMBLE_TYPE"){
         ReactDOM.render(
             <App words = {data.words}/>,
             document.getElementById("root")
-        )
+        )        
     }
 }
+
+ReactDOM.render(
+    <App />,
+    document.getElementById("root")
+)
