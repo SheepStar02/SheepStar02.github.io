@@ -1525,7 +1525,6 @@ function cardOwner (property) {
 function updateBalance() {
     if (searchPlayer()) {
         document.querySelector(".game-container .player-balance").textContent = `$${searchPlayer().balance}`;
-        loadPlayerPayments();
     }
 }
 
