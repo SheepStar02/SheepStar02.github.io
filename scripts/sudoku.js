@@ -52,6 +52,8 @@ class Sudoku extends React.Component {
 
         window.onkeydown = event => { 
 
+            if (this.state.activeCell === -1) {return}
+
             if (event.key === "Delete" || event.key === "Backspace") {
                 this.changeCell(this.state.activeCell, 0, false);
                 return;
