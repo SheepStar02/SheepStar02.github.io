@@ -57,10 +57,10 @@ function App () {
                 <Skills />
             </section>
             <div className = "footer" id = "contact-page">
-                <a className = "contact-resume" href = "/portfolio/resume.pdf"><img src = "/images/Portfolio/resume-icon.png"></img></a>
+                <a className = "contact-resume" href = "https://sheepstar02.github.io/resume"><img src = "/images/Portfolio/resume-icon.png"></img></a>
                 <a className = "contact-github" href = "https://github.com/sheepstar02"><img src = "/images/Portfolio/github-logo.png"></img></a>
                 <a className = "contact-twitter" href = "https://twitter.com/EricLin_Dev"><img src = "/images/Portfolio/twitter-logo.png"></img></a>
-                <p className = "contact-email" onClick = {() => navigator.clipboard.writeText("ericlin.su@gmail.com")}>Ericlin.su@gmail.com<br></br><span>click to copy</span></p>
+                <a className = "contact-email" href = "mailto:ericlin.su@gmail.com"><img src = "/images/Portfolio/email-logo.png"></img></a>
             </div>
             </div>
         </div>
