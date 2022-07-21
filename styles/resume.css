@@ -1,0 +1,205 @@
+body {
+    margin: 0;
+}
+
+.resume-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: overlay
+}
+
+.resume {
+    width: 100vw;
+    height: 100vh;
+    min-width: 850px;
+    min-height: 750px;
+    background-image: url("/images/Resume/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.content-container {
+    width: 70%;
+    height: 90%;
+    min-width: 800px;
+    min-height: 700px;
+    background: #002233;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: 2px solid black;
+    box-shadow: 20px 20px 5px rgba(83, 144, 229, 0.567);
+}
+
+.resume-container::-webkit-scrollbar {
+    background: rgba(195, 255, 0, 0.107);
+    width: 15px;
+    height: 15px;
+}
+
+.resume-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 255, 221, 0.263);
+}
+
+.resume-container::-webkit-scrollbar-corner {
+    background-color: rgba(195, 255, 0, 0.107);
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: right;
+    position: relative;
+}
+
+.content-background {
+    background-image: url("/images/Resume/wave-haikei.svg");
+    height: 100%;
+    right: 0px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    aspect-ratio: 3/2;
+    position: absolute;
+}
+
+.wrap {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+.career {
+    width: 66%;
+    height: 100%;
+    padding: 20px;
+}
+
+.career .name {
+    font-size: 64px;
+    color:rgb(218, 255, 255);
+    margin: 0;
+}
+
+.career .occupation {
+    color: rgb(225, 225, 225);
+    margin: 0;
+    padding-left: 5px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.career .career-section {
+    padding-left: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.career h4 {
+    font-size: 18px;
+    margin: 25px 0 5px 0;
+    color: rgb(176, 199, 248);
+}
+
+.career-section h2 {
+    font-size: 22px;
+    margin-bottom: 0;
+    color: rgb(249, 224, 235);
+}
+
+.career-section h6 {
+    margin: 10px 0 10px 0;
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(225, 225, 225);
+}
+
+.career-section a {
+    color: rgb(218, 255, 255);
+    transition-duration: 0.2s;
+}
+
+.career-section a:hover {
+    color: rgb(171, 180, 247);
+}
+
+.skills {
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 25px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.contact p {
+    font-size: 16px;
+    margin: 10px;
+}
+
+.skills a {
+    text-decoration: auto;
+    font-weight: 500;
+    color: rgb(226, 226, 254);
+}
+
+.skills h4 {
+    font-size: 18px;
+    margin: 5px 0 5px 0;
+    color: rgb(176, 199, 248);
+}
+
+.languages ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skills .languages {
+    width: 200px;
+}
+
+.languages li::marker {
+    content:"";
+}
+
+.skills li {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color:rgb(229, 237, 232);
+}
+
+.skills .rating {
+    height: 15px;
+    width: 100%;
+    border: solid 2px black;
+    margin-top: 8px;
+}
+
+.skills .rating-bar {
+    height: 100%;
+    overflow: hidden;
+}
+
+.skills .rating-background {
+    background: linear-gradient(to right, rgb(101, 250, 255), rgb(115, 73, 242));
+    width: 160px;
+    height: 100%;
+}
+
+.skills .interests {
+    width: 180px;
+}
+
+.skills .more-skills {
+    width: 220px;
+}
