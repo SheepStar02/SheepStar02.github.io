@@ -1,0 +1,1 @@
+input[type=date]{background-color:transparent}input[type=date]::-webkit-inner-spin-button,input[type=date]::-webkit-calendar-picker-indicator{margin:0;padding:8px;border-radius:1000px;cursor:pointer;transition-duration:.2s;font-size:32px}input[type=date]::-webkit-calendar-picker-indicator:hover{background-color:#3b3737}input[type=date]::-webkit-datetime-edit{display:none}
